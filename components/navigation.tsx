@@ -3,14 +3,14 @@
 import Link from "next/link"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Crown } from "lucide-react"
+import { Menu, X, Heart } from "lucide-react"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Stories", href: "/blog" },
+    { name: "Blog", href: "/blog" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
     { name: "Admin", href: "/admin" },
@@ -22,8 +22,8 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
-            <Crown className="h-8 w-8 text-primary-500" />
-            <span className="text-2xl font-bold text-secondary-800">Adesuwa</span>
+            <Heart className="h-8 w-8 text-green-600" />
+            <span className="text-2xl font-bold text-slate-900">AlaoMeBlog</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -32,12 +32,12 @@ export default function Navigation() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-secondary-600 hover:text-primary-500 transition-colors font-medium text-base"
+                className="text-slate-600 hover:text-green-600 transition-colors font-medium text-base"
               >
                 {item.name}
               </Link>
             ))}
-            <Button className="bg-primary-500 hover:bg-primary-600 px-6 py-2 font-medium">Subscribe</Button>
+            <Button className="bg-green-600 hover:bg-green-700 px-6 py-2 font-medium">Subscribe</Button>
           </div>
 
           {/* Mobile menu button */}
@@ -56,13 +56,13 @@ export default function Navigation() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-secondary-600 hover:text-primary-500 transition-colors font-medium text-lg py-2"
+                  className="text-slate-600 hover:text-green-600 transition-colors font-medium text-lg py-2"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <Button className="bg-primary-500 hover:bg-primary-600 w-fit mt-4 px-6 py-2">Subscribe</Button>
+              <Button className="bg-green-600 hover:bg-green-700 w-fit mt-4 px-6 py-2">Subscribe</Button>
             </div>
           </div>
         )}
