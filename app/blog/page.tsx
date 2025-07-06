@@ -1,420 +1,196 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Clock, Eye, RefreshCw, AlertCircle } from "lucide-react"
+import { ArrowRight, Search, Filter } from "lucide-react"
 import { getBlogPosts } from "@/lib/blog-service"
-import type { BlogPost } from "@/lib/supabase"
 
-// Sample posts for fallback
-const samplePosts: BlogPost[] = [
-  {
-    id: 1,
-    title: "Empowering African Women in Leadership",
-    excerpt:
-      "Celebrating the remarkable achievements of African women who are breaking barriers and leading change across various industries and communities.",
-    content: "",
-    image: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=400&fit=crop",
-    date: "2024-01-15",
-    read_time: "5 min read",
-    author: "Amara Okafor",
-    category: "Leadership",
-    tags: ["Leadership", "Empowerment", "Success"],
-    status: "published" as const,
-    featured: true,
-    views: 1250,
-    created_at: "2024-01-15T10:00:00Z",
-    updated_at: "2024-01-15T10:00:00Z",
-  },
-  {
-    id: 2,
-    title: "Traditional African Fashion Meets Modern Style",
-    excerpt:
-      "Exploring how contemporary African designers are revolutionizing fashion by blending traditional elements with modern aesthetics.",
-    content: "",
-    image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=400&fit=crop",
-    date: "2024-01-12",
-    read_time: "7 min read",
-    author: "Kemi Adebayo",
-    category: "Fashion & Culture",
-    tags: ["Fashion", "Culture", "Design"],
-    status: "published" as const,
-    featured: true,
-    views: 890,
-    created_at: "2024-01-12T10:00:00Z",
-    updated_at: "2024-01-12T10:00:00Z",
-  },
-  {
-    id: 3,
-    title: "Building Successful Businesses in Africa",
-    excerpt:
-      "Stories of African women entrepreneurs who are creating innovative solutions and building thriving businesses across the continent.",
-    content: "",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop",
-    date: "2024-01-10",
-    read_time: "6 min read",
-    author: "Fatima Hassan",
-    category: "Entrepreneurship",
-    tags: ["Business", "Entrepreneurship", "Innovation"],
-    status: "published" as const,
-    featured: false,
-    views: 654,
-    created_at: "2024-01-10T10:00:00Z",
-    updated_at: "2024-01-10T10:00:00Z",
-  },
-  {
-    id: 4,
-    title: "The Power of Motherhood in African Culture",
-    excerpt:
-      "Honoring the sacred role of mothers in African societies and how they shape the future through wisdom, love, and strength.",
-    content: "",
-    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=400&fit=crop",
-    date: "2024-01-08",
-    read_time: "4 min read",
-    author: "Asha Mwangi",
-    category: "Motherhood",
-    tags: ["Motherhood", "Culture", "Family"],
-    status: "published" as const,
-    featured: false,
-    views: 432,
-    created_at: "2024-01-08T10:00:00Z",
-    updated_at: "2024-01-08T10:00:00Z",
-  },
-  {
-    id: 5,
-    title: "Education and Empowerment: Breaking Barriers",
-    excerpt:
-      "How education is transforming the lives of African women and creating pathways to economic independence and social change.",
-    content: "",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop",
-    date: "2024-01-05",
-    read_time: "8 min read",
-    author: "Grace Nyong",
-    category: "Education",
-    tags: ["Education", "Empowerment", "Change"],
-    status: "published" as const,
-    featured: false,
-    views: 789,
-    created_at: "2024-01-05T10:00:00Z",
-    updated_at: "2024-01-05T10:00:00Z",
-  },
-  {
-    id: 6,
-    title: "Health and Wellness in African Communities",
-    excerpt:
-      "Promoting holistic health approaches that combine traditional African healing practices with modern healthcare solutions.",
-    content: "",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=400&fit=crop",
-    date: "2024-01-03",
-    read_time: "5 min read",
-    author: "Dr. Zara Osei",
-    category: "Health & Wellness",
-    tags: ["Health", "Wellness", "Traditional Medicine"],
-    status: "published" as const,
-    featured: false,
-    views: 567,
-    created_at: "2024-01-03T10:00:00Z",
-    updated_at: "2024-01-03T10:00:00Z",
-  },
-  {
-    id: 7,
-    title: "Technology Innovation by African Women",
-    excerpt:
-      "Showcasing groundbreaking technological innovations and digital solutions created by brilliant African women in tech.",
-    content: "",
-    image: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&h=400&fit=crop",
-    date: "2024-01-01",
-    read_time: "6 min read",
-    author: "Nkem Okoro",
-    category: "Technology",
-    tags: ["Technology", "Innovation", "Digital"],
-    status: "published" as const,
-    featured: false,
-    views: 345,
-    created_at: "2024-01-01T10:00:00Z",
-    updated_at: "2024-01-01T10:00:00Z",
-  },
-  {
-    id: 8,
-    title: "Preserving African Heritage for Future Generations",
-    excerpt:
-      "The importance of maintaining cultural traditions, languages, and customs while embracing progress and modernity.",
-    content: "",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop",
-    date: "2023-12-28",
-    read_time: "7 min read",
-    author: "Adunni Bakare",
-    category: "Heritage",
-    tags: ["Heritage", "Culture", "Tradition"],
-    status: "published" as const,
-    featured: false,
-    views: 678,
-    created_at: "2023-12-28T10:00:00Z",
-    updated_at: "2023-12-28T10:00:00Z",
-  },
-]
-
-export default function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
-  const [dataSource, setDataSource] = useState<"supabase" | "localStorage" | "demo">("demo")
-  const [refreshing, setRefreshing] = useState(false)
-
-  const loadPosts = async () => {
-    try {
-      const result = await getBlogPosts()
-      setPosts(result.posts)
-      setDataSource(result.source)
-    } catch (error) {
-      console.error("Error loading posts:", error)
-      setPosts(samplePosts)
-      setDataSource("demo")
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleRefresh = async () => {
-    setRefreshing(true)
-    await loadPosts()
-    setRefreshing(false)
-  }
-
-  useEffect(() => {
-    loadPosts()
-  }, [])
-
+export default async function BlogPage() {
+  const { posts, source } = await getBlogPosts()
   const publishedPosts = posts.filter((post) => post.status === "published")
-  const featuredPosts = publishedPosts.filter((post) => post.featured)
-  const regularPosts = publishedPosts.filter((post) => !post.featured)
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="animate-pulse space-y-8">
-            <div className="h-12 bg-orange-200 rounded-lg w-1/3"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white rounded-lg p-6 space-y-4">
-                  <div className="h-48 bg-gray-200 rounded-lg"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const categories = Array.from(new Set(publishedPosts.map((post) => post.category)))
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
       <div className="container mx-auto px-4 py-16">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-secondary-800 mb-6">Stories of Strength & Grace</h1>
-          <p className="text-xl text-secondary-600 max-w-3xl mx-auto mb-8">
-            Discover inspiring stories, cultural insights, and empowering content celebrating the beauty, wisdom, and
-            strength of African women across the globe.
-          </p>
-
-          {/* Data Source Indicator */}
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="flex items-center gap-2 text-sm">
-              {dataSource === "supabase" && (
-                <Badge variant="default" className="bg-green-100 text-green-800">
-                  Live Data
-                </Badge>
-              )}
-              {dataSource === "localStorage" && (
-                <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                  Local Storage
-                </Badge>
-              )}
-              {dataSource === "demo" && (
-                <Badge variant="outline" className="bg-orange-100 text-orange-800">
-                  <AlertCircle className="w-3 h-3 mr-1" />
-                  Demo Data
-                </Badge>
-              )}
-            </div>
-            <Button
-              onClick={handleRefresh}
-              disabled={refreshing}
-              variant="outline"
-              size="sm"
-              className="text-secondary-600 hover:text-secondary-800 bg-transparent"
-            >
-              <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
-              Refresh
-            </Button>
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Stories</h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover inspiring stories, insights, and experiences from African women making a difference worldwide.
+            </p>
+            {source !== "supabase" && (
+              <div className="mt-4 text-sm text-amber-600 bg-amber-50 px-4 py-2 rounded-lg inline-block">
+                {source === "localStorage" ? "Using local data" : "Using demo data"} -
+                <Link href="/admin/setup" className="underline ml-1">
+                  Set up database
+                </Link>
+              </div>
+            )}
           </div>
 
-          {dataSource === "demo" && (
-            <div className="bg-orange-100 border border-orange-200 rounded-lg p-4 max-w-2xl mx-auto mb-8">
-              <p className="text-orange-800 text-sm">
-                You're viewing demo content. To manage posts, visit the{" "}
-                <Link href="/admin" className="font-semibold underline hover:no-underline">
-                  admin dashboard
-                </Link>{" "}
-                and set up your database connection.
-              </p>
+          {/* Search and Filter Bar */}
+          <div className="flex flex-col md:flex-row gap-4 mb-12">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search stories..."
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              />
+            </div>
+            <div className="relative">
+              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <select className="pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent appearance-none bg-white">
+                <option value="">All Categories</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Featured Post */}
+          {publishedPosts.length > 0 && publishedPosts.find((post) => post.featured) && (
+            <div className="mb-16">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Story</h2>
+              {(() => {
+                const featuredPost = publishedPosts.find((post) => post.featured)!
+                return (
+                  <article className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div className="md:flex">
+                      <div className="md:w-1/2">
+                        <img
+                          src={featuredPost.image || "/placeholder.svg"}
+                          alt={featuredPost.title}
+                          className="w-full h-64 md:h-full object-cover"
+                        />
+                      </div>
+                      <div className="md:w-1/2 p-8">
+                        <div className="flex items-center space-x-2 mb-4">
+                          <span className="bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            {featuredPost.category}
+                          </span>
+                          <span className="text-sm text-gray-500">{featuredPost.read_time}</span>
+                        </div>
+                        <h3 className="text-3xl font-bold text-gray-900 mb-4">{featuredPost.title}</h3>
+                        <p className="text-gray-600 mb-6 text-lg leading-relaxed">{featuredPost.excerpt}</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-gray-700 font-medium">{featuredPost.author}</span>
+                            <span className="text-gray-300">•</span>
+                            <span className="text-gray-500">{new Date(featuredPost.date).toLocaleDateString()}</span>
+                          </div>
+                          <Link
+                            href={`/blog/${featuredPost.id}`}
+                            className="inline-flex items-center text-amber-600 hover:text-amber-700 font-medium"
+                          >
+                            Read Full Story
+                            <ArrowRight className="ml-2 w-5 h-5" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                )
+              })()}
             </div>
           )}
-        </div>
 
-        {publishedPosts.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="max-w-md mx-auto">
-              <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <AlertCircle className="w-12 h-12 text-orange-600" />
+          {/* All Posts Grid */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">All Stories</h2>
+            {publishedPosts.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-medium text-gray-900 mb-2">No stories yet</h3>
+                <p className="text-gray-600 mb-4">Be the first to share an inspiring story.</p>
+                <Link
+                  href="/admin/new-post"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-medium rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-200"
+                >
+                  Create First Story
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
               </div>
-              <h3 className="text-2xl font-bold text-secondary-800 mb-4">No Posts Yet</h3>
-              <p className="text-secondary-600 mb-8">
-                Start creating inspiring content by adding your first blog post.
-              </p>
-              <Button asChild className="bg-primary-500 hover:bg-primary-600">
-                <Link href="/admin/new-post">Create Your First Post</Link>
-              </Button>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {publishedPosts.map((post) => (
+                  <article
+                    key={post.id}
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={post.image || "/placeholder.svg"}
+                        alt={post.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                          {post.category}
+                        </span>
+                      </div>
+                      {post.featured && (
+                        <div className="absolute top-4 right-4">
+                          <span className="bg-orange-600 text-white px-2 py-1 rounded text-xs font-medium">
+                            Featured
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{post.title}</h3>
+                      <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm text-gray-500">{post.author}</span>
+                          <span className="text-gray-300">•</span>
+                          <span className="text-sm text-gray-500">{post.read_time}</span>
+                        </div>
+                        <Link
+                          href={`/blog/${post.id}`}
+                          className="text-amber-600 hover:text-amber-700 font-medium inline-flex items-center"
+                        >
+                          Read More
+                          <ArrowRight className="ml-1 w-4 h-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Newsletter Signup */}
+          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Stay Connected</h2>
+            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+              Get the latest stories and updates from our community of inspiring African women delivered to your inbox.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              />
+              <button className="px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-medium rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-200">
+                Subscribe
+              </button>
             </div>
           </div>
-        ) : (
-          <>
-            {/* Featured Posts */}
-            {featuredPosts.length > 0 && (
-              <section className="mb-16">
-                <h2 className="text-3xl font-bold text-secondary-800 mb-8 text-center">Featured Stories</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {featuredPosts.map((post) => (
-                    <Card
-                      key={post.id}
-                      className="group hover:shadow-xl transition-all duration-300 overflow-hidden border-0 bg-white/80 backdrop-blur-sm"
-                    >
-                      <div className="relative overflow-hidden">
-                        <Image
-                          src={post.image || "/placeholder.svg"}
-                          alt={post.title}
-                          width={400}
-                          height={250}
-                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <Badge className="bg-primary-500 text-white">Featured</Badge>
-                        </div>
-                        <div className="absolute top-4 right-4">
-                          <Badge variant="secondary" className="bg-white/90 text-secondary-800">
-                            {post.category}
-                          </Badge>
-                        </div>
-                      </div>
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-4 text-sm text-secondary-500 mb-3">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            {post.read_time}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Eye className="w-4 h-4" />
-                            {post.views.toLocaleString()}
-                          </span>
-                        </div>
-                        <h3 className="text-xl font-bold text-secondary-800 mb-3 group-hover:text-primary-600 transition-colors">
-                          <Link href={`/blog/${post.id}`} className="hover:underline">
-                            {post.title}
-                          </Link>
-                        </h3>
-                        <p className="text-secondary-600 mb-4 line-clamp-3">{post.excerpt}</p>
-                        <div className="flex items-center justify-between">
-                          <div className="text-sm text-secondary-500">
-                            By {post.author} • {new Date(post.date).toLocaleDateString()}
-                          </div>
-                          <Link
-                            href={`/blog/${post.id}`}
-                            className="text-primary-600 hover:text-primary-700 font-semibold text-sm"
-                          >
-                            Read More →
-                          </Link>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Regular Posts */}
-            {regularPosts.length > 0 && (
-              <section>
-                <h2 className="text-3xl font-bold text-secondary-800 mb-8 text-center">Latest Stories</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {regularPosts.map((post) => (
-                    <Card
-                      key={post.id}
-                      className="group hover:shadow-xl transition-all duration-300 overflow-hidden border-0 bg-white/80 backdrop-blur-sm"
-                    >
-                      <div className="relative overflow-hidden">
-                        <Image
-                          src={post.image || "/placeholder.svg"}
-                          alt={post.title}
-                          width={400}
-                          height={250}
-                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute top-4 right-4">
-                          <Badge variant="secondary" className="bg-white/90 text-secondary-800">
-                            {post.category}
-                          </Badge>
-                        </div>
-                      </div>
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-4 text-sm text-secondary-500 mb-3">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            {post.read_time}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Eye className="w-4 h-4" />
-                            {post.views.toLocaleString()}
-                          </span>
-                        </div>
-                        <h3 className="text-xl font-bold text-secondary-800 mb-3 group-hover:text-primary-600 transition-colors">
-                          <Link href={`/blog/${post.id}`} className="hover:underline">
-                            {post.title}
-                          </Link>
-                        </h3>
-                        <p className="text-secondary-600 mb-4 line-clamp-3">{post.excerpt}</p>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {post.tags.slice(0, 3).map((tag) => (
-                            <Badge key={tag} variant="outline" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="text-sm text-secondary-500">
-                            By {post.author} • {new Date(post.date).toLocaleDateString()}
-                          </div>
-                          <Link
-                            href={`/blog/${post.id}`}
-                            className="text-primary-600 hover:text-primary-700 font-semibold text-sm"
-                          >
-                            Read More →
-                          </Link>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </section>
-            )}
-          </>
-        )}
+        </div>
       </div>
     </div>
   )

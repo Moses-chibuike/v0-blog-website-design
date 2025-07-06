@@ -1,70 +1,60 @@
 import Link from "next/link"
-import { Crown, Twitter, Instagram, Linkedin, Mail } from "lucide-react"
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary-900 text-white">
-      <div className="container section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center space-x-3 mb-6">
-              <Crown className="h-10 w-10 text-primary-400" />
-              <span className="text-2xl font-bold">Adesuwa</span>
+    <footer className="bg-gray-900 text-white">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Brand Section */}
+          <div className="col-span-1 md:col-span-2">
+            <Link href="/" className="flex items-center space-x-2 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-amber-600 to-orange-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-xl">A</span>
+              </div>
+              <span className="text-2xl font-bold font-serif">Adesuwa</span>
             </Link>
-            <p className="text-secondary-400 mb-8 text-body leading-relaxed">
-              Celebrating African Women's Excellence. Empowering voices, sharing stories, and building connections
-              across the global African diaspora through inspiring content and community.
+            <p className="text-gray-300 mb-6 max-w-md">
+              Celebrating the strength, beauty, and achievements of African women across the globe. Join our community
+              of empowered women making a difference.
             </p>
             <div className="flex space-x-4">
-              <Link
-                href="#"
-                className="w-10 h-10 bg-secondary-800 rounded-lg flex items-center justify-center text-secondary-400 hover:text-primary-400 hover:bg-secondary-700 transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#"
-                className="w-10 h-10 bg-secondary-800 rounded-lg flex items-center justify-center text-secondary-400 hover:text-primary-400 hover:bg-secondary-700 transition-colors"
-              >
-                <Instagram className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#"
-                className="w-10 h-10 bg-secondary-800 rounded-lg flex items-center justify-center text-secondary-400 hover:text-primary-400 hover:bg-secondary-700 transition-colors"
-              >
-                <Linkedin className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#"
-                className="w-10 h-10 bg-secondary-800 rounded-lg flex items-center justify-center text-secondary-400 hover:text-primary-400 hover:bg-secondary-700 transition-colors"
-              >
-                <Mail className="h-5 w-5" />
-              </Link>
+              <a href="#" className="text-gray-400 hover:text-amber-500 transition-colors">
+                <Facebook size={20} />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-amber-500 transition-colors">
+                <Twitter size={20} />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-amber-500 transition-colors">
+                <Instagram size={20} />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-amber-500 transition-colors">
+                <Linkedin size={20} />
+              </a>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-subheading font-semibold mb-6">Quick Links</h3>
-            <ul className="space-y-4">
+            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-secondary-400 hover:text-white transition-colors text-body">
+                <Link href="/" className="text-gray-300 hover:text-amber-500 transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-secondary-400 hover:text-white transition-colors text-body">
-                  Stories
+                <Link href="/blog" className="text-gray-300 hover:text-amber-500 transition-colors">
+                  Blog
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-secondary-400 hover:text-white transition-colors text-body">
+                <Link href="/about" className="text-gray-300 hover:text-amber-500 transition-colors">
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-secondary-400 hover:text-white transition-colors text-body">
+                <Link href="/contact" className="text-gray-300 hover:text-amber-500 transition-colors">
                   Contact
                 </Link>
               </li>
@@ -73,52 +63,56 @@ export default function Footer() {
 
           {/* Categories */}
           <div>
-            <h3 className="text-subheading font-semibold mb-6">Categories</h3>
-            <ul className="space-y-4">
+            <h3 className="text-lg font-semibold mb-4">Categories</h3>
+            <ul className="space-y-2">
               <li>
-                <Link href="/blog" className="text-secondary-400 hover:text-white transition-colors text-body">
+                <Link href="/blog?category=leadership" className="text-gray-300 hover:text-amber-500 transition-colors">
                   Leadership
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-secondary-400 hover:text-white transition-colors text-body">
-                  Culture & Fashion
+                <Link href="/blog?category=fashion" className="text-gray-300 hover:text-amber-500 transition-colors">
+                  Fashion & Culture
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-secondary-400 hover:text-white transition-colors text-body">
+                <Link
+                  href="/blog?category=entrepreneurship"
+                  className="text-gray-300 hover:text-amber-500 transition-colors"
+                >
                   Entrepreneurship
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-secondary-400 hover:text-white transition-colors text-body">
-                  Inspiration
+                <Link href="/blog?category=motherhood" className="text-gray-300 hover:text-amber-500 transition-colors">
+                  Motherhood
                 </Link>
               </li>
             </ul>
           </div>
+        </div>
 
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-subheading font-semibold mb-6">Stay Connected</h3>
-            <p className="text-secondary-400 mb-6 text-body leading-relaxed">
-              Get inspiring stories and cultural insights delivered to your inbox weekly.
-            </p>
-            <div className="flex flex-col gap-3">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="px-4 py-3 bg-secondary-800 border border-secondary-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-white text-body"
-              />
-              <button className="px-4 py-3 bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors text-body font-medium">
-                Subscribe
-              </button>
+        {/* Contact Info */}
+        <div className="border-t border-gray-800 mt-8 pt-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-300">
+            <div className="flex items-center space-x-2">
+              <Mail size={16} />
+              <span>hello@adesuwa.com</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Phone size={16} />
+              <span>+234 (0) 123 456 789</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <MapPin size={16} />
+              <span>Lagos, Nigeria</span>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-secondary-800 mt-16 pt-8 text-center">
-          <p className="text-secondary-400 text-body">&copy; 2024 Adesuwa. All rights reserved.</p>
+        {/* Copyright */}
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <p>&copy; {new Date().getFullYear()} Adesuwa. All rights reserved.</p>
         </div>
       </div>
     </footer>

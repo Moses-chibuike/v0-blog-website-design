@@ -1,188 +1,182 @@
--- Clear existing posts and insert African women-focused content
-DELETE FROM blog_posts;
+-- Clear existing data and insert African women focused blog posts
+TRUNCATE blog_posts RESTART IDENTITY CASCADE;
 
--- Insert African women-focused blog posts
-INSERT INTO blog_posts (title, excerpt, content, image, read_time, author, category, tags, status, featured, views) VALUES
+INSERT INTO blog_posts (title, excerpt, content, image, date, read_time, author, category, tags, status, featured, views) VALUES
 (
-  'The Power of African Women in Leadership',
-  'Exploring how African women are breaking barriers and leading change across the continent and diaspora, from boardrooms to grassroots movements that are reshaping communities.',
-  '<p>African women have always been leaders, but today they are breaking through barriers that have historically limited their visibility and influence. From corporate boardrooms to grassroots movements, African women are leading transformational change across the continent and diaspora.</p>
+    'Empowering African Women in Leadership',
+    'Celebrating the remarkable achievements of African women who are breaking barriers and leading change across various industries and communities.',
+    '<p>African women have always been pillars of strength in their communities, but today, they are increasingly taking center stage in leadership roles across various sectors. From boardrooms to political offices, from tech startups to social enterprises, African women are making their mark and inspiring the next generation.</p>
 
-<h2>Breaking the Glass Ceiling</h2>
-<p>Across Africa, women are ascending to positions of power previously dominated by men. From presidents like Ellen Johnson Sirleaf of Liberia to business leaders like Folorunso Alakija of Nigeria, African women are proving that leadership knows no gender.</p>
+<h2>Breaking Traditional Barriers</h2>
+<p>For centuries, traditional structures have limited women''s participation in leadership roles. However, the tide is turning as more African women challenge these norms and create new pathways for success. They are not just breaking glass ceilings; they are reconstructing entire systems to be more inclusive and equitable.</p>
 
-<h2>Grassroots Leadership</h2>
-<p>Beyond formal positions, African women lead in their communities through:</p>
-<ul>
-  <li><strong>Community organizing:</strong> Mobilizing resources for education and healthcare</li>
-  <li><strong>Economic empowerment:</strong> Creating cooperatives and supporting local businesses</li>
-  <li><strong>Social change:</strong> Advocating for women''s rights and gender equality</li>
-  <li><strong>Cultural preservation:</strong> Maintaining traditions while embracing progress</li>
-</ul>
+<h2>Leading by Example</h2>
+<p>Today''s African women leaders are characterized by their resilience, innovation, and commitment to community development. They understand that true leadership is not just about personal success, but about lifting others as they climb. This philosophy has led to the creation of mentorship programs, women''s networks, and initiatives that support the next generation of female leaders.</p>
 
-<h2>Leadership Across the Diaspora</h2>
-<p>African women in the diaspora are making significant impacts in their adopted countries while maintaining connections to their roots. They serve as bridges between cultures, bringing African perspectives to global conversations.</p>
+<h2>The Ripple Effect</h2>
+<p>When African women lead, entire communities benefit. Studies have shown that women in leadership positions tend to prioritize education, healthcare, and social welfare – areas that have direct impacts on community well-being. Their leadership style often emphasizes collaboration, empathy, and sustainable development.</p>
 
-<h2>The Next Generation</h2>
-<p>Young African women are building on the foundation laid by their predecessors, using technology and innovation to create new pathways to leadership. They are entrepreneurs, activists, artists, and change-makers who refuse to be limited by traditional expectations.</p>
+<h2>Challenges and Opportunities</h2>
+<p>Despite the progress, challenges remain. Access to funding, networking opportunities, and supportive policies are still limited in many regions. However, these challenges are also creating opportunities for innovation and creative solutions. African women leaders are finding new ways to access resources, build networks, and create supportive ecosystems.</p>
 
-<p>The future of Africa and the global African diaspora is bright, led by women who understand that true leadership is about lifting others as you climb.</p>',
-  'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-  '7 min read',
-  'Amara Okafor',
-  'Leadership',
-  ARRAY['Leadership', 'African Women', 'Empowerment', 'Breaking Barriers'],
-  'published',
-  true,
-  1650
+<p>The future of African leadership is bright, and it is increasingly female. As more women step into leadership roles, they are not just changing their own lives – they are transforming entire societies and paving the way for a more equitable and prosperous Africa.</p>',
+    'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=400&fit=crop',
+    '2024-01-15',
+    '5 min read',
+    'Amara Okafor',
+    'Leadership',
+    ARRAY['Leadership', 'Empowerment', 'Success'],
+    'published',
+    true,
+    1250
 ),
 (
-  'Celebrating African Fashion and Cultural Heritage',
-  'From traditional textiles to modern runway shows, discover how African women are preserving and innovating cultural fashion traditions while making global impact.',
-  '<p>African fashion is experiencing a renaissance, with African women designers, models, and fashion entrepreneurs taking center stage on global runways and in international markets. This movement is about more than clothing—it''s about cultural pride, economic empowerment, and artistic expression.</p>
+    'Traditional African Fashion Meets Modern Style',
+    'Exploring how contemporary African designers are revolutionizing fashion by blending traditional elements with modern aesthetics.',
+    '<p>African fashion is experiencing a renaissance, with designers across the continent and diaspora creating stunning pieces that honor traditional craftsmanship while embracing contemporary aesthetics. This fusion is not just about clothing; it''s about cultural identity, economic empowerment, and artistic expression.</p>
 
-<h2>Traditional Textiles, Modern Innovation</h2>
-<p>African women are reimagining traditional fabrics and techniques for contemporary fashion:</p>
-<ul>
-  <li><strong>Kente cloth:</strong> Ghana''s royal textile adapted for modern wear</li>
-  <li><strong>Ankara prints:</strong> Vibrant patterns that tell stories and express identity</li>
-  <li><strong>Mud cloth:</strong> Mali''s ancient art form inspiring contemporary designs</li>
-  <li><strong>Shweshwe:</strong> South African heritage fabric in modern silhouettes</li>
-</ul>
+<h2>The Rich Heritage of African Textiles</h2>
+<p>African textiles have always been more than just fabric. They tell stories, represent social status, and carry cultural significance. From the intricate patterns of Kente cloth to the vibrant colors of Ankara prints, each textile tradition has its own unique history and meaning.</p>
 
-<h2>Global Recognition</h2>
-<p>African fashion designers are gaining international recognition, with brands like Maki Oh, Lisa Folawiyo, and Thebe Magugu showcasing at major fashion weeks and dressing celebrities worldwide.</p>
+<h2>Modern Interpretations</h2>
+<p>Today''s African fashion designers are taking these traditional elements and reimagining them for the modern world. They''re creating pieces that can be worn in boardrooms, on red carpets, and in everyday life, making African fashion accessible and relevant to a global audience.</p>
 
 <h2>Economic Impact</h2>
-<p>The African fashion industry is creating economic opportunities for women across the value chain—from cotton farmers to seamstresses to retail entrepreneurs. Fashion cooperatives and training programs are empowering women with skills and income.</p>
+<p>This fashion revolution is also having a significant economic impact. It''s creating jobs for artisans, supporting local textile industries, and putting African fashion on the global map. Many designers are also committed to sustainable and ethical production practices.</p>
 
-<h2>Cultural Preservation and Innovation</h2>
-<p>African women fashion leaders are striking a balance between honoring traditional techniques and embracing innovation. They''re using sustainable practices, supporting local artisans, and telling authentic African stories through their designs.</p>
-
-<p>African fashion is not just about what we wear—it''s about who we are, where we come from, and where we''re going. It''s a celebration of African creativity, craftsmanship, and cultural pride.</p>',
-  'https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-  '8 min read',
-  'Kemi Adebayo',
-  'Culture & Fashion',
-  ARRAY['Fashion', 'Culture', 'Heritage', 'African Design', 'Textiles'],
-  'published',
-  true,
-  1420
+<p>The future of African fashion is bright, with designers continuing to innovate while staying true to their cultural roots. This movement is not just about fashion; it''s about pride, identity, and the celebration of African creativity.</p>',
+    'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=400&fit=crop',
+    '2024-01-12',
+    '7 min read',
+    'Kemi Adebayo',
+    'Fashion & Culture',
+    ARRAY['Fashion', 'Culture', 'Design'],
+    'published',
+    true,
+    890
 ),
 (
-  'Entrepreneurship: African Women Building Empires',
-  'Meet the inspiring African women entrepreneurs who are creating businesses, jobs, and opportunities across various industries while transforming their communities.',
-  '<p>African women entrepreneurs are building businesses that not only generate profit but also create positive social impact. From tech startups to agricultural enterprises, these women are proving that business success and community development go hand in hand.</p>
+    'Building Successful Businesses in Africa',
+    'Stories of African women entrepreneurs who are creating innovative solutions and building thriving businesses across the continent.',
+    '<p>Entrepreneurship is thriving across Africa, with women leading the charge in creating innovative solutions to local and global challenges. These women entrepreneurs are not just building businesses; they''re creating ecosystems of opportunity and driving economic growth across the continent.</p>
 
-<h2>Tech Innovation</h2>
-<p>African women are at the forefront of the continent''s tech revolution:</p>
-<ul>
-  <li><strong>Fintech solutions:</strong> Creating mobile payment systems and financial inclusion</li>
-  <li><strong>E-commerce platforms:</strong> Connecting African products to global markets</li>
-  <li><strong>EdTech innovations:</strong> Improving access to quality education</li>
-  <li><strong>HealthTech solutions:</strong> Addressing healthcare challenges through technology</li>
-</ul>
+<h2>Innovation Born from Necessity</h2>
+<p>Many successful African women entrepreneurs started their businesses to solve problems they encountered in their daily lives. This approach has led to innovative solutions in areas such as fintech, healthcare, education, and agriculture.</p>
 
-<h2>Agriculture and Food Security</h2>
-<p>Women entrepreneurs are revolutionizing agriculture through innovative farming techniques, food processing, and distribution networks that improve food security and create rural employment.</p>
+<h2>Access to Funding and Resources</h2>
+<p>While access to funding remains a challenge, more resources are becoming available to support women entrepreneurs. From microfinance institutions to venture capital funds focused on African startups, the funding landscape is evolving.</p>
 
-<h2>Creative Industries</h2>
-<p>From film production to music labels, African women are building entertainment empires that showcase African talent and stories to global audiences.</p>
+<h2>Building Sustainable Businesses</h2>
+<p>African women entrepreneurs are increasingly focused on building sustainable businesses that have positive social and environmental impacts. They understand that true success comes from creating value for all stakeholders, not just shareholders.</p>
 
-<h2>Social Entrepreneurship</h2>
-<p>Many African women entrepreneurs focus on solving social problems while building sustainable businesses. They''re addressing issues like clean water access, renewable energy, and women''s empowerment through innovative business models.</p>
-
-<h2>Overcoming Challenges</h2>
-<p>Despite facing challenges like limited access to capital and gender bias, African women entrepreneurs are finding creative solutions and building support networks to overcome obstacles.</p>
-
-<p>These women are not just building businesses—they''re building the future of Africa, creating opportunities for the next generation and proving that entrepreneurship is a powerful tool for social change.</p>',
-  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-  '9 min read',
-  'Fatima Hassan',
-  'Entrepreneurship',
-  ARRAY['Entrepreneurship', 'Business', 'Innovation', 'Economic Empowerment'],
-  'published',
-  true,
-  1180
+<p>The entrepreneurial spirit of African women is unstoppable. As more resources become available and barriers are removed, we can expect to see even more innovative businesses emerging from the continent.</p>',
+    'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop',
+    '2024-01-10',
+    '6 min read',
+    'Fatima Hassan',
+    'Entrepreneurship',
+    ARRAY['Business', 'Entrepreneurship', 'Innovation'],
+    'published',
+    false,
+    654
 ),
 (
-  'Motherhood and Career: Balancing Dreams in Africa',
-  'Exploring how African women navigate the beautiful complexity of motherhood while pursuing their professional and personal aspirations.',
-  '<p>African women have long mastered the art of balancing multiple roles, but modern motherhood presents unique challenges and opportunities. Today''s African mothers are redefining what it means to be both nurturing caregivers and ambitious professionals.</p>
+    'Motherhood and Career: Finding Balance',
+    'How African women are redefining motherhood while pursuing their professional dreams and creating supportive communities.',
+    '<p>The journey of balancing motherhood and career is unique for every woman, but African women face particular challenges and opportunities in this space. From extended family support systems to cultural expectations, the landscape is complex and evolving.</p>
 
-<h2>The Village Approach</h2>
-<p>Traditional African societies understood that "it takes a village to raise a child." Modern African women are adapting this wisdom, creating support networks that enable them to pursue their dreams while raising their children.</p>
+<h2>Redefining Success</h2>
+<p>Modern African mothers are redefining what success looks like. It''s not just about climbing the corporate ladder or building a business empire – it''s about creating a life that honors both their roles as mothers and their professional aspirations.</p>
 
-<h2>Flexible Career Paths</h2>
-<p>Many African women are creating flexible career options:</p>
-<ul>
-  <li>Starting home-based businesses</li>
-  <li>Embracing remote work opportunities</li>
-  <li>Building cooperative childcare arrangements</li>
-  <li>Creating family-friendly work environments</li>
-</ul>
+<h2>Community Support Systems</h2>
+<p>One of the greatest strengths in African culture is the concept of community. Many successful African mothers leverage extended family networks, community childcare, and women''s support groups to create the infrastructure they need to thrive in both roles.</p>
 
-<h2>Teaching Values and Heritage</h2>
-<p>African mothers play a crucial role in passing down cultural values, languages, and traditions to the next generation while preparing their children for a globalized world.</p>
+<h2>Flexible Work Arrangements</h2>
+<p>The rise of remote work and flexible arrangements has been particularly beneficial for African mothers. Many are creating businesses that allow them to work around their family schedules while still pursuing meaningful careers.</p>
 
-<p>The journey of balancing motherhood and career is not always easy, but African women continue to show that it''s possible to be both devoted mothers and successful professionals.</p>',
-  'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-  '6 min read',
-  'Aisha Mwangi',
-  'Motherhood & Career',
-  ARRAY['Motherhood', 'Career', 'Work-Life Balance', 'Family'],
-  'published',
-  false,
-  890
+<p>The key is not perfect balance – it''s about making intentional choices that align with your values and circumstances at each stage of life.</p>',
+    'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop',
+    '2024-01-08',
+    '6 min read',
+    'Adunni Bankole',
+    'Motherhood',
+    ARRAY['Motherhood', 'Career', 'Balance', 'Family'],
+    'published',
+    false,
+    432
 ),
 (
-  'Education Champions: African Women Transforming Learning',
-  'Highlighting African women educators, researchers, and advocates who are revolutionizing education across the continent and beyond.',
-  '<p>Education has always been a priority for African women, both as learners and as champions of learning for others. Today, African women are leading educational transformation across the continent and in diaspora communities worldwide.</p>
+    'Education as Empowerment: African Women Leading Change',
+    'Highlighting the transformative power of education and how African women are using knowledge to drive change in their communities.',
+    '<p>Education has always been a powerful tool for empowerment, and African women are increasingly recognizing its potential to transform not just their own lives, but entire communities. From rural villages to urban centers, educated African women are becoming catalysts for change.</p>
 
-<h2>Breaking Educational Barriers</h2>
-<p>African women are overcoming historical barriers to education and creating pathways for others to follow. From the first female university graduates to today''s PhD holders and researchers, they''re proving that education is a powerful tool for change.</p>
+<h2>Breaking Generational Cycles</h2>
+<p>Many African women are the first in their families to receive higher education. They understand the weight of this privilege and are using their education to break generational cycles of poverty and limited opportunities.</p>
 
-<h2>Innovative Teaching Methods</h2>
-<p>African women educators are developing culturally relevant teaching methods that honor African knowledge systems while preparing students for global opportunities.</p>
+<h2>Creating Educational Opportunities</h2>
+<p>Educated African women are not just beneficiaries of education – they''re creating opportunities for others. From starting schools to developing educational programs, they''re ensuring that the next generation has even better access to quality education.</p>
 
-<h2>Community Education</h2>
-<p>Beyond formal education, African women are leading community education initiatives, adult literacy programs, and skills training that empower entire communities.</p>
+<h2>Innovation in Learning</h2>
+<p>African women educators are pioneering innovative approaches to learning that are culturally relevant and accessible. They''re using technology, community partnerships, and creative teaching methods to reach learners who might otherwise be left behind.</p>
 
-<p>These education champions understand that investing in learning is investing in Africa''s future, and they''re committed to ensuring that every child has access to quality education.</p>',
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-  '7 min read',
-  'Dr. Nomsa Mbeki',
-  'Education',
-  ARRAY['Education', 'Learning', 'Teaching', 'Academic Excellence'],
-  'published',
-  false,
-  720
+<p>Education is not just about individual advancement – it''s about community transformation and building a better future for all.</p>',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop',
+    '2024-01-05',
+    '7 min read',
+    'Chiamaka Okonkwo',
+    'Education',
+    ARRAY['Education', 'Empowerment', 'Community', 'Change'],
+    'published',
+    false,
+    567
 ),
 (
-  'Health and Wellness: African Women Leading Change',
-  'Discover how African women are revolutionizing healthcare, promoting wellness, and addressing health challenges in their communities.',
-  '<p>African women have traditionally been the health keepers of their families and communities. Today, they''re expanding this role, becoming doctors, researchers, public health advocates, and wellness entrepreneurs who are transforming healthcare across Africa.</p>
+    'Health and Wellness: A Holistic Approach',
+    'Exploring how African women are embracing holistic approaches to health and wellness, combining traditional wisdom with modern practices.',
+    '<p>African women have always understood the connection between physical, mental, and spiritual well-being. Today, they''re combining traditional healing practices with modern healthcare to create holistic approaches to wellness that serve their communities.</p>
 
-<h2>Medical Pioneers</h2>
-<p>African women doctors and researchers are making breakthrough discoveries and providing life-saving care in challenging environments. They''re addressing diseases that disproportionately affect African populations and developing culturally appropriate treatment approaches.</p>
+<h2>Traditional Wisdom Meets Modern Medicine</h2>
+<p>Many African women are bridging the gap between traditional healing practices and modern healthcare. They''re working as healthcare providers, researchers, and advocates to ensure that both approaches are valued and integrated where appropriate.</p>
 
-<h2>Traditional Medicine and Modern Healthcare</h2>
-<p>Many African women are bridging traditional healing practices with modern medicine, creating holistic approaches to health and wellness that honor cultural knowledge while embracing scientific advances.</p>
+<h2>Mental Health Awareness</h2>
+<p>There''s a growing movement among African women to address mental health stigma and create safe spaces for emotional healing. They''re starting support groups, training as counselors, and advocating for better mental health resources in their communities.</p>
 
-<h2>Community Health Leadership</h2>
-<p>African women are leading community health initiatives, from maternal health programs to disease prevention campaigns, ensuring that healthcare reaches even the most remote communities.</p>
+<h2>Preventive Care and Education</h2>
+<p>African women are leading efforts in preventive healthcare education, from maternal health programs to nutrition education. They understand that prevention is often more effective and accessible than treatment.</p>
 
-<h2>Mental Health Advocacy</h2>
-<p>Breaking taboos around mental health, African women advocates are creating safe spaces for mental health discussions and providing culturally sensitive mental health services.</p>
+<p>True wellness encompasses all aspects of life – physical, mental, emotional, and spiritual. African women are showing the world what holistic health looks like.</p>',
+    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=400&fit=crop',
+    '2024-01-03',
+    '8 min read',
+    'Folake Adeyemi',
+    'Health & Wellness',
+    ARRAY['Health', 'Wellness', 'Traditional Medicine', 'Mental Health'],
+    'published',
+    false,
+    389
+),
+(
+    'Technology and Innovation: African Women at the Forefront',
+    'Showcasing how African women are leveraging technology to solve problems and create innovative solutions across various sectors.',
+    '<p>The technology sector in Africa is experiencing unprecedented growth, and women are playing increasingly important roles as innovators, entrepreneurs, and leaders. From fintech to healthtech, African women are using technology to address local challenges and create global solutions.</p>
 
-<p>These health champions understand that healthy communities are the foundation of prosperous societies, and they''re working tirelessly to ensure that every African has access to quality healthcare.</p>',
-  'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-  '8 min read',
-  'Dr. Adanna Okwu',
-  'Health & Wellness',
-  ARRAY['Health', 'Wellness', 'Healthcare', 'Medical Innovation'],
-  'published',
-  false,
-  650
+<h2>Fintech Revolution</h2>
+<p>African women are at the forefront of the fintech revolution, creating solutions that address financial inclusion challenges. From mobile money platforms to microfinance apps, they''re making financial services more accessible to underserved populations.</p>
+
+<h2>Healthtech Innovations</h2>
+<p>Women technologists are developing healthcare solutions that address specific challenges in African contexts. From telemedicine platforms to maternal health apps, they''re using technology to improve health outcomes across the continent.</p>
+
+<h2>Educational Technology</h2>
+<p>African women are creating educational technology solutions that make learning more accessible and relevant. They''re developing apps, platforms, and tools that address local educational challenges while preparing students for a global economy.</p>
+
+<p>Technology is not just about coding and apps – it''s about using innovation to solve real problems and improve lives. African women are showing the world what purpose-driven technology looks like.</p>',
+    'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop',
+    '2024-01-01',
+    '9 min read',
+    'Zainab Mohammed',
+    'Technology',
+    ARRAY['Technology', 'Innovation', 'Fintech', 'Healthtech'],
+    'published',
+    false,
+    298
 );
