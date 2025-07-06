@@ -7,11 +7,26 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, Calendar, Clock, User, Share2, Heart, MessageCircle } from "lucide-react"
-import { blogService } from "@/lib/blog-service"
-import type { BlogPost } from "@/lib/supabase"
+import { testSupabaseConnection } from "@/lib/supabase-test"
 
 interface BlogPostPageProps {
   params: Promise<{ id: string }>
+}
+
+interface BlogPost {
+  id: number
+  title: string
+  excerpt: string
+  content: string
+  image: string
+  date: string
+  read_time: string
+  author: string
+  category: string
+  tags: string[]
+  status: "published" | "draft"
+  featured: boolean
+  views: number
 }
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
@@ -25,8 +40,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         const resolvedParams = await params
         const postId = Number.parseInt(resolvedParams.id)
 
-        // Sample data with dark African women images
-        const samplePosts = [
+        // Sample fallback data
+        const fallbackPosts = [
           {
             id: 1,
             title: "The Power of African Women in Leadership",
@@ -104,25 +119,49 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           },
         ]
 
-        // Try to use database first, fall back to sample data
-        try {
-          const foundPost = await blogService.getPostById(postId)
-          if (foundPost) {
-            setPost(foundPost)
-            const allPosts = await blogService.getPublishedPosts()
-            const related = allPosts.filter((p) => p.id !== postId && p.category === foundPost.category).slice(0, 3)
-            setRelatedPosts(related)
-            return
+        // Try to use database first
+        const connectionTest = await testSupabaseConnection()
+
+        if (connectionTest.success) {
+          try {
+            const { blogService } = await import("@/lib/blog-service")
+            const foundPost = await blogService.getPostById(postId)
+            if (foundPost) {
+              setPost(foundPost)
+              const allPosts = await blogService.getPublishedPosts()
+              const related = allPosts.filter((p) => p.id !== postId && p.category === foundPost.category).slice(0, 3)
+              setRelatedPosts(related)
+              return
+            }
+          } catch (error) {
+            console.log("Database fetch failed, trying localStorage")
           }
-        } catch (error) {
-          console.log("Database not available, using sample data")
         }
 
-        // Use sample data
-        const foundPost = samplePosts.find((p) => p.id === postId)
+        // Fall back to localStorage
+        if (typeof window !== "undefined") {
+          const savedPosts = localStorage.getItem("blog-posts")
+          if (savedPosts) {
+            const localPosts = JSON.parse(savedPosts)
+            const foundPost = localPosts.find((p: BlogPost) => p.id === postId && p.status === "published")
+            if (foundPost) {
+              setPost(foundPost)
+              const related = localPosts
+                .filter(
+                  (p: BlogPost) => p.id !== postId && p.category === foundPost.category && p.status === "published",
+                )
+                .slice(0, 3)
+              setRelatedPosts(related)
+              return
+            }
+          }
+        }
+
+        // Use fallback data as last resort
+        const foundPost = fallbackPosts.find((p) => p.id === postId)
         if (foundPost) {
           setPost(foundPost)
-          const related = samplePosts.filter((p) => p.id !== postId && p.category === foundPost.category).slice(0, 2)
+          const related = fallbackPosts.filter((p) => p.id !== postId && p.category === foundPost.category).slice(0, 2)
           setRelatedPosts(related)
         }
       } catch (error) {

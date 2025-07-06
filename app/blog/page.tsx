@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,9 +8,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Calendar, Clock, User, Search, TrendingUp } from "lucide-react"
+import { testSupabaseConnection } from "@/lib/supabase-test"
 
-// Updated sample African women blog data with dark-skinned African women images
-const samplePosts = [
+// Fallback sample data (only used if no data exists anywhere)
+const fallbackPosts = [
   {
     id: 1,
     title: "The Power of African Women in Leadership",
@@ -59,93 +60,31 @@ const samplePosts = [
     featured: true,
     views: 1180,
   },
-  {
-    id: 4,
-    title: "Motherhood and Career: Balancing Dreams in Africa",
-    excerpt:
-      "Exploring how African women navigate the beautiful complexity of motherhood while pursuing their professional and personal aspirations.",
-    image:
-      "https://images.unsplash.com/photo-1494790108755-2616c9c0e8e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-08",
-    read_time: "6 min read",
-    author: "Aisha Mwangi",
-    category: "Motherhood & Career",
-    tags: ["Motherhood", "Career", "Work-Life Balance", "Family"],
-    status: "published",
-    featured: false,
-    views: 890,
-  },
-  {
-    id: 5,
-    title: "Education Champions: African Women Transforming Learning",
-    excerpt:
-      "Highlighting African women educators, researchers, and advocates who are revolutionizing education across the continent and beyond.",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-05",
-    read_time: "7 min read",
-    author: "Dr. Nomsa Mbeki",
-    category: "Education",
-    tags: ["Education", "Learning", "Teaching", "Academic Excellence"],
-    status: "published",
-    featured: false,
-    views: 720,
-  },
-  {
-    id: 6,
-    title: "Health and Wellness: African Women Leading Change",
-    excerpt:
-      "Discover how African women are revolutionizing healthcare, promoting wellness, and addressing health challenges in their communities.",
-    image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-03",
-    read_time: "8 min read",
-    author: "Dr. Adanna Okwu",
-    category: "Health & Wellness",
-    tags: ["Health", "Wellness", "Healthcare", "Medical Innovation"],
-    status: "published",
-    featured: false,
-    views: 650,
-  },
-  {
-    id: 7,
-    title: "Breaking Barriers in Technology",
-    excerpt:
-      "Meet the African women who are coding the future, leading tech companies, and creating innovative solutions for African challenges.",
-    image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-01",
-    read_time: "9 min read",
-    author: "Zara Okonkwo",
-    category: "Technology",
-    tags: ["Technology", "Innovation", "STEM", "Digital Transformation"],
-    status: "published",
-    featured: false,
-    views: 580,
-  },
-  {
-    id: 8,
-    title: "Preserving African Languages and Stories",
-    excerpt:
-      "How African women are keeping indigenous languages alive and passing down oral traditions to future generations.",
-    image:
-      "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2023-12-28",
-    read_time: "6 min read",
-    author: "Ama Asante",
-    category: "Culture & Heritage",
-    tags: ["Language", "Culture", "Oral Tradition", "Heritage"],
-    status: "published",
-    featured: false,
-    views: 420,
-  },
 ]
 
+interface BlogPost {
+  id: number
+  title: string
+  excerpt: string
+  content?: string
+  image: string
+  date: string
+  read_time: string
+  author: string
+  category: string
+  tags: string[]
+  status: "published" | "draft"
+  featured: boolean
+  views: number
+}
+
 export default function BlogPage() {
-  const [blogPosts, setBlogPosts] = useState(samplePosts)
-  const [featuredPosts, setFeaturedPosts] = useState(samplePosts.filter((post) => post.featured))
-  const [isLoading, setIsLoading] = useState(false)
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
+  const [dataSource, setDataSource] = useState<"supabase" | "localStorage" | "fallback">("fallback")
 
   const categories = [
     "All",
@@ -157,7 +96,77 @@ export default function BlogPage() {
     "Health & Wellness",
     "Technology",
     "Culture & Heritage",
+    "Personal Growth",
+    "Professional Development",
+    "Spirituality & Purpose",
+    "Transformation Stories",
+    "Mindset",
+    "Success Stories",
+    "Relationships",
   ]
+
+  useEffect(() => {
+    loadBlogData()
+  }, [])
+
+  const loadBlogData = async () => {
+    try {
+      setIsLoading(true)
+
+      // Test Supabase connection first
+      const connectionTest = await testSupabaseConnection()
+
+      if (connectionTest.success) {
+        // Use Supabase
+        setDataSource("supabase")
+        await loadFromSupabase()
+      } else {
+        // Fall back to localStorage
+        setDataSource("localStorage")
+        loadFromLocalStorage()
+      }
+    } catch (error) {
+      console.error("Error loading blog data:", error)
+      setDataSource("localStorage")
+      loadFromLocalStorage()
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const loadFromSupabase = async () => {
+    try {
+      const { blogService } = await import("@/lib/blog-service")
+      const publishedPosts = await blogService.getPublishedPosts()
+      setBlogPosts(publishedPosts)
+      setFeaturedPosts(publishedPosts.filter((post) => post.featured))
+    } catch (error) {
+      console.error("Supabase load failed:", error)
+      throw error
+    }
+  }
+
+  const loadFromLocalStorage = () => {
+    if (typeof window !== "undefined") {
+      const savedPosts = localStorage.getItem("blog-posts")
+      if (savedPosts) {
+        const localPosts = JSON.parse(savedPosts)
+        const publishedPosts = localPosts.filter((post: BlogPost) => post.status === "published")
+        setBlogPosts(publishedPosts)
+        setFeaturedPosts(publishedPosts.filter((post: BlogPost) => post.featured))
+      } else {
+        // No data in localStorage, use fallback
+        setDataSource("fallback")
+        setBlogPosts(fallbackPosts)
+        setFeaturedPosts(fallbackPosts.filter((post) => post.featured))
+      }
+    } else {
+      // Server-side, use fallback
+      setDataSource("fallback")
+      setBlogPosts(fallbackPosts)
+      setFeaturedPosts(fallbackPosts.filter((post) => post.featured))
+    }
+  }
 
   const filteredPosts = blogPosts.filter((post) => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory
@@ -166,6 +175,17 @@ export default function BlogPage() {
       post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p>Loading stories...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-secondary-50">
@@ -176,6 +196,7 @@ export default function BlogPage() {
             <div className="inline-flex items-center px-4 py-2 bg-primary-500/20 rounded-full text-primary-300 text-caption mb-6">
               <TrendingUp className="w-4 h-4 mr-2" />
               {blogPosts.length}+ Inspiring Stories
+              {dataSource === "fallback" && <span className="ml-2 text-xs opacity-75">(Demo Data)</span>}
             </div>
             <h1 className="text-display font-bold mb-6">African Women's Stories</h1>
             <p className="text-body-lg text-secondary-300 leading-relaxed content-narrow">
@@ -298,8 +319,14 @@ export default function BlogPage() {
                 {searchQuery
                   ? `${filteredPosts.length} stories found for "${searchQuery}"`
                   : `${filteredPosts.length} inspiring stories available`}
+                {dataSource === "fallback" && (
+                  <span className="text-orange-600 ml-2">(Demo data - create posts in admin to see real content)</span>
+                )}
               </p>
             </div>
+            <Button onClick={loadBlogData} variant="outline" size="sm" className="bg-white">
+              Refresh
+            </Button>
           </div>
 
           {filteredPosts.length === 0 ? (
@@ -311,11 +338,17 @@ export default function BlogPage() {
               <p className="text-body text-secondary-600 mb-6">
                 {searchQuery
                   ? `No stories match your search for "${searchQuery}"`
-                  : "No published stories in this category yet."}
+                  : dataSource === "fallback"
+                    ? "No published stories yet. Visit the admin panel to create your first post!"
+                    : "No published stories in this category yet."}
               </p>
-              {searchQuery && (
+              {searchQuery ? (
                 <Button variant="outline" onClick={() => setSearchQuery("")} className="bg-white">
                   Clear Search
+                </Button>
+              ) : (
+                <Button asChild className="bg-primary-600 hover:bg-primary-700">
+                  <Link href="/admin">Go to Admin Panel</Link>
                 </Button>
               )}
             </div>
