@@ -12,7 +12,7 @@ export default function HomePage() {
       excerpt:
         "Exploring how African women are breaking barriers and leading change across the continent and diaspora, from boardrooms to grassroots movements.",
       image:
-        "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-15",
       readTime: "7 min read",
       category: "Leadership",
@@ -23,7 +23,7 @@ export default function HomePage() {
       excerpt:
         "From traditional textiles to modern runway shows, discover how African women are preserving and innovating cultural fashion traditions.",
       image:
-        "https://images.unsplash.com/photo-1509909756405-be0199881695?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-12",
       readTime: "8 min read",
       category: "Culture & Fashion",
@@ -34,7 +34,7 @@ export default function HomePage() {
       excerpt:
         "Meet the inspiring African women entrepreneurs who are creating businesses, jobs, and opportunities across various industries.",
       image:
-        "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-10",
       readTime: "6 min read",
       category: "Entrepreneurship",
@@ -55,8 +55,8 @@ export default function HomePage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-            alt="Beautiful African Woman"
+            src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+            alt="Beautiful Dark-Skinned African Woman"
             fill
             className="object-cover object-center"
             priority

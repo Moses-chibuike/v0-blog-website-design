@@ -17,7 +17,7 @@ const samplePosts = [
     excerpt:
       "Exploring how African women are breaking barriers and leading change across the continent and diaspora, from boardrooms to grassroots movements that are reshaping communities.",
     image:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-15",
     read_time: "7 min read",
     author: "Amara Okafor",
@@ -33,7 +33,7 @@ const samplePosts = [
     excerpt:
       "From traditional textiles to modern runway shows, discover how African women are preserving and innovating cultural fashion traditions while making global impact.",
     image:
-      "https://images.unsplash.com/photo-1509909756405-be0199881695?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-12",
     read_time: "8 min read",
     author: "Kemi Adebayo",
@@ -49,7 +49,7 @@ const samplePosts = [
     excerpt:
       "Meet the inspiring African women entrepreneurs who are creating businesses, jobs, and opportunities across various industries while transforming their communities.",
     image:
-      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-10",
     read_time: "9 min read",
     author: "Fatima Hassan",
@@ -65,7 +65,7 @@ const samplePosts = [
     excerpt:
       "Exploring how African women navigate the beautiful complexity of motherhood while pursuing their professional and personal aspirations.",
     image:
-      "https://images.unsplash.com/photo-1494790108755-2616c9c0e8e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-08",
     read_time: "6 min read",
     author: "Aisha Mwangi",
@@ -81,7 +81,7 @@ const samplePosts = [
     excerpt:
       "Highlighting African women educators, researchers, and advocates who are revolutionizing education across the continent and beyond.",
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-05",
     read_time: "7 min read",
     author: "Dr. Nomsa Mbeki",
@@ -96,7 +96,8 @@ const samplePosts = [
     title: "Health and Wellness: African Women Leading Change",
     excerpt:
       "Discover how African women are revolutionizing healthcare, promoting wellness, and addressing health challenges in their communities.",
-    image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    image:
+      "https://images.unsplash.com/photo-1494790108755-2616c9c0e8e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-03",
     read_time: "8 min read",
     author: "Dr. Adanna Okwu",
@@ -112,7 +113,7 @@ const samplePosts = [
     excerpt:
       "Meet the African women who are coding the future, leading tech companies, and creating innovative solutions for African challenges.",
     image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-01",
     read_time: "9 min read",
     author: "Zara Okonkwo",
@@ -128,7 +129,7 @@ const samplePosts = [
     excerpt:
       "How African women are keeping indigenous languages alive and passing down oral traditions to future generations.",
     image:
-      "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1509909756405-be0199881695?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2023-12-28",
     read_time: "6 min read",
     author: "Ama Asante",
