@@ -266,3 +266,64 @@ export async function incrementPostViews(id: number): Promise<void> {
     localStorage.setItem("blog_posts", JSON.stringify(updatedPosts))
   }
 }
+
+// BlogService class for compatibility
+export class BlogService {
+  // Get all posts (for admin)
+  async getAllPosts(): Promise<BlogPost[]> {
+    const { posts } = await getBlogPosts()
+    return posts
+  }
+
+  // Get published posts only (for public blog)
+  async getPublishedPosts(): Promise<BlogPost[]> {
+    const { posts } = await getBlogPosts()
+    return posts.filter((post) => post.status === "published")
+  }
+
+  // Get featured posts
+  async getFeaturedPosts(): Promise<BlogPost[]> {
+    const { posts } = await getBlogPosts()
+    return posts.filter((post) => post.status === "published" && post.featured)
+  }
+
+  // Get single post by ID
+  async getPostById(id: number): Promise<BlogPost | null> {
+    return getBlogPost(id)
+  }
+
+  // Create new post
+  async createPost(postData: Omit<BlogPost, "id" | "views" | "created_at" | "updated_at">): Promise<BlogPost> {
+    return createBlogPost(postData)
+  }
+
+  // Update post
+  async updatePost(id: number, postData: Partial<BlogPost>): Promise<BlogPost> {
+    return updateBlogPost(id, postData)
+  }
+
+  // Delete post
+  async deletePost(id: number): Promise<boolean> {
+    await deleteBlogPost(id)
+    return true
+  }
+
+  // Get blog statistics
+  async getStats() {
+    const { posts } = await getBlogPosts()
+
+    return {
+      totalPosts: posts.length,
+      publishedPosts: posts.filter((p) => p.status === "published").length,
+      draftPosts: posts.filter((p) => p.status === "draft").length,
+      totalViews: posts.reduce((sum, post) => sum + (post.views || 0), 0),
+    }
+  }
+
+  // Increment post views
+  async incrementViews(id: number): Promise<void> {
+    await incrementPostViews(id)
+  }
+}
+
+export const blogService = new BlogService()

@@ -1,86 +1,80 @@
 -- Insert sample blog posts
-INSERT INTO blog_posts (title, excerpt, content, image, read_time, author, category, tags, status, featured, views) VALUES
+INSERT INTO blog_posts (title, excerpt, content, image, date, read_time, author, category, tags, status, featured, views) VALUES
 (
-  'Getting Started with Modern Web Development',
-  'Learn the fundamentals of building modern web applications with the latest technologies and best practices. This comprehensive guide covers everything from setting up your development environment to deploying your first application.',
-  '<p>Modern web development has evolved significantly over the past few years. With the introduction of new frameworks, tools, and best practices, developers now have more powerful ways to build robust, scalable applications.</p>
+    'Empowering African Women in Leadership',
+    'Celebrating the remarkable achievements of African women who are breaking barriers and leading change across various industries and communities.',
+    '<p>African women have always been pillars of strength in their communities, but today, they are increasingly taking center stage in leadership roles across various sectors. From boardrooms to political offices, from tech startups to social enterprises, African women are making their mark and inspiring the next generation.</p>
 
-<h2>The Foundation: HTML, CSS, and JavaScript</h2>
-<p>Before diving into modern frameworks, it''s crucial to have a solid understanding of the web''s foundational technologies. HTML provides structure, CSS handles presentation, and JavaScript adds interactivity.</p>
+<h2>Breaking Traditional Barriers</h2>
+<p>For centuries, traditional structures have limited women''s participation in leadership roles. However, the tide is turning as more African women challenge these norms and create new pathways for success. They are not just breaking glass ceilings; they are reconstructing entire systems to be more inclusive and equitable.</p>
 
-<h2>Modern JavaScript Frameworks</h2>
-<p>Today''s web development landscape is dominated by powerful JavaScript frameworks like React, Vue.js, and Angular. These frameworks provide:</p>
-<ul>
-  <li>Component-based architecture</li>
-  <li>State management solutions</li>
-  <li>Virtual DOM for better performance</li>
-  <li>Rich ecosystem of tools and libraries</li>
-</ul>
+<h2>Leading by Example</h2>
+<p>Today''s African women leaders are characterized by their resilience, innovation, and commitment to community development. They understand that true leadership is not just about personal success, but about lifting others as they climb. This philosophy has led to the creation of mentorship programs, women''s networks, and initiatives that support the next generation of female leaders.</p>
 
-<h2>Development Tools and Workflow</h2>
-<p>Modern development relies heavily on tools that improve productivity and code quality:</p>
-<ul>
-  <li><strong>Version Control:</strong> Git for tracking changes and collaboration</li>
-  <li><strong>Package Managers:</strong> npm, yarn, or pnpm for dependency management</li>
-  <li><strong>Build Tools:</strong> Webpack, Vite, or Parcel for bundling and optimization</li>
-  <li><strong>Code Quality:</strong> ESLint, Prettier, and TypeScript for better code</li>
-</ul>',
-  '/placeholder.svg?height=400&width=800',
-  '5 min read',
-  'John Doe',
-  'Web Development',
-  ARRAY['JavaScript', 'React', 'Web Development', 'Frontend'],
-  'published',
-  true,
-  1250
+<h2>The Ripple Effect</h2>
+<p>When African women lead, entire communities benefit. Studies have shown that women in leadership positions tend to prioritize education, healthcare, and social welfare – areas that have direct impacts on community well-being. Their leadership style often emphasizes collaboration, empathy, and sustainable development.</p>
+
+<h2>Challenges and Opportunities</h2>
+<p>Despite the progress, challenges remain. Access to funding, networking opportunities, and supportive policies are still limited in many regions. However, these challenges are also creating opportunities for innovation and creative solutions. African women leaders are finding new ways to access resources, build networks, and create supportive ecosystems.</p>
+
+<p>The future of African leadership is bright, and it is increasingly female. As more women step into leadership roles, they are not just changing their own lives – they are transforming entire societies and paving the way for a more equitable and prosperous Africa.</p>',
+    'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=400&fit=crop',
+    '2024-01-15',
+    '5 min read',
+    'Amara Okafor',
+    'Leadership',
+    ARRAY['Leadership', 'Empowerment', 'Success'],
+    'published',
+    true,
+    1250
 ),
 (
-  'The Future of Digital Transformation',
-  'Exploring how businesses are adapting to the digital age and what it means for the future of work. We dive deep into emerging trends and technologies that are reshaping industries.',
-  '<p>Digital transformation is no longer a buzzword—it''s a necessity for businesses looking to stay competitive in today''s rapidly evolving marketplace.</p>
+    'Traditional African Fashion Meets Modern Style',
+    'Exploring how contemporary African designers are revolutionizing fashion by blending traditional elements with modern aesthetics.',
+    '<p>African fashion is experiencing a renaissance, with designers across the continent and diaspora creating stunning pieces that honor traditional craftsmanship while embracing contemporary aesthetics. This fusion is not just about clothing; it''s about cultural identity, economic empowerment, and artistic expression.</p>
 
-<h2>What is Digital Transformation?</h2>
-<p>Digital transformation involves integrating digital technology into all areas of a business, fundamentally changing how you operate and deliver value to customers.</p>
+<h2>The Rich Heritage of African Textiles</h2>
+<p>African textiles have always been more than just fabric. They tell stories, represent social status, and carry cultural significance. From the intricate patterns of Kente cloth to the vibrant colors of Ankara prints, each textile tradition has its own unique history and meaning.</p>
 
-<h2>Key Technologies Driving Change</h2>
-<ul>
-  <li>Cloud Computing</li>
-  <li>Artificial Intelligence</li>
-  <li>Internet of Things (IoT)</li>
-  <li>Big Data Analytics</li>
-</ul>
+<h2>Modern Interpretations</h2>
+<p>Today''s African fashion designers are taking these traditional elements and reimagining them for the modern world. They''re creating pieces that can be worn in boardrooms, on red carpets, and in everyday life, making African fashion accessible and relevant to a global audience.</p>
 
-<p>These technologies are enabling businesses to become more agile, efficient, and customer-focused than ever before.</p>',
-  '/placeholder.svg?height=400&width=800',
-  '8 min read',
-  'Jane Smith',
-  'Technology',
-  ARRAY['Digital Transformation', 'Business', 'Technology'],
-  'published',
-  true,
-  890
+<h2>Economic Impact</h2>
+<p>This fashion revolution is also having a significant economic impact. It''s creating jobs for artisans, supporting local textile industries, and putting African fashion on the global map. Many designers are also committed to sustainable and ethical production practices.</p>
+
+<p>The future of African fashion is bright, with designers continuing to innovate while staying true to their cultural roots. This movement is not just about fashion; it''s about pride, identity, and the celebration of African creativity.</p>',
+    'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=400&fit=crop',
+    '2024-01-12',
+    '7 min read',
+    'Kemi Adebayo',
+    'Fashion & Culture',
+    ARRAY['Fashion', 'Culture', 'Design'],
+    'published',
+    true,
+    890
 ),
 (
-  'Building Sustainable Tech Solutions',
-  'How technology can be leveraged to create positive environmental and social impact in our communities. Learn about green coding practices and sustainable development approaches.',
-  '<p>As developers, we have a responsibility to consider the environmental impact of the software we create.</p>
+    'Building Successful Businesses in Africa',
+    'Stories of African women entrepreneurs who are creating innovative solutions and building thriving businesses across the continent.',
+    '<p>Entrepreneurship is thriving across Africa, with women leading the charge in creating innovative solutions to local and global challenges. These women entrepreneurs are not just building businesses; they''re creating ecosystems of opportunity and driving economic growth across the continent.</p>
 
-<h2>Green Coding Practices</h2>
-<p>Writing efficient code isn''t just about performance—it''s also about reducing energy consumption and carbon footprint.</p>
+<h2>Innovation Born from Necessity</h2>
+<p>Many successful African women entrepreneurs started their businesses to solve problems they encountered in their daily lives. This approach has led to innovative solutions in areas such as fintech, healthcare, education, and agriculture.</p>
 
-<h2>Sustainable Development Principles</h2>
-<ul>
-  <li>Optimize for energy efficiency</li>
-  <li>Minimize resource usage</li>
-  <li>Choose sustainable hosting providers</li>
-  <li>Implement efficient algorithms</li>
-</ul>',
-  '/placeholder.svg?height=400&width=800',
-  '6 min read',
-  'Mike Johnson',
-  'Sustainability',
-  ARRAY['Sustainability', 'Green Tech', 'Environment'],
-  'published',
-  false,
-  456
+<h2>Access to Funding and Resources</h2>
+<p>While access to funding remains a challenge, more resources are becoming available to support women entrepreneurs. From microfinance institutions to venture capital funds focused on African startups, the funding landscape is evolving.</p>
+
+<h2>Building Sustainable Businesses</h2>
+<p>African women entrepreneurs are increasingly focused on building sustainable businesses that have positive social and environmental impacts. They understand that true success comes from creating value for all stakeholders, not just shareholders.</p>
+
+<p>The entrepreneurial spirit of African women is unstoppable. As more resources become available and barriers are removed, we can expect to see even more innovative businesses emerging from the continent.</p>',
+    'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop',
+    '2024-01-10',
+    '6 min read',
+    'Fatima Hassan',
+    'Entrepreneurship',
+    ARRAY['Business', 'Entrepreneurship', 'Innovation'],
+    'published',
+    false,
+    654
 );

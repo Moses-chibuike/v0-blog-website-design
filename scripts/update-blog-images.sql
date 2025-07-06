@@ -1,12 +1,13 @@
--- Update existing blog posts with beautiful Unsplash images
-UPDATE blog_posts 
-SET image = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80'
-WHERE title = 'Getting Started with Modern Web Development';
-
-UPDATE blog_posts 
-SET image = 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80'
-WHERE title = 'The Future of Digital Transformation';
-
-UPDATE blog_posts 
-SET image = 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80'
-WHERE title = 'Building Sustainable Tech Solutions';
+-- Update blog post images to use African women themed images
+UPDATE blog_posts SET 
+    image = CASE 
+        WHEN category = 'Leadership' THEN 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=400&fit=crop'
+        WHEN category = 'Fashion & Culture' THEN 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=400&fit=crop'
+        WHEN category = 'Entrepreneurship' THEN 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop'
+        WHEN category = 'Motherhood' THEN 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop'
+        WHEN category = 'Education' THEN 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop'
+        WHEN category = 'Health & Wellness' THEN 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=400&fit=crop'
+        WHEN category = 'Technology' THEN 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop'
+        ELSE 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=400&fit=crop'
+    END
+WHERE id > 0;

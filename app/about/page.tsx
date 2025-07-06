@@ -1,219 +1,153 @@
-import Image from "next/image"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Heart, Target, Zap, Award, Star, Users } from "lucide-react"
-
 export default function AboutPage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">About AlaoMe Transformation</h1>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            We stand out by redefining the way personal and professional growth is approached. Our commitment to
-            Transforming Lives, Differently means we go beyond conventional methods to facilitate deep, meaningful
-            change.
-          </p>
-        </div>
-      </section>
-
-      {/* Mission, Vision, Purpose Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Foundation</h2>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              At AlaoMe Transformation, we believe that true transformation isn't just about improvement—it's about
-              reimagining what's possible and aligning every step with a higher purpose.
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto">
+          {/* Hero Section */}
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">About Adesuwa</h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Celebrating the strength, beauty, and achievements of African women across the globe.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-            <Card className="text-center border-0 shadow-lg">
-              <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Target className="h-6 w-6 text-green-600" />
-                </div>
-                <CardTitle>Our Mission</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-left">
-                  Our mission is to ignite profound personal and professional growth by guiding individuals through a
-                  transformative journey. We empower people to overcome challenges, reach their fullest potential, and
-                  create success stories that reflect a higher purpose.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 shadow-lg">
-              <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Star className="h-6 w-6 text-green-600" />
-                </div>
-                <CardTitle>Our Vision</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-left">
-                  We envision a world where transformation goes beyond improvement—it's a reimagining of what's
-                  possible. We inspire individuals to break free from limitations, embrace their unique paths, and lead
-                  with purpose, leaving a lasting impact for His glory.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 shadow-lg">
-              <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Zap className="h-6 w-6 text-green-600" />
-                </div>
-                <CardTitle>Our Purpose</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-left">
-                  Our purpose is to be a catalyst for extraordinary change. We encourage people to shift their mindsets,
-                  unlock their true potential, and lead impactful lives through personalized mentorship and innovative
-                  strategies, turning their stories into testimonies of purpose and excellence.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* What Sets Us Apart */}
-      <section className="py-16 bg-slate-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Sets Us Apart</h2>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Our unique approach combines personalized mentorship with innovative strategies, ensuring that each
-              journey is tailored to the individual's unique needs and aspirations.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Main Content */}
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             <div>
-              <h3 className="text-2xl font-bold mb-6">Holistic Focus on Growth</h3>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Heart className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Personalized Approach</h4>
-                    <p className="text-slate-600">
-                      Every journey is tailored to your unique needs, challenges, and aspirations, ensuring meaningful
-                      and lasting change.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Award className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Purpose-Driven Strategies</h4>
-                    <p className="text-slate-600">
-                      We guide you through challenges with wisdom, creativity, and strategies aligned with your higher
-                      purpose.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Users className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Partners in Your Journey</h4>
-                    <p className="text-slate-600">
-                      We are not just mentors—we are partners dedicated to fostering lasting change that leaves an
-                      enduring impact.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="aspect-square relative rounded-lg overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                alt="Transformation Journey"
-                fill
-                className="object-cover"
+              <img
+                src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=600&h=400&fit=crop"
+                alt="African woman leader"
+                className="rounded-2xl shadow-xl"
               />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Founder Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Our Founder</h2>
-              <p className="text-lg text-slate-600">The visionary behind AlaoMe Transformation</p>
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+              <p className="text-gray-700 mb-4 leading-relaxed">
+                Adesuwa is more than just a blog – it's a movement dedicated to amplifying the voices, stories, and
+                achievements of African women. We believe in the power of representation and the importance of
+                celebrating our diverse experiences.
+              </p>
+              <p className="text-gray-700 mb-4 leading-relaxed">
+                Through inspiring stories, practical advice, and cultural insights, we aim to empower African women to
+                embrace their heritage while pursuing their dreams and ambitions.
+              </p>
+              <p className="text-gray-700 leading-relaxed">
+                Our platform serves as a bridge connecting African women across continents, fostering community, and
+                creating opportunities for growth and collaboration.
+              </p>
             </div>
+          </div>
 
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-8">
-                <div className="grid md:grid-cols-3 gap-8 items-center">
-                  <div className="md:col-span-1">
-                    <div className="aspect-square relative rounded-lg overflow-hidden mb-6">
-                      <Image
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                        alt="Oluseyi IfeanyiChukwu Alao"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-xl font-bold mb-2">Oluseyi IfeanyiChukwu Alao</h3>
-                      <Badge variant="secondary" className="mb-4">
-                        Founder & CEO
-                      </Badge>
-                    </div>
-                  </div>
-                  <div className="md:col-span-2">
-                    <h3 className="text-2xl font-bold mb-6">My Story</h3>
-                    <div className="prose prose-lg max-w-none space-y-4 text-slate-600">
-                      <p>
-                        Oluseyi IfeanyiChukwu Alao's journey began with a bold leap—a solo migration to New York City
-                        eight years ago. Raised by his grandparents after losing both parents at a young age, Oluseyi
-                        had already learned the weight of responsibility, but nothing could prepare him for the immense
-                        challenges of adjusting to life in a new country.
-                      </p>
-                      <p>
-                        Between juggling long hours at multiple jobs, finishing business school, and providing financial
-                        support for his son, grandmother, and extended family back home, his resilience was constantly
-                        tested. Oluseyi took his life lessons and began sharing them, creating transformative content
-                        centered around personal growth, self-love, relationships, and spirituality.
-                      </p>
-                      <p>
-                        In less than a year, his social media following grew from 900 to 5,000, and what started as
-                        sharing his story became a thriving mentorship and coaching practice. The turning point came
-                        with a profound personal loss—the mysterious death of his best friend, his beloved grandmother
-                        and one of his Aunts who raised him.
-                      </p>
-                      <p>
-                        Struggling with depression and numbing the pain with alcohol, Oluseyi realized he needed a
-                        transformation. He made a courageous decision: he quit his two dead-end jobs, went back to
-                        school full-time, and began focusing on personal growth. This shift didn't just change his
-                        life—it became the foundation of his future success.
-                      </p>
-                      <p className="font-semibold text-slate-900">
-                        Today, Oluseyi is the Founder and CEO of AlaoMe Transformation, a program that reaches
-                        individuals across multiple countries, helping them transform their lives and unlock their true
-                        potential.
-                      </p>
-                    </div>
-                  </div>
+          {/* Values Section */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Our Values</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
                 </div>
-              </CardContent>
-            </Card>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Authenticity</h3>
+                <p className="text-gray-600">
+                  We celebrate authentic stories and genuine experiences that reflect the true diversity of African
+                  women.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Empowerment</h3>
+                <p className="text-gray-600">
+                  We provide tools, resources, and inspiration to help African women achieve their goals and dreams.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">Community</h3>
+                <p className="text-gray-600">
+                  We foster a supportive community where African women can connect, share, and grow together.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Team Section */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Meet Our Team</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="text-center">
+                <img
+                  src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=300&h=300&fit=crop&crop=face"
+                  alt="Amara Okafor"
+                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Amara Okafor</h3>
+                <p className="text-amber-600 mb-3">Founder & Editor-in-Chief</p>
+                <p className="text-gray-600 text-sm">
+                  Passionate about amplifying African women's voices and creating meaningful content.
+                </p>
+              </div>
+              <div className="text-center">
+                <img
+                  src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&h=300&fit=crop&crop=face"
+                  alt="Kemi Adebayo"
+                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Kemi Adebayo</h3>
+                <p className="text-amber-600 mb-3">Fashion & Culture Editor</p>
+                <p className="text-gray-600 text-sm">
+                  Expert in African fashion trends and cultural preservation through modern expression.
+                </p>
+              </div>
+              <div className="text-center">
+                <img
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&crop=face"
+                  alt="Fatima Hassan"
+                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Fatima Hassan</h3>
+                <p className="text-amber-600 mb-3">Business & Entrepreneurship Writer</p>
+                <p className="text-gray-600 text-sm">
+                  Dedicated to sharing stories of successful African women entrepreneurs and business leaders.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center bg-white rounded-2xl shadow-xl p-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Join Our Community</h2>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Be part of a growing community of African women who are making a difference. Share your story, connect
+              with others, and be inspired.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold py-3 px-8 rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-200">
+                Share Your Story
+              </button>
+              <button className="border-2 border-amber-600 text-amber-600 font-semibold py-3 px-8 rounded-lg hover:bg-amber-50 transition-all duration-200">
+                Subscribe to Newsletter
+              </button>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   )
 }

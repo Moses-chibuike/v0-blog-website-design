@@ -1,391 +1,241 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowLeft, Save, Eye, Upload, X, ImageIcon } from "lucide-react"
-import Link from "next/link"
-import { blogService } from "@/lib/blog-service"
+import { Switch } from "@/components/ui/switch"
+import { ArrowLeft, Save } from "lucide-react"
+import { createBlogPost } from "@/lib/blog-service"
+
+const categoryImages = {
+  Leadership: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=400&fit=crop",
+  "Fashion & Culture": "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=400&fit=crop",
+  Entrepreneurship: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop",
+  Motherhood: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop",
+  Education: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop",
+  "Health & Wellness": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=400&fit=crop",
+  Technology: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop",
+  Heritage: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=400&fit=crop",
+}
 
 export default function NewPostPage() {
   const router = useRouter()
+  const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
     excerpt: "",
     content: "",
-    category: "",
-    tags: [] as string[],
     image: "",
-    author: "Admin",
+    author: "",
+    category: "",
+    tags: "",
+    status: "draft" as "draft" | "published",
     featured: false,
   })
-  const [newTag, setNewTag] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const categories = [
-    "Personal Growth",
-    "Professional Development",
-    "Spirituality & Purpose",
-    "Transformation Stories",
-    "Mindset",
-    "Success Stories",
-    "Relationships",
-    "Leadership",
-  ]
-
-  // Curated Unsplash images for different categories
-  const categoryImages = {
-    "Personal Growth": [
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    "Professional Development": [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    "Spirituality & Purpose": [
-      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    "Transformation Stories": [
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    Mindset: [
-      "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    "Success Stories": [
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    Relationships: [
-      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    Leadership: [
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-  }
-
-  const calculateReadTime = (content: string): string => {
-    const wordsPerMinute = 200
-    const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length
-    const minutes = Math.ceil(words / wordsPerMinute)
-    return `${minutes} min read`
-  }
-
-  const handleSubmit = async (status: "draft" | "published") => {
-    if (!formData.title.trim()) {
-      alert("Please enter a title for your post")
-      return
-    }
-
-    if (!formData.content.trim()) {
-      alert("Please add some content to your post")
-      return
-    }
-
-    if (!formData.category) {
-      alert("Please select a category")
-      return
-    }
-
-    setIsSubmitting(true)
-
-    try {
-      // Use a default image based on category if no image is provided
-      let imageUrl = formData.image
-      if (!imageUrl && formData.category && categoryImages[formData.category as keyof typeof categoryImages]) {
-        const categoryImageList = categoryImages[formData.category as keyof typeof categoryImages]
-        imageUrl = categoryImageList[Math.floor(Math.random() * categoryImageList.length)]
-      }
-
-      await blogService.createPost({
-        title: formData.title,
-        excerpt: formData.excerpt || formData.content.replace(/<[^>]*>/g, "").substring(0, 200) + "...",
-        content: formData.content,
-        category: formData.category,
-        tags: formData.tags,
-        image:
-          imageUrl ||
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-        author: formData.author,
-        featured: formData.featured,
-        status,
-        read_time: calculateReadTime(formData.content),
-        date: new Date().toISOString().split("T")[0],
-      })
-
-      alert(`Post ${status === "published" ? "published" : "saved as draft"} successfully!`)
-      router.push("/admin")
-    } catch (error) {
-      alert("Error saving post. Please try again.")
-      console.error(error)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const addTag = () => {
-    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
-      setFormData({
-        ...formData,
-        tags: [...formData.tags, newTag.trim()],
-      })
-      setNewTag("")
-    }
-  }
-
-  const removeTag = (tagToRemove: string) => {
+  const handleCategoryChange = (category: string) => {
     setFormData({
       ...formData,
-      tags: formData.tags.filter((tag) => tag !== tagToRemove),
+      category,
+      image: formData.image || categoryImages[category as keyof typeof categoryImages] || "",
     })
   }
 
-  const selectCategoryImage = (imageUrl: string) => {
-    setFormData({ ...formData, image: imageUrl })
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSaving(true)
+
+    try {
+      const newPost = await createBlogPost({
+        ...formData,
+        tags: formData.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean),
+        date: new Date().toISOString().split("T")[0],
+        read_time: `${Math.ceil(formData.content.split(" ").length / 200)} min read`,
+      })
+
+      router.push("/admin")
+    } catch (error) {
+      console.error("Error creating post:", error)
+      alert("Error creating post. Please try again.")
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <Button asChild variant="outline">
-              <Link href="/admin">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Dashboard
-              </Link>
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold">Create New Post</h1>
-              <p className="text-slate-600">Write and publish your blog article</p>
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center space-x-4">
+              <Button onClick={() => router.push("/admin")} variant="outline" size="sm">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Admin
+              </Button>
+              <h1 className="text-3xl font-bold text-gray-900">Create New Post</h1>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => handleSubmit("draft")} disabled={isSubmitting}>
-              <Save className="mr-2 h-4 w-4" />
-              {isSubmitting ? "Saving..." : "Save Draft"}
-            </Button>
-            <Button
-              className="bg-green-600 hover:bg-green-700"
-              onClick={() => handleSubmit("published")}
-              disabled={isSubmitting}
-            >
-              <Eye className="mr-2 h-4 w-4" />
-              {isSubmitting ? "Publishing..." : "Publish"}
-            </Button>
-          </div>
-        </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Title */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Post Title *</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Input
-                  placeholder="Enter your post title..."
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="text-lg"
-                />
-              </CardContent>
-            </Card>
-
-            {/* Excerpt */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Excerpt</CardTitle>
-                <CardDescription>
-                  A brief summary of your post (used in previews). If left empty, it will be auto-generated from your
-                  content.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Textarea
-                  placeholder="Write a compelling excerpt..."
-                  value={formData.excerpt}
-                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  rows={3}
-                />
-              </CardContent>
-            </Card>
-
-            {/* Content */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Content *</CardTitle>
-                <CardDescription>Write your full article content</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Textarea
-                  placeholder="Start writing your article..."
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  rows={20}
-                  className="font-mono"
-                />
-                <p className="text-sm text-slate-500 mt-2">
-                  You can use HTML tags for formatting (h2, h3, p, ul, li, strong, em, etc.)
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Featured Image */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Featured Image</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {formData.image && (
-                  <div className="aspect-video relative rounded-lg overflow-hidden border">
-                    <img
-                      src={formData.image || "/placeholder.svg"}
-                      alt="Featured"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-
-                <Input
-                  placeholder="Enter image URL..."
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                />
-
-                {/* Category-based image suggestions */}
-                {formData.category && categoryImages[formData.category as keyof typeof categoryImages] && (
-                  <div>
-                    <Label className="text-sm font-medium mb-2 block">Suggested images for {formData.category}:</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {categoryImages[formData.category as keyof typeof categoryImages].map((imageUrl, index) => (
-                        <button
-                          key={index}
-                          onClick={() => selectCategoryImage(imageUrl)}
-                          className="aspect-video relative rounded-lg overflow-hidden border-2 border-transparent hover:border-green-500 transition-colors"
-                        >
-                          <img
-                            src={imageUrl || "/placeholder.svg"}
-                            alt={`${formData.category} ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center">
-                            <ImageIcon className="h-6 w-6 text-white opacity-0 hover:opacity-100 transition-opacity" />
-                          </div>
-                        </button>
-                      ))}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Main Content */}
+              <div className="md:col-span-2 space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Post Content</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Label htmlFor="title">Title</Label>
+                      <Input
+                        id="title"
+                        value={formData.title}
+                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        placeholder="Enter post title"
+                        required
+                      />
                     </div>
-                  </div>
-                )}
+                    <div>
+                      <Label htmlFor="excerpt">Excerpt</Label>
+                      <Textarea
+                        id="excerpt"
+                        value={formData.excerpt}
+                        onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                        placeholder="Brief description of the post"
+                        rows={3}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="content">Content</Label>
+                      <Textarea
+                        id="content"
+                        value={formData.content}
+                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                        placeholder="Write your post content here..."
+                        rows={15}
+                        required
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
 
-                <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
-                  <Upload className="mx-auto h-8 w-8 text-slate-400 mb-2" />
-                  <p className="text-sm text-slate-600 mb-2">Or upload your own image</p>
-                  <Button variant="outline" size="sm">
-                    Choose File
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+              {/* Sidebar */}
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Post Settings</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Label htmlFor="status">Status</Label>
+                      <Select
+                        value={formData.status}
+                        onValueChange={(value: "draft" | "published") => setFormData({ ...formData, status: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="draft">Draft</SelectItem>
+                          <SelectItem value="published">Published</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        id="featured"
+                        checked={formData.featured}
+                        onCheckedChange={(checked) => setFormData({ ...formData, featured: checked })}
+                      />
+                      <Label htmlFor="featured">Featured Post</Label>
+                    </div>
+                  </CardContent>
+                </Card>
 
-            {/* Category */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Category *</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Select
-                  value={formData.category}
-                  onValueChange={(value) => setFormData({ ...formData, category: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </CardContent>
-            </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Post Details</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Label htmlFor="author">Author</Label>
+                      <Input
+                        id="author"
+                        value={formData.author}
+                        onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                        placeholder="Author name"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="category">Category</Label>
+                      <Select value={formData.category} onValueChange={handleCategoryChange}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Leadership">Leadership</SelectItem>
+                          <SelectItem value="Fashion & Culture">Fashion & Culture</SelectItem>
+                          <SelectItem value="Entrepreneurship">Entrepreneurship</SelectItem>
+                          <SelectItem value="Motherhood">Motherhood</SelectItem>
+                          <SelectItem value="Education">Education</SelectItem>
+                          <SelectItem value="Health & Wellness">Health & Wellness</SelectItem>
+                          <SelectItem value="Technology">Technology</SelectItem>
+                          <SelectItem value="Heritage">Heritage</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="tags">Tags</Label>
+                      <Input
+                        id="tags"
+                        value={formData.tags}
+                        onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                        placeholder="tag1, tag2, tag3"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="image">Featured Image URL</Label>
+                      <Input
+                        id="image"
+                        value={formData.image}
+                        onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                        placeholder="https://example.com/image.jpg"
+                        required
+                      />
+                      {formData.image && (
+                        <div className="mt-2">
+                          <img
+                            src={formData.image || "/placeholder.svg"}
+                            alt="Preview"
+                            className="w-full h-32 object-cover rounded-lg"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
 
-            {/* Tags */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Tags</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Add a tag..."
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
-                  />
-                  <Button onClick={addTag} size="sm">
-                    Add
-                  </Button>
-                </div>
-                {formData.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {formData.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-                        {tag}
-                        <button onClick={() => removeTag(tag)} className="ml-1 hover:text-red-600">
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Post Settings */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Post Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label>Author</Label>
-                  <Input
-                    value={formData.author}
-                    onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="featured"
-                    checked={formData.featured}
-                    onCheckedChange={(checked) => setFormData({ ...formData, featured: !!checked })}
-                  />
-                  <Label htmlFor="featured">Mark as featured post</Label>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                <Button type="submit" className="w-full" disabled={saving}>
+                  <Save className="w-4 h-4 mr-2" />
+                  {saving ? "Creating..." : "Create Post"}
+                </Button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
