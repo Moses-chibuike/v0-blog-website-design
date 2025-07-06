@@ -25,16 +25,104 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         const resolvedParams = await params
         const postId = Number.parseInt(resolvedParams.id)
 
-        const foundPost = await blogService.getPostById(postId)
+        // Sample data for immediate preview
+        const samplePosts = [
+          {
+            id: 1,
+            title: "The Power of African Women in Leadership",
+            excerpt:
+              "Exploring how African women are breaking barriers and leading change across the continent and diaspora, from boardrooms to grassroots movements that are reshaping communities.",
+            content: `<p>African women have always been leaders, but today they are breaking through barriers that have historically limited their visibility and influence. From corporate boardrooms to grassroots movements, African women are leading transformational change across the continent and diaspora.</p>
+
+<h2>Breaking the Glass Ceiling</h2>
+<p>Across Africa, women are ascending to positions of power previously dominated by men. From presidents like Ellen Johnson Sirleaf of Liberia to business leaders like Folorunso Alakija of Nigeria, African women are proving that leadership knows no gender.</p>
+
+<h2>Grassroots Leadership</h2>
+<p>Beyond formal positions, African women lead in their communities through:</p>
+<ul>
+  <li><strong>Community organizing:</strong> Mobilizing resources for education and healthcare</li>
+  <li><strong>Economic empowerment:</strong> Creating cooperatives and supporting local businesses</li>
+  <li><strong>Social change:</strong> Advocating for women's rights and gender equality</li>
+  <li><strong>Cultural preservation:</strong> Maintaining traditions while embracing progress</li>
+</ul>
+
+<p>The future of Africa and the global African diaspora is bright, led by women who understand that true leadership is about lifting others as you climb.</p>`,
+            image:
+              "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            date: "2024-01-15",
+            read_time: "7 min read",
+            author: "Amara Okafor",
+            category: "Leadership",
+            tags: ["Leadership", "African Women", "Empowerment", "Breaking Barriers"],
+            status: "published",
+            featured: true,
+            views: 1650,
+          },
+          {
+            id: 2,
+            title: "Celebrating African Fashion and Cultural Heritage",
+            excerpt:
+              "From traditional textiles to modern runway shows, discover how African women are preserving and innovating cultural fashion traditions while making global impact.",
+            content: `<p>African fashion is experiencing a renaissance, with African women designers, models, and fashion entrepreneurs taking center stage on global runways and in international markets.</p>
+
+<h2>Traditional Textiles, Modern Innovation</h2>
+<p>African women are reimagining traditional fabrics and techniques for contemporary fashion, from Kente cloth to Ankara prints, creating beautiful pieces that tell stories and express identity.</p>
+
+<p>African fashion is not just about what we wear—it's about who we are, where we come from, and where we're going.</p>`,
+            image:
+              "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            date: "2024-01-12",
+            read_time: "8 min read",
+            author: "Kemi Adebayo",
+            category: "Culture & Fashion",
+            tags: ["Fashion", "Culture", "Heritage", "African Design"],
+            status: "published",
+            featured: true,
+            views: 1420,
+          },
+          {
+            id: 3,
+            title: "Entrepreneurship: African Women Building Empires",
+            excerpt:
+              "Meet the inspiring African women entrepreneurs who are creating businesses, jobs, and opportunities across various industries while transforming their communities.",
+            content: `<p>African women entrepreneurs are building businesses that not only generate profit but also create positive social impact. From tech startups to agricultural enterprises, these women are proving that business success and community development go hand in hand.</p>
+
+<h2>Tech Innovation</h2>
+<p>African women are at the forefront of the continent's tech revolution, creating fintech solutions, e-commerce platforms, and innovative apps that solve real problems.</p>
+
+<p>These women are not just building businesses—they're building the future of Africa.</p>`,
+            image:
+              "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            date: "2024-01-10",
+            read_time: "9 min read",
+            author: "Fatima Hassan",
+            category: "Entrepreneurship",
+            tags: ["Entrepreneurship", "Business", "Innovation"],
+            status: "published",
+            featured: true,
+            views: 1180,
+          },
+        ]
+
+        // Try to use database first, fall back to sample data
+        try {
+          const foundPost = await blogService.getPostById(postId)
+          if (foundPost) {
+            setPost(foundPost)
+            const allPosts = await blogService.getPublishedPosts()
+            const related = allPosts.filter((p) => p.id !== postId && p.category === foundPost.category).slice(0, 3)
+            setRelatedPosts(related)
+            return
+          }
+        } catch (error) {
+          console.log("Database not available, using sample data")
+        }
+
+        // Use sample data
+        const foundPost = samplePosts.find((p) => p.id === postId)
         if (foundPost) {
           setPost(foundPost)
-
-          // Increment views
-          await blogService.incrementViews(postId)
-
-          // Get related posts (same category, excluding current post)
-          const allPosts = await blogService.getPublishedPosts()
-          const related = allPosts.filter((p) => p.id !== postId && p.category === foundPost.category).slice(0, 3)
+          const related = samplePosts.filter((p) => p.id !== postId && p.category === foundPost.category).slice(0, 2)
           setRelatedPosts(related)
         }
       } catch (error) {

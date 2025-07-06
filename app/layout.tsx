@@ -8,9 +8,9 @@ import Footer from "@/components/footer"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "AlaoMeBlog - Transforming Lives, Differently",
+  title: "Adesuwa - Celebrating African Women's Stories",
   description:
-    "Discover profound insights on personal and professional growth, transformation stories, and purpose-driven content from AlaoMe Transformation.",
+    "Empowering African women through inspiring stories, cultural insights, and transformational content. Discover the strength, wisdom, and beauty of African womanhood.",
     generator: 'v0.dev'
 }
 
