@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Calendar, Clock, User, Search, TrendingUp } from "lucide-react"
 
-// Sample African women blog data for immediate preview
+// Updated sample African women blog data with dark-skinned African women images
 const samplePosts = [
   {
     id: 1,
@@ -17,7 +17,7 @@ const samplePosts = [
     excerpt:
       "Exploring how African women are breaking barriers and leading change across the continent and diaspora, from boardrooms to grassroots movements that are reshaping communities.",
     image:
-      "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-15",
     read_time: "7 min read",
     author: "Amara Okafor",
@@ -33,7 +33,7 @@ const samplePosts = [
     excerpt:
       "From traditional textiles to modern runway shows, discover how African women are preserving and innovating cultural fashion traditions while making global impact.",
     image:
-      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1509909756405-be0199881695?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-12",
     read_time: "8 min read",
     author: "Kemi Adebayo",
@@ -49,7 +49,7 @@ const samplePosts = [
     excerpt:
       "Meet the inspiring African women entrepreneurs who are creating businesses, jobs, and opportunities across various industries while transforming their communities.",
     image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-10",
     read_time: "9 min read",
     author: "Fatima Hassan",
@@ -64,7 +64,8 @@ const samplePosts = [
     title: "Motherhood and Career: Balancing Dreams in Africa",
     excerpt:
       "Exploring how African women navigate the beautiful complexity of motherhood while pursuing their professional and personal aspirations.",
-    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    image:
+      "https://images.unsplash.com/photo-1494790108755-2616c9c0e8e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     date: "2024-01-08",
     read_time: "6 min read",
     author: "Aisha Mwangi",
@@ -105,6 +106,38 @@ const samplePosts = [
     featured: false,
     views: 650,
   },
+  {
+    id: 7,
+    title: "Breaking Barriers in Technology",
+    excerpt:
+      "Meet the African women who are coding the future, leading tech companies, and creating innovative solutions for African challenges.",
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-01-01",
+    read_time: "9 min read",
+    author: "Zara Okonkwo",
+    category: "Technology",
+    tags: ["Technology", "Innovation", "STEM", "Digital Transformation"],
+    status: "published",
+    featured: false,
+    views: 580,
+  },
+  {
+    id: 8,
+    title: "Preserving African Languages and Stories",
+    excerpt:
+      "How African women are keeping indigenous languages alive and passing down oral traditions to future generations.",
+    image:
+      "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2023-12-28",
+    read_time: "6 min read",
+    author: "Ama Asante",
+    category: "Culture & Heritage",
+    tags: ["Language", "Culture", "Oral Tradition", "Heritage"],
+    status: "published",
+    featured: false,
+    views: 420,
+  },
 ]
 
 export default function BlogPage() {
@@ -122,6 +155,8 @@ export default function BlogPage() {
     "Motherhood & Career",
     "Education",
     "Health & Wellness",
+    "Technology",
+    "Culture & Heritage",
   ]
 
   const filteredPosts = blogPosts.filter((post) => {

@@ -12,7 +12,7 @@ export default function HomePage() {
       excerpt:
         "Exploring how African women are breaking barriers and leading change across the continent and diaspora, from boardrooms to grassroots movements.",
       image:
-        "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-15",
       readTime: "7 min read",
       category: "Leadership",
@@ -23,7 +23,7 @@ export default function HomePage() {
       excerpt:
         "From traditional textiles to modern runway shows, discover how African women are preserving and innovating cultural fashion traditions.",
       image:
-        "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1509909756405-be0199881695?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-12",
       readTime: "8 min read",
       category: "Culture & Fashion",
@@ -34,7 +34,7 @@ export default function HomePage() {
       excerpt:
         "Meet the inspiring African women entrepreneurs who are creating businesses, jobs, and opportunities across various industries.",
       image:
-        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-10",
       readTime: "6 min read",
       category: "Entrepreneurship",
@@ -50,27 +50,50 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with African-inspired design */}
-      <section className="relative bg-gradient-to-br from-secondary-900 via-secondary-800 to-secondary-900 text-white overflow-hidden">
-        {/* Organic shapes inspired by Adesuwa design */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500 rounded-full opacity-20 transform translate-x-32 -translate-y-32"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent-400 rounded-full opacity-10 transform -translate-x-16 translate-y-16"></div>
+      {/* Hero Section with African woman background */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+            alt="Beautiful African Woman"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+        </div>
 
-        <div className="relative container section-padding">
+        {/* Dark Overlay for text readability */}
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+
+        {/* Additional gradient overlay for better text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70 z-20"></div>
+
+        {/* Organic shapes for design accent */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500 rounded-full opacity-10 transform translate-x-32 -translate-y-32 z-30"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent-400 rounded-full opacity-10 transform -translate-x-16 translate-y-16 z-30"></div>
+
+        {/* Content */}
+        <div className="relative container section-padding z-40">
           <div className="content-center">
-            <div className="inline-flex items-center px-4 py-2 bg-primary-500/20 rounded-full text-primary-300 text-caption mb-8">
+            <div className="inline-flex items-center px-4 py-2 bg-primary-500/30 backdrop-blur-sm rounded-full text-primary-200 text-caption mb-8 border border-primary-400/30">
               <Star className="w-4 h-4 mr-2" />
               Celebrating African Women's Excellence
             </div>
-            <h1 className="text-hero font-bold mb-8 leading-tight">
+            <h1 className="text-hero font-bold mb-8 leading-tight text-white">
               Welcome to <span className="text-primary-400">Adesuwa</span>
             </h1>
-            <p className="text-body-lg mb-12 text-secondary-300 leading-relaxed content-narrow">
+            <p className="text-body-lg mb-12 text-gray-200 leading-relaxed content-narrow">
               Discover inspiring stories of African women who are breaking barriers, preserving culture, and creating
               change across the continent and diaspora. Join our community celebrating strength, wisdom, and beauty.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Button asChild size="lg" className="bg-primary-500 hover:bg-primary-600 text-white btn-lg shadow-lg">
+              <Button
+                asChild
+                size="lg"
+                className="bg-primary-500 hover:bg-primary-600 text-white btn-lg shadow-xl backdrop-blur-sm"
+              >
                 <Link href="/blog">
                   Explore Stories <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
@@ -79,7 +102,7 @@ export default function HomePage() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-white/30 text-white hover:bg-white hover:text-secondary-900 bg-transparent btn-lg"
+                className="border-white/40 text-white hover:bg-white/10 hover:text-white bg-white/10 backdrop-blur-sm btn-lg"
               >
                 <Link href="/about">Our Mission</Link>
               </Button>

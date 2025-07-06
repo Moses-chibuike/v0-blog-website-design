@@ -25,7 +25,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         const resolvedParams = await params
         const postId = Number.parseInt(resolvedParams.id)
 
-        // Sample data for immediate preview
+        // Sample data with dark African women images
         const samplePosts = [
           {
             id: 1,
@@ -48,7 +48,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
 <p>The future of Africa and the global African diaspora is bright, led by women who understand that true leadership is about lifting others as you climb.</p>`,
             image:
-              "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+              "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
             date: "2024-01-15",
             read_time: "7 min read",
             author: "Amara Okafor",
@@ -70,7 +70,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
 <p>African fashion is not just about what we wear—it's about who we are, where we come from, and where we're going.</p>`,
             image:
-              "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+              "https://images.unsplash.com/photo-1509909756405-be0199881695?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
             date: "2024-01-12",
             read_time: "8 min read",
             author: "Kemi Adebayo",
@@ -92,7 +92,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
 <p>These women are not just building businesses—they're building the future of Africa.</p>`,
             image:
-              "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+              "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
             date: "2024-01-10",
             read_time: "9 min read",
             author: "Fatima Hassan",
@@ -139,7 +139,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-4"></div>
           <p>Loading post...</p>
         </div>
       </div>
@@ -175,7 +175,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Article Header */}
       <article className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12">
         <header className="mb-6 sm:mb-8">
-          <Badge className="mb-3 sm:mb-4 bg-green-600 text-xs sm:text-sm">{post.category}</Badge>
+          <Badge className="mb-3 sm:mb-4 bg-primary-600 text-xs sm:text-sm">{post.category}</Badge>
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
             {post.title}
           </h1>
@@ -254,8 +254,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <div className="flex-1">
                 <h3 className="text-lg sm:text-xl font-semibold mb-2">{post.author}</h3>
                 <p className="text-slate-600 mb-3 sm:mb-4 text-sm sm:text-base">
-                  {post.author} is a passionate writer and developer who loves sharing knowledge about technology and
-                  web development.
+                  {post.author} is a passionate writer and advocate for African women's empowerment, sharing stories
+                  that inspire and uplift communities across the continent and diaspora.
                 </p>
                 <Button variant="outline" size="sm">
                   Follow Author
@@ -280,7 +280,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />
                     </div>
-                    <h3 className="text-sm sm:text-base font-semibold group-hover:text-green-600 transition-colors line-clamp-2">
+                    <h3 className="text-sm sm:text-base font-semibold group-hover:text-primary-600 transition-colors line-clamp-2">
                       {relatedPost.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-500 mt-1">{relatedPost.date}</p>
