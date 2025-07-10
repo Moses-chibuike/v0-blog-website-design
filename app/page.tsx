@@ -2,51 +2,9 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Heart, Users, Zap, Star, Award, Target, ChevronLeft, ChevronRight } from "lucide-react"
-import { useState, useEffect } from "react"
+import { ArrowRight, Heart, Users, Zap, Star, Award, Target } from "lucide-react"
 
 export default function HomePage() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-
-  const heroSlides = [
-    {
-      id: 1,
-      title: "Transform Your Life with Purpose",
-      subtitle: "Discover Your True Potential",
-      description: "Join thousands who have broken free from limitations and unlocked their full potential through our transformative approach.",
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-      cta: "Start Your Journey",
-      ctaLink: "/blog"
-    },
-    {
-      id: 2,
-      title: "From Struggle to Success",
-      subtitle: "Mindset Transformation",
-      description: "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones.",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-      cta: "Explore Stories",
-      ctaLink: "/blog"
-    },
-    {
-      id: 3,
-      title: "Living with Purpose",
-      subtitle: "Align with Your Higher Calling",
-      description: "Discover and live according to your deeper purpose, creating impact that extends beyond yourself.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-      cta: "Find Your Purpose",
-      ctaLink: "/about"
-    },
-    {
-      id: 4,
-      title: "Personalized Growth Journey",
-      subtitle: "Tailored Mentorship",
-      description: "Experience personalized mentorship and innovative strategies designed specifically for your unique aspirations.",
-      image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-      cta: "Get Started",
-      ctaLink: "/about"
-    }
-  ]
-
   const featuredPosts = [
     {
       id: 1,
@@ -89,140 +47,46 @@ export default function HomePage() {
     { label: "Countries Reached", value: "15+", icon: Target },
   ]
 
-  // Auto-advance slides
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [heroSlides.length])
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)
-  }
-
   return (
     <div className="min-h-screen">
-      {/* Hero Slider Section */}
-      <section className="relative h-screen overflow-hidden">
-        {/* Slides */}
-        <div className="relative h-full">
-          {heroSlides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentSlide ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <div className="absolute inset-0">
-                <Image
-                  src={slide.image}
-                  alt={slide.title}
-                  fill
-                  className="object-cover"
-                  sizes="100vw"
-                  priority={index === 0}
-                />
-                <div className="absolute inset-0 bg-black/50"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-500/20"></div>
-              </div>
-              
-              <div className="relative h-full flex items-center">
-                <div className="container section-padding">
-                  <div className="max-w-3xl">
-                    <div className="inline-flex items-center px-4 py-2 bg-green-500/20 rounded-full text-green-300 text-caption mb-6">
-                      <Star className="w-4 h-4 mr-2" />
-                      {slide.subtitle}
-                    </div>
-                    <h1 className="text-6xl md:text-7xl font-bold mb-6 leading-tight text-white">
-                      {slide.title}
-                    </h1>
-                    <p className="text-xl md:text-2xl mb-8 text-slate-200 leading-relaxed max-w-2xl">
-                      {slide.description}
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 text-white btn-lg shadow-lg">
-                        <Link href={slide.ctaLink}>
-                          {slide.cta} <ArrowRight className="ml-2 h-5 w-5" />
-                        </Link>
-                      </Button>
-                      <Button
-                        asChild
-                        variant="outline"
-                        size="lg"
-                        className="border-white/30 text-white hover:bg-white hover:text-slate-900 bg-transparent btn-lg"
-                      >
-                        <Link href="/about">Learn More</Link>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? 'bg-white' : 'bg-white/50'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Slide Counter */}
-        <div className="absolute top-8 right-8 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm">
-          <span className="font-medium">{currentSlide + 1}</span>
-          <span className="mx-1 opacity-70">/</span>
-          <span className="opacity-70">{heroSlides.length}</span>
-        </div>
-      </section>
-
-      {/* Welcome Section */}
-      <section className="section-padding bg-white">
-        <div className="container">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-blue-500/10"></div>
+        <div className="relative container section-padding">
           <div className="content-center">
-            <div className="inline-flex items-center px-4 py-2 bg-green-500/10 rounded-full text-green-600 text-caption mb-8">
+            <div className="inline-flex items-center px-4 py-2 bg-green-500/20 rounded-full text-green-300 text-caption mb-8">
               <Star className="w-4 h-4 mr-2" />
-              Welcome to AlaoMeBlog
+              Transforming Lives, Differently
             </div>
-            <h2 className="text-display font-bold mb-6">Transforming Lives, Differently</h2>
-            <p className="text-body-lg text-slate-600 leading-relaxed max-w-3xl mx-auto">
-              At AlaoMe Transformation, we believe that true change comes from within. Our mission is to guide you 
-              through a journey of self-discovery, empowerment, and purposeful living that creates lasting impact.
+            <h1 className="text-hero font-bold mb-8 leading-tight">
+              Welcome to <span className="text-green-400">AlaoMeBlog</span>
+            </h1>
+            <p className="text-body-lg mb-12 text-slate-300 leading-relaxed content-narrow">
+              Discover profound insights on personal and professional growth, transformation stories, and purpose-driven
+              content that empowers you to break free from limitations and unlock your full potential.
             </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 text-white btn-lg shadow-lg">
+                <Link href="/blog">
+                  Start Your Journey <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="border-white/30 text-white hover:bg-white hover:text-slate-900 bg-transparent btn-lg"
+              >
+                <Link href="/about">Our Story</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="section-padding-xs bg-slate-50 border-b">
+      <section className="section-padding-xs bg-white border-b">
         <div className="container">
           <div className="grid-responsive-4">
             {stats.map((stat, index) => (
@@ -239,7 +103,7 @@ export default function HomePage() {
       </section>
 
       {/* Mission Section */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-slate-50">
         <div className="container">
           <div className="content-center mb-16">
             <h2 className="text-display font-bold mb-6">What Sets Us Apart</h2>
@@ -296,7 +160,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Posts Section */}
-      <section className="section-padding bg-slate-50">
+      <section className="section-padding bg-white">
         <div className="container">
           <div className="content-center mb-16">
             <h2 className="text-display font-bold mb-6">Featured Articles</h2>
@@ -307,7 +171,7 @@ export default function HomePage() {
           </div>
           <div className="grid-responsive">
             {featuredPosts.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group bg-white">
+              <Card key={post.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
                 <div className="aspect-[4/3] relative overflow-hidden">
                   <Image
                     src={post.image || "/placeholder.svg"}
@@ -382,4 +246,4 @@ export default function HomePage() {
       </section>
     </div>
   )
-        }
+}
