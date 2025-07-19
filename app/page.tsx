@@ -10,7 +10,7 @@ export default function HomePage() {
       id: 1,
       title: "Breaking Free from Limitations: Your Journey to Transformation",
       excerpt:
-        "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation.",
+        "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation. Learn the key principles that separate those who dream from those who achieve.",
       image:
         "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-15",
@@ -21,7 +21,7 @@ export default function HomePage() {
       id: 2,
       title: "From Struggle to Success: The Power of Mindset Transformation",
       excerpt:
-        "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones.",
+        "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones. Discover the mental frameworks that successful people use to overcome adversity.",
       image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-12",
       readTime: "8 min read",
@@ -31,9 +31,9 @@ export default function HomePage() {
       id: 3,
       title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
       excerpt:
-        "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself.",
+        "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself. Learn to align your daily actions with your spiritual calling.",
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       date: "2024-01-10",
       readTime: "6 min read",
       category: "Spirituality & Purpose",
