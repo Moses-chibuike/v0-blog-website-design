@@ -7,19 +7,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, Calendar, Clock, User, Search } from "lucide-react"
+import { ArrowRight, Calendar, Clock, User, Search, TrendingUp } from "lucide-react"
 import { blogService } from "@/lib/blog-service"
 import type { BlogPost } from "@/lib/supabase"
-import { Suspense } from "react"
-import BlogLoadingPage from "./loading"
 
-export default async function BlogPage() {
+export default function BlogPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
-  const posts = await blogService.getPublishedPosts()
 
   useEffect(() => {
     loadPosts()
@@ -67,12 +64,12 @@ export default async function BlogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-50">
       {/* Blog Header with Charity Background Image */}
-      <section className="relative w-full py-20 md:py-32 lg:py-40 bg-slate-900 text-white overflow-hidden">
+      <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/blog-header-bg.jpg"
+            src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
             alt="Volunteers working together"
             fill
             className="object-cover"
@@ -80,11 +77,18 @@ export default async function BlogPage() {
           />
           <div className="absolute inset-0 bg-slate-900/70"></div>
         </div>
-        <div className="relative container px-4 text-center z-10">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">Our Blog</h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">
-            Dive into our articles on personal growth, professional development, and purpose-driven living.
-          </p>
+        <div className="relative container section-padding-sm">
+          <div className="content-center">
+            <div className="inline-flex items-center px-4 py-2 bg-green-500/20 rounded-full text-green-300 text-caption mb-6">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              {blogPosts.length}+ Transformational Articles
+            </div>
+            <h1 className="text-display font-bold mb-6 text-white">Transformation Blog</h1>
+            <p className="text-body-lg text-slate-300 leading-relaxed content-narrow">
+              Discover life-changing insights, success stories, and practical strategies for personal and professional
+              growth. Join thousands on their journey to unlock their true potential and live with purpose.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -277,60 +281,6 @@ export default async function BlogPage() {
               ))}
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Blog Posts Grid */}
-      <section className="section-padding bg-slate-50">
-        <div className="container">
-          <Suspense fallback={<BlogLoadingPage />}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.length === 0 ? (
-                <div className="col-span-full text-center text-slate-600 text-lg">
-                  No blog posts found. Check back later!
-                </div>
-              ) : (
-                posts.map((post) => (
-                  <Card key={post.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                    <div className="aspect-[4/3] relative overflow-hidden">
-                      <Image
-                        src={post.image || "/placeholder.svg"}
-                        alt={post.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-green-600 text-white text-caption rounded-full font-medium">
-                          {post.category}
-                        </span>
-                      </div>
-                    </div>
-                    <CardHeader className="card-padding">
-                      <div className="flex items-center text-caption text-slate-500 mb-3">
-                        <span>{post.date}</span>
-                        <span className="mx-2">•</span>
-                        <span>{post.read_time}</span>
-                      </div>
-                      <CardTitle className="text-subheading line-clamp-2 hover:text-green-600 transition-colors group-hover:text-green-600">
-                        <Link href={`/blog/${post.id}`}>{post.title}</Link>
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="card-padding pt-0">
-                      <CardDescription className="text-body line-clamp-3 mb-6 leading-relaxed">
-                        {post.excerpt}
-                      </CardDescription>
-                      <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
-                        <Link href={`/blog/${post.id}`}>
-                          Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))
-              )}
-            </div>
-          </Suspense>
         </div>
       </section>
 

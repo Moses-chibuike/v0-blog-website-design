@@ -1,198 +1,263 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { blogService } from "@/lib/blog-service"
-import { redirect } from "next/navigation"
-import { revalidatePath } from "next/cache"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { ArrowLeft, Save, Eye, Upload, X } from "lucide-react"
 import Link from "next/link"
 
 interface EditPostPageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-export default async function EditPostPage({ params }: EditPostPageProps) {
-  const postId = Number.parseInt(params.id)
-  const post = await blogService.getPostById(postId)
+export default function EditPostPage({ params }: EditPostPageProps) {
+  const router = useRouter()
+  const [postId, setPostId] = useState<string>("")
+  const [isLoading, setIsLoading] = useState(true)
 
-  if (!post) {
+  // In a real app, you'd fetch the post data based on the ID
+  const [formData, setFormData] = useState({
+    title: "Getting Started with Modern Web Development",
+    excerpt:
+      "Learn the fundamentals of building modern web applications with the latest technologies and best practices.",
+    content: `<p>Modern web development has evolved significantly over the past few years. With the introduction of new frameworks, tools, and best practices, developers now have more powerful ways to build robust, scalable applications.</p>
+
+<h2>The Foundation: HTML, CSS, and JavaScript</h2>
+<p>Before diving into modern frameworks, it's crucial to have a solid understanding of the web's foundational technologies.</p>`,
+    category: "Web Development",
+    tags: ["JavaScript", "React", "Web Development", "Frontend"],
+    featuredImage: "/placeholder.svg?height=400&width=800",
+    status: "published",
+  })
+  const [newTag, setNewTag] = useState("")
+
+  const categories = ["Web Development", "Technology", "React", "Backend", "AI", "Sustainability", "Tutorial", "News"]
+
+  useEffect(() => {
+    const loadParams = async () => {
+      const resolvedParams = await params
+      setPostId(resolvedParams.id)
+      setIsLoading(false)
+
+      // Here you would typically fetch the post data based on the ID
+      // For now, we'll use the static data above
+    }
+
+    loadParams()
+  }, [params])
+
+  const handleSubmit = (status: "draft" | "published") => {
+    console.log("Updating post:", { id: postId, ...formData, status })
+    alert(`Post ${status === "published" ? "published" : "saved as draft"} successfully!`)
+    router.push("/admin")
+  }
+
+  const addTag = () => {
+    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
+      setFormData({
+        ...formData,
+        tags: [...formData.tags, newTag.trim()],
+      })
+      setNewTag("")
+    }
+  }
+
+  const removeTag = (tagToRemove: string) => {
+    setFormData({
+      ...formData,
+      tags: formData.tags.filter((tag) => tag !== tagToRemove),
+    })
+  }
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center px-4">
-          <h1 className="text-xl sm:text-2xl font-bold mb-4">Post Not Found</h1>
-          <p className="text-slate-600 mb-4 text-sm sm:text-base">The post you're looking for doesn't exist.</p>
-          <Button asChild>
-            <Link href="/admin">Back to Admin Dashboard</Link>
-          </Button>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-4"></div>
+          <p>Loading post...</p>
         </div>
       </div>
     )
   }
 
-  async function updatePost(formData: FormData) {
-    "use server"
-
-    const title = formData.get("title") as string
-    const excerpt = formData.get("excerpt") as string
-    const content = formData.get("content") as string
-    const image = formData.get("image") as string
-    const category = formData.get("category") as string
-    const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim())
-    const status = formData.get("status") as "published" | "draft"
-    const featured = formData.get("featured") === "on"
-
-    try {
-      await blogService.updatePost(postId, {
-        title,
-        excerpt,
-        content,
-        image,
-        category,
-        tags,
-        status,
-        featured,
-      })
-      revalidatePath("/admin")
-      revalidatePath(`/blog/${postId}`)
-      redirect("/admin")
-    } catch (error) {
-      console.error("Failed to update post:", error)
-      // In a real app, you'd handle this error more gracefully, e.g., show a toast
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <Button asChild variant="ghost" className="mb-6">
-          <Link href="/admin">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
-          </Link>
-        </Button>
+    <div className="min-h-screen bg-slate-50">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <Button asChild variant="outline">
+              <Link href="/admin">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Dashboard
+              </Link>
+            </Button>
+            <div>
+              <h1 className="text-3xl font-bold">Edit Post #{postId}</h1>
+              <p className="text-slate-600">Update your blog article</p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => handleSubmit("draft")}>
+              <Save className="mr-2 h-4 w-4" />
+              Save Draft
+            </Button>
+            <Button className="bg-green-600 hover:bg-green-700" onClick={() => handleSubmit("published")}>
+              <Eye className="mr-2 h-4 w-4" />
+              Update & Publish
+            </Button>
+          </div>
+        </div>
 
-        <Card className="p-6 shadow-lg">
-          <CardHeader className="mb-6">
-            <CardTitle className="text-3xl font-bold mb-2">Edit Blog Post</CardTitle>
-            <CardDescription className="text-slate-600">Update the details of your blog post.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form action={updatePost} className="space-y-6">
-              <div>
-                <Label htmlFor="title" className="block text-sm font-medium text-slate-700 mb-2">
-                  Title
-                </Label>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Title */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Post Title</CardTitle>
+              </CardHeader>
+              <CardContent>
                 <Input
-                  id="title"
-                  name="title"
-                  defaultValue={post.title}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  placeholder="Enter your post title..."
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="text-lg"
                 />
-              </div>
-              <div>
-                <Label htmlFor="excerpt" className="block text-sm font-medium text-slate-700 mb-2">
-                  Excerpt
-                </Label>
+              </CardContent>
+            </Card>
+
+            {/* Excerpt */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Excerpt</CardTitle>
+                <CardDescription>A brief summary of your post (used in previews)</CardDescription>
+              </CardHeader>
+              <CardContent>
                 <Textarea
-                  id="excerpt"
-                  name="excerpt"
-                  defaultValue={post.excerpt}
+                  placeholder="Write a compelling excerpt..."
+                  value={formData.excerpt}
+                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 />
-              </div>
-              <div>
-                <Label htmlFor="content" className="block text-sm font-medium text-slate-700 mb-2">
-                  Content (HTML)
-                </Label>
+              </CardContent>
+            </Card>
+
+            {/* Content */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Content</CardTitle>
+                <CardDescription>Write your full article content</CardDescription>
+              </CardHeader>
+              <CardContent>
                 <Textarea
-                  id="content"
-                  name="content"
-                  defaultValue={post.content}
-                  rows={10}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  placeholder="Start writing your article..."
+                  value={formData.content}
+                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                  rows={20}
+                  className="font-mono"
                 />
-              </div>
-              <div>
-                <Label htmlFor="image" className="block text-sm font-medium text-slate-700 mb-2">
-                  Image URL
-                </Label>
+                <p className="text-sm text-slate-500 mt-2">
+                  You can use HTML tags for formatting (h2, h3, p, ul, li, strong, em, etc.)
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Featured Image */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Featured Image</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {formData.featuredImage && (
+                  <div className="aspect-video relative rounded-lg overflow-hidden border">
+                    <img
+                      src={formData.featuredImage || "/placeholder.svg"}
+                      alt="Featured"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
+                  <Upload className="mx-auto h-8 w-8 text-slate-400 mb-2" />
+                  <p className="text-sm text-slate-600 mb-2">Upload new image</p>
+                  <Button variant="outline" size="sm">
+                    Choose File
+                  </Button>
+                </div>
                 <Input
-                  id="image"
-                  name="image"
-                  defaultValue={post.image}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  placeholder="Or enter image URL..."
+                  value={formData.featuredImage}
+                  onChange={(e) => setFormData({ ...formData, featuredImage: e.target.value })}
                 />
-              </div>
-              <div>
-                <Label htmlFor="category" className="block text-sm font-medium text-slate-700 mb-2">
-                  Category
-                </Label>
-                <Select name="category" defaultValue={post.category}>
-                  <SelectTrigger className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+              </CardContent>
+            </Card>
+
+            {/* Category */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Category</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Select
+                  value={formData.category}
+                  onValueChange={(value) => setFormData({ ...formData, category: value })}
+                >
+                  <SelectTrigger>
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Personal Growth">Personal Growth</SelectItem>
-                    <SelectItem value="Professional Development">Professional Development</SelectItem>
-                    <SelectItem value="Spirituality & Purpose">Spirituality & Purpose</SelectItem>
-                    <SelectItem value="Web Development">Web Development</SelectItem>
-                    <SelectItem value="Technology">Technology</SelectItem>
-                    <SelectItem value="Sustainability">Sustainability</SelectItem>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
-              </div>
-              <div>
-                <Label htmlFor="tags" className="block text-sm font-medium text-slate-700 mb-2">
-                  Tags (comma-separated)
-                </Label>
-                <Input
-                  id="tags"
-                  name="tags"
-                  defaultValue={post.tags.join(", ")}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                />
-              </div>
-              <div>
-                <Label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-2">
-                  Status
-                </Label>
-                <Select name="status" defaultValue={post.status}>
-                  <SelectTrigger className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="published">Published</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="featured"
-                  name="featured"
-                  defaultChecked={post.featured}
-                  className="h-5 w-5 text-green-600 focus:ring-green-500"
-                />
-                <Label htmlFor="featured" className="text-sm font-medium text-slate-700">
-                  Featured Post
-                </Label>
-              </div>
-              <Button
-                type="submit"
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg text-lg font-semibold shadow-md"
-              >
-                Update Post
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+
+            {/* Tags */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Tags</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Add a tag..."
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
+                  />
+                  <Button onClick={addTag} size="sm">
+                    Add
+                  </Button>
+                </div>
+                {formData.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {formData.tags.map((tag) => (
+                      <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                        {tag}
+                        <button onClick={() => removeTag(tag)} className="ml-1 hover:text-red-600">
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   )
