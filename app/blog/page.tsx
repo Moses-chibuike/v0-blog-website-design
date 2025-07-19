@@ -19,22 +19,20 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const [allPosts, featured] = await Promise.all([
-          blogService.getPublishedPosts(),
-          blogService.getFeaturedPosts(),
-        ])
-        setBlogPosts(allPosts)
-        setFeaturedPosts(featured)
-      } catch (error) {
-        console.error("Error loading posts:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
     loadPosts()
   }, [])
+
+  const loadPosts = async () => {
+    try {
+      const [allPosts, featured] = await Promise.all([blogService.getPublishedPosts(), blogService.getFeaturedPosts()])
+      setBlogPosts(allPosts)
+      setFeaturedPosts(featured)
+    } catch (error) {
+      console.error("Error loading posts:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const categories = [
     "All",
@@ -71,7 +69,7 @@ export default function BlogPage() {
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/blog-header-bg.jpg"
+            src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
             alt="Volunteers working together"
             fill
             className="object-cover"
@@ -114,7 +112,7 @@ export default function BlogPage() {
               {categories.map((category) => (
                 <Button
                   key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
+                  variant={category === selectedCategory ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
                   className={`${
@@ -221,9 +219,11 @@ export default function BlogPage() {
                   ? `No articles match your search for "${searchQuery}"`
                   : "No published articles in this category yet."}
               </p>
-              <Button variant="outline" onClick={() => setSearchQuery("")} className="bg-white">
-                Clear Search
-              </Button>
+              {searchQuery && (
+                <Button variant="outline" onClick={() => setSearchQuery("")} className="bg-white">
+                  Clear Search
+                </Button>
+              )}
             </div>
           ) : (
             <div className="grid-auto-fit">
@@ -294,7 +294,7 @@ export default function BlogPage() {
               Join thousands on their journey to extraordinary change.
             </p>
             <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
-              <Input
+              <input
                 type="email"
                 placeholder="Enter your email"
                 className="flex-1 px-6 py-3 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500 text-body"

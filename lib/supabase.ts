@@ -1,28 +1,24 @@
 import { createClient } from "@supabase/supabase-js"
 
-// Define the structure of your blog post data
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
 export interface BlogPost {
   id: number
-  created_at: string
-  updated_at: string
   title: string
   excerpt: string
   content: string
-  author: string
-  image: string | null
-  category: string
-  read_time: string
+  image: string
   date: string
+  read_time: string
+  author: string
+  category: string
+  tags: string[]
+  status: "published" | "draft"
   featured: boolean
-  status: "draft" | "published"
   views: number
+  created_at: string
+  updated_at: string
 }
-
-// Create a single Supabase client for interacting with your database
-// Note: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are environment variables
-// that should be configured in your Vercel project settings.
-export const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
-  auth: {
-    persistSession: false, // Set to true if you want to persist sessions (e.g., for client-side auth)
-  },
-})

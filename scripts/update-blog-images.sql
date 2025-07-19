@@ -1,39 +1,12 @@
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Personal+Growth'
-WHERE id = 1;
+-- Update existing blog posts with beautiful Unsplash images
+UPDATE blog_posts 
+SET image = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80'
+WHERE title = 'Getting Started with Modern Web Development';
 
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Professional+Development'
-WHERE id = 2;
+UPDATE blog_posts 
+SET image = 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80'
+WHERE title = 'The Future of Digital Transformation';
 
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Spirituality+&amp;+Purpose'
-WHERE id = 3;
-
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Communication'
-WHERE id = 4;
-
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Mindfulness'
-WHERE id = 5;
-
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Teamwork'
-WHERE id = 6;
-
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Gratitude'
-WHERE id = 7;
-
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Goals'
-WHERE id = 8;
-
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Career'
-WHERE id = 9;
-
-UPDATE blog_posts
-SET image = '/placeholder.svg?height=300&width=400&text=Peace'
-WHERE id = 10;
+UPDATE blog_posts 
+SET image = 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80'
+WHERE title = 'Building Sustainable Tech Solutions';
