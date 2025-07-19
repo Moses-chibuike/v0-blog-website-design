@@ -3,131 +3,175 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone, Clock } from "lucide-react"
+import { Mail, MapPin, Phone, Clock, Send } from "lucide-react"
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <section className="bg-white border-b">
-        <div className="container mx-auto px-4 py-12">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Have a question, suggestion, or just want to say hello? We'd love to hear from you.
+        <div className="container section-padding-sm">
+          <div className="text-center max-w-4xl mx-auto">
+            <div className="section-badge mb-8">CONTACT US</div>
+            <h1 className="text-display mb-6">Get in Touch</h1>
+            <p className="text-body-lg text-gray-600 leading-relaxed">
+              Have a question, suggestion, or just want to say hello? We'd love to hear from you and be part of your
+              transformation journey.
             </p>
           </div>
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-2 gap-12">
+      <div className="container section-padding">
+        <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Form */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Send us a Message</CardTitle>
-              <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+          <Card className="alaome-card">
+            <CardHeader className="p-8">
+              <div className="section-badge mb-4 w-fit">SEND MESSAGE</div>
+              <CardTitle className="text-heading">Start the Conversation</CardTitle>
+              <CardDescription className="text-lg text-gray-600">
+                Fill out the form below and we'll get back to you as soon as possible.
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
+            <CardContent className="space-y-6 p-8 pt-0">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" placeholder="John" />
+                  <Label htmlFor="firstName" className="text-base font-medium">
+                    First Name
+                  </Label>
+                  <Input
+                    id="firstName"
+                    placeholder="John"
+                    className="py-3 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" placeholder="Doe" />
+                  <Label htmlFor="lastName" className="text-base font-medium">
+                    Last Name
+                  </Label>
+                  <Input
+                    id="lastName"
+                    placeholder="Doe"
+                    className="py-3 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                  />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="john@example.com" />
+                <Label htmlFor="email" className="text-base font-medium">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  className="py-3 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Input id="subject" placeholder="What's this about?" />
+                <Label htmlFor="subject" className="text-base font-medium">
+                  Subject
+                </Label>
+                <Input
+                  id="subject"
+                  placeholder="What's this about?"
+                  className="py-3 border-gray-200 focus:border-green-500 focus:ring-green-500"
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea id="message" placeholder="Tell us more about your inquiry..." rows={6} />
+                <Label htmlFor="message" className="text-base font-medium">
+                  Message
+                </Label>
+                <Textarea
+                  id="message"
+                  placeholder="Tell us more about your inquiry..."
+                  rows={6}
+                  className="border-gray-200 focus:border-green-500 focus:ring-green-500"
+                />
               </div>
-              <Button className="w-full bg-green-600 hover:bg-green-700">Send Message</Button>
+              <Button className="w-full btn-alaome-primary py-4 text-lg">
+                <Send className="w-5 h-5 mr-2" />
+                Send Message
+              </Button>
             </CardContent>
           </Card>
 
           {/* Contact Information */}
           <div className="space-y-8">
-            <Card>
-              <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
-                <CardDescription>Reach out to us through any of these channels.</CardDescription>
+            <Card className="alaome-card">
+              <CardHeader className="p-8">
+                <div className="section-badge mb-4 w-fit">CONTACT INFO</div>
+                <CardTitle className="text-subheading">Reach Out to Us</CardTitle>
+                <CardDescription className="text-lg text-gray-600">
+                  Connect with us through any of these channels.
+                </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <Mail className="h-6 w-6 text-green-600 mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Email</h3>
-                    <p className="text-slate-600">hello@techblog.com</p>
-                    <p className="text-slate-600">support@techblog.com</p>
+              <CardContent className="space-y-8 p-8 pt-0">
+                {[
+                  {
+                    icon: Mail,
+                    title: "Email",
+                    details: ["hello@alaomeblog.com", "support@alaomeblog.com"],
+                  },
+                  {
+                    icon: Phone,
+                    title: "Phone",
+                    details: ["+1 (555) 123-4567"],
+                  },
+                  {
+                    icon: MapPin,
+                    title: "Address",
+                    details: ["123 Transformation Street", "New York, NY 10001", "United States"],
+                  },
+                  {
+                    icon: Clock,
+                    title: "Business Hours",
+                    details: ["Monday - Friday: 9:00 AM - 6:00 PM EST", "Saturday - Sunday: Closed"],
+                  },
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-alaome-beige rounded-xl flex items-center justify-center flex-shrink-0">
+                      <item.icon className="h-6 w-6 text-alaome-green" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">{item.title}</h3>
+                      {item.details.map((detail, idx) => (
+                        <p key={idx} className="text-gray-600 leading-relaxed">
+                          {detail}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <Phone className="h-6 w-6 text-green-600 mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Phone</h3>
-                    <p className="text-slate-600">+1 (555) 123-4567</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <MapPin className="h-6 w-6 text-green-600 mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Address</h3>
-                    <p className="text-slate-600">
-                      123 Tech Street
-                      <br />
-                      San Francisco, CA 94105
-                      <br />
-                      United States
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <Clock className="h-6 w-6 text-green-600 mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Business Hours</h3>
-                    <p className="text-slate-600">
-                      Monday - Friday: 9:00 AM - 6:00 PM PST
-                      <br />
-                      Saturday - Sunday: Closed
-                    </p>
-                  </div>
-                </div>
+                ))}
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Frequently Asked Questions</CardTitle>
+            <Card className="alaome-card">
+              <CardHeader className="p-8">
+                <CardTitle className="text-subheading">Frequently Asked Questions</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h3 className="font-semibold mb-2">How often do you publish new articles?</h3>
-                  <p className="text-slate-600 text-sm">
-                    We publish 2-3 new articles every week, covering various topics in web development and technology.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Can I contribute to your blog?</h3>
-                  <p className="text-slate-600 text-sm">
-                    Yes! We welcome guest contributions. Please reach out to us with your article ideas.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Do you offer consulting services?</h3>
-                  <p className="text-slate-600 text-sm">
-                    We offer limited consulting services. Contact us to discuss your specific needs.
-                  </p>
-                </div>
+              <CardContent className="space-y-6 p-8 pt-0">
+                {[
+                  {
+                    question: "How often do you publish new articles?",
+                    answer:
+                      "We publish 2-3 new transformational articles every week, covering various topics in personal growth, professional development, and spiritual purpose.",
+                  },
+                  {
+                    question: "Can I contribute to your blog?",
+                    answer:
+                      "Yes! We welcome guest contributions from individuals with transformational stories and insights. Please reach out to us with your article ideas.",
+                  },
+                  {
+                    question: "Do you offer personal coaching services?",
+                    answer:
+                      "We offer personalized mentorship and coaching services. Contact us to discuss your specific transformation goals and how we can support your journey.",
+                  },
+                ].map((faq, index) => (
+                  <div key={index}>
+                    <h3 className="font-semibold mb-2 text-gray-900">{faq.question}</h3>
+                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
+                ))}
               </CardContent>
             </Card>
           </div>
