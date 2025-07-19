@@ -49,34 +49,16 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section with Video Background */}
+      {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-            poster="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-          >
-            <source
-              src="https://videos.pexels.com/video-files/6894154/6894154-uhd_2560_1440_25fps.mp4"
-              type="video/mp4"
-            />
-            <source
-              src="https://videos.pexels.com/video-files/6894154/6894154-hd_1920_1080_25fps.mp4"
-              type="video/mp4"
-            />
-            {/* Fallback image if video doesn't load */}
-            <Image
-              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-              alt="Transformation"
-              fill
-              className="object-cover"
-              priority
-            />
-          </video>
+          <Image
+            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Transformation"
+            fill
+            className="object-cover"
+            priority
+          />
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
 
