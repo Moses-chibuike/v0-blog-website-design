@@ -3,19 +3,36 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Search, Calendar, Clock, ArrowRight } from "lucide-react"
-import { blogDataManager } from "@/lib/blog-data"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { ArrowRight, Calendar, Clock, User, Search, TrendingUp } from "lucide-react"
+import { blogService } from "@/lib/blog-service"
+import type { BlogPost } from "@/lib/supabase"
 
 export default function BlogPage() {
-  const [posts, setPosts] = useState<any[]>([])
-  const [featuredPosts, setFeaturedPosts] = useState<any[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [searchQuery, setSearchQuery] = useState("")
+
+  useEffect(() => {
+    loadPosts()
+  }, [])
+
+  const loadPosts = async () => {
+    try {
+      const [allPosts, featured] = await Promise.all([blogService.getPublishedPosts(), blogService.getFeaturedPosts()])
+      setBlogPosts(allPosts)
+      setFeaturedPosts(featured)
+    } catch (error) {
+      console.error("Error loading posts:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const categories = [
     "All",
@@ -23,161 +40,151 @@ export default function BlogPage() {
     "Professional Development",
     "Spirituality & Purpose",
     "Transformation Stories",
+    "Mindset",
+    "Success Stories",
   ]
 
-  useEffect(() => {
-    const loadPosts = () => {
-      try {
-        const allPosts = blogDataManager.getPublishedPosts()
-        const featured = blogDataManager.getFeaturedPosts()
-        setPosts(allPosts)
-        setFeaturedPosts(featured)
-      } catch (error) {
-        console.error("Error loading posts:", error)
-        setPosts([])
-        setFeaturedPosts([])
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadPosts()
-  }, [])
-
-  const filteredPosts = posts.filter((post) => {
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredPosts = blogPosts.filter((post) => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory
-    return matchesSearch && matchesCategory
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesCategory && matchesSearch
   })
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-2/3 mx-auto mb-8"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-white rounded-lg shadow-sm p-6">
-                  <div className="h-48 bg-gray-200 rounded mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                </div>
-              ))}
-            </div>
-          </div>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-6"></div>
+          <p className="text-body text-slate-600">Loading articles...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Blog Header with Background Image */}
+    <div className="min-h-screen bg-slate-50">
+      {/* Blog Header with Charity Background Image */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="/images/blog-header-bg.jpg" alt="Blog Header Background" fill className="object-cover" priority />
+          <Image
+            src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Volunteers working together"
+            fill
+            className="object-cover"
+            priority
+          />
           <div className="absolute inset-0 bg-slate-900/70"></div>
         </div>
-        <div className="relative container mx-auto px-4 text-center text-white z-10">
-          <div className="inline-flex items-center px-4 py-2 bg-green-500/20 rounded-full text-green-300 text-sm mb-8 border border-green-500/30">
-            <span className="mr-2">📚</span>
-            2+ Transformational Articles
+        <div className="relative container section-padding-sm">
+          <div className="content-center">
+            <div className="inline-flex items-center px-4 py-2 bg-green-500/20 rounded-full text-green-300 text-caption mb-6">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              {blogPosts.length}+ Transformational Articles
+            </div>
+            <h1 className="text-display font-bold mb-6 text-white">Transformation Blog</h1>
+            <p className="text-body-lg text-slate-300 leading-relaxed content-narrow">
+              Discover life-changing insights, success stories, and practical strategies for personal and professional
+              growth. Join thousands on their journey to unlock their true potential and live with purpose.
+            </p>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Transformation Blog</h1>
-          <p className="text-xl md:text-2xl text-slate-300 leading-relaxed max-w-4xl mx-auto">
-            Discover life-changing insights, success stories, and practical strategies for personal and professional
-            growth. Join thousands on their journey to unlock their true potential and live with purpose.
-          </p>
         </div>
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-12 bg-white border-b">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <Input
-                  type="text"
-                  placeholder="Search articles..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-3 w-full border-gray-300 focus:border-green-500 focus:ring-green-500"
-                />
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Button
-                    key={category}
-                    variant={selectedCategory === category ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedCategory(category)}
-                    className={selectedCategory === category ? "bg-green-600 hover:bg-green-700" : ""}
-                  >
-                    {category}
-                  </Button>
-                ))}
-              </div>
+      <section className="bg-white border-b shadow-sm">
+        <div className="container py-8">
+          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
+            {/* Search */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
+              <Input
+                placeholder="Search articles..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-12 py-3 text-body border-slate-200 focus:border-green-500 focus:ring-green-500"
+              />
+            </div>
+
+            {/* Category Filter */}
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-end">
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={category === selectedCategory ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedCategory(category)}
+                  className={`${
+                    category === selectedCategory
+                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      : "border-slate-200 text-slate-600 hover:border-green-500 hover:text-green-600 bg-white"
+                  } px-4 py-2 font-medium transition-colors`}
+                >
+                  {category}
+                </Button>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Featured Posts Section */}
-      {featuredPosts.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Articles</h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Our most impactful content that's transforming lives around the world
-              </p>
+      {featuredPosts.length > 0 && selectedCategory === "All" && !searchQuery && (
+        <section className="bg-white section-padding-xs">
+          <div className="container">
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-heading font-bold mb-2">Featured Articles</h2>
+                <p className="text-body text-slate-600">Our most popular and impactful content</p>
+              </div>
+              <Badge variant="secondary" className="px-3 py-1 text-caption">
+                {featuredPosts.length} Featured
+              </Badge>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredPosts.slice(0, 3).map((post) => (
-                <Card key={post.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                  <div className="aspect-[4/3] relative overflow-hidden">
+
+            <div className="grid-responsive-2 mb-16">
+              {featuredPosts.slice(0, 2).map((post, index) => (
+                <Card
+                  key={post.id}
+                  className="overflow-hidden hover:shadow-xl transition-all duration-300 group border-0 shadow-lg"
+                >
+                  <div className="aspect-[16/10] relative overflow-hidden">
                     <Image
-                      src={post.image || "/placeholder.svg?height=300&width=400"}
+                      src={post.image || "/placeholder.svg"}
                       alt={post.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      priority={index === 0}
                     />
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-green-600 hover:bg-green-700">{post.category}</Badge>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute top-6 left-6">
+                      <Badge className="bg-green-600 text-white px-3 py-1 text-caption font-medium">Featured</Badge>
                     </div>
-                    <div className="absolute top-4 right-4">
-                      <Badge variant="secondary" className="bg-yellow-500 text-yellow-900">
-                        Featured
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <Badge variant="secondary" className="mb-3 bg-white/90 text-slate-800">
+                        {post.category}
                       </Badge>
+                      <h3 className="text-subheading font-bold text-white mb-2 line-clamp-2 group-hover:text-green-300 transition-colors">
+                        <Link href={`/blog/${post.id}`}>{post.title}</Link>
+                      </h3>
+                      <div className="flex items-center text-caption text-white/80 gap-4">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-4 w-4" />
+                          <span>{post.date}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          <span>{post.read_time}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <User className="h-4 w-4" />
+                          <span>{post.author}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <CardHeader className="p-6">
-                    <div className="flex items-center text-sm text-gray-500 mb-3">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>{post.date}</span>
-                      <span className="mx-2">•</span>
-                      <Clock className="h-4 w-4 mr-1" />
-                      <span>{post.readTime}</span>
-                    </div>
-                    <CardTitle className="text-xl line-clamp-2 hover:text-green-600 transition-colors group-hover:text-green-600">
-                      <Link href={`/blog/${post.id}`}>{post.title}</Link>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6 pt-0">
-                    <CardDescription className="line-clamp-3 mb-6 leading-relaxed">{post.excerpt}</CardDescription>
-                    <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
-                      <Link href={`/blog/${post.id}`}>
-                        Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </CardContent>
                 </Card>
               ))}
             </div>
@@ -186,71 +193,89 @@ export default function BlogPage() {
       )}
 
       {/* All Posts Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">All Articles</h2>
-            <p className="text-lg text-gray-600">
-              {filteredPosts.length} article{filteredPosts.length !== 1 ? "s" : ""} found
-              {selectedCategory !== "All" && ` in ${selectedCategory}`}
-              {searchTerm && ` matching "${searchTerm}"`}
-            </p>
+      <section className="section-padding bg-slate-50">
+        <div className="container">
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <h2 className="text-heading font-bold mb-2">
+                {selectedCategory === "All" ? "All Articles" : `${selectedCategory} Articles`}
+              </h2>
+              <p className="text-body text-slate-600">
+                {searchQuery
+                  ? `${filteredPosts.length} articles found for "${searchQuery}"`
+                  : `${filteredPosts.length} articles available`}
+              </p>
+            </div>
           </div>
 
           {filteredPosts.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-gray-400 mb-4">
-                <Search className="h-16 w-16 mx-auto mb-4" />
+            <div className="text-center py-20">
+              <div className="w-24 h-24 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Search className="h-12 w-12 text-slate-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-600 mb-2">No articles found</h3>
-              <p className="text-gray-500 mb-6">Try adjusting your search terms or category filter</p>
-              <Button
-                onClick={() => {
-                  setSearchTerm("")
-                  setSelectedCategory("All")
-                }}
-                variant="outline"
-              >
-                Clear Filters
-              </Button>
+              <h3 className="text-subheading font-semibold text-slate-900 mb-2">No articles found</h3>
+              <p className="text-body text-slate-600 mb-6">
+                {searchQuery
+                  ? `No articles match your search for "${searchQuery}"`
+                  : "No published articles in this category yet."}
+              </p>
+              {searchQuery && (
+                <Button variant="outline" onClick={() => setSearchQuery("")} className="bg-white">
+                  Clear Search
+                </Button>
+              )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid-auto-fit">
               {filteredPosts.map((post) => (
-                <Card key={post.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                <Card
+                  key={post.id}
+                  className="overflow-hidden hover:shadow-xl transition-all duration-300 group border-0 shadow-md bg-white"
+                >
                   <div className="aspect-[4/3] relative overflow-hidden">
                     <Image
-                      src={post.image || "/placeholder.svg?height=300&width=400"}
+                      src={post.image || "/placeholder.svg"}
                       alt={post.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     <div className="absolute top-4 left-4">
-                      <Badge className="bg-green-600 hover:bg-green-700">{post.category}</Badge>
+                      <Badge className="bg-white/90 text-slate-800 px-3 py-1 text-caption font-medium">
+                        {post.category}
+                      </Badge>
                     </div>
                   </div>
-                  <CardHeader className="p-6">
-                    <div className="flex items-center text-sm text-gray-500 mb-3">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>{post.date}</span>
-                      <span className="mx-2">•</span>
-                      <Clock className="h-4 w-4 mr-1" />
-                      <span>{post.readTime}</span>
-                      <span className="mx-2">•</span>
-                      <span>{post.views || 0} views</span>
+                  <CardHeader className="card-padding">
+                    <div className="flex items-center text-caption text-slate-500 mb-3 gap-4">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>{post.date}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        <span>{post.read_time}</span>
+                      </div>
                     </div>
-                    <CardTitle className="text-xl line-clamp-2 hover:text-green-600 transition-colors group-hover:text-green-600">
+                    <CardTitle className="text-subheading line-clamp-2 hover:text-green-600 transition-colors group-hover:text-green-600 leading-tight">
                       <Link href={`/blog/${post.id}`}>{post.title}</Link>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="p-6 pt-0">
-                    <CardDescription className="line-clamp-3 mb-6 leading-relaxed">{post.excerpt}</CardDescription>
-                    <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
-                      <Link href={`/blog/${post.id}`}>
-                        Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
+                  <CardContent className="card-padding pt-0">
+                    <CardDescription className="text-body line-clamp-3 mb-6 leading-relaxed text-slate-600">
+                      {post.excerpt}
+                    </CardDescription>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-caption text-slate-500">
+                        <User className="h-4 w-4" />
+                        <span>{post.author}</span>
+                      </div>
+                      <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
+                        <Link href={`/blog/${post.id}`}>
+                          Read More <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               ))}
@@ -259,25 +284,23 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="py-16 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Never Miss a Transformation Story</h2>
-          <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto">
-            Get weekly insights, success stories, and practical strategies delivered to your inbox.
-          </p>
-          <div className="max-w-md mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4">
+      {/* Newsletter CTA */}
+      <section className="section-padding-sm bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+        <div className="container">
+          <div className="content-center">
+            <h2 className="text-heading font-bold mb-4">Transform Your Life Today</h2>
+            <p className="text-body-lg text-slate-300 mb-8 leading-relaxed">
+              Get weekly transformation insights, success stories, and practical strategies delivered to your inbox.
+              Join thousands on their journey to extraordinary change.
+            </p>
+            <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
               <input
                 type="email"
-                placeholder="Enter your email address"
-                className="flex-1 px-6 py-4 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Enter your email"
+                className="flex-1 px-6 py-3 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500 text-body"
               />
-              <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 whitespace-nowrap">
-                Subscribe Now
-              </Button>
+              <Button className="bg-green-500 hover:bg-green-600 px-6 py-3 font-medium">Start Transforming</Button>
             </div>
-            <p className="text-sm text-slate-400 mt-4">Join our community of transformation. Unsubscribe anytime.</p>
           </div>
         </div>
       </section>

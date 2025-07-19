@@ -49,10 +49,16 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with Background Image */}
+      {/* Hero Section with Charity Background Image */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="/images/hero-bg.jpg" alt="Hero Background" fill className="object-cover" priority />
+          <Image
+            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Community helping hands"
+            fill
+            className="object-cover"
+            priority
+          />
           <div className="absolute inset-0 bg-slate-900/70"></div>
         </div>
         <div className="relative container px-4 text-center text-white z-10">
