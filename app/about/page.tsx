@@ -6,32 +6,6 @@ import { Heart, Target, Zap, Award, Star, Users } from "lucide-react"
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold text-center mb-8">About AlaoMe</h1>
-
-          <div className="bg-white rounded-lg p-8 shadow-sm">
-            <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              AlaoMe Transformation is an independent organization with a simple but powerful mission: to transform
-              lives by investing in resilience, courage, and untapped potential.
-            </p>
-
-            <h2 className="text-2xl font-bold mb-4">Our Story</h2>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Founded by Oluseyi IfeanyiChukwu Alao, AlaoMe Transformation was born from a personal journey of
-              overcoming challenges and discovering the power of purpose-driven change.
-            </p>
-
-            <h2 className="text-2xl font-bold mb-4">What We Do</h2>
-            <p className="text-gray-600 leading-relaxed">
-              We provide transformational content, personal growth insights, and practical strategies to help
-              individuals unlock their true potential and create meaningful impact in their lives and communities.
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Hero Section */}
       <section className="bg-white border-b">
         <div className="container section-padding">

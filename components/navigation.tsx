@@ -18,7 +18,7 @@ export default function Navigation() {
 
   return (
     <nav className="bg-green-600 sticky top-0 z-50 shadow-sm">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center">

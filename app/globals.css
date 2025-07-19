@@ -259,20 +259,3 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
-/* Prose styling */
-.prose h2 {
-  @apply text-2xl font-bold mt-8 mb-4;
-}
-
-.prose p {
-  @apply mb-4 leading-relaxed;
-}
-
-.prose ul {
-  @apply mb-4 pl-6;
-}
-
-.prose li {
-  @apply mb-2 list-disc;
-}
