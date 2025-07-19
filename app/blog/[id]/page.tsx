@@ -1,69 +1,89 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, Calendar, Clock, User, Share2, Heart, MessageCircle } from "lucide-react"
-import { blogService } from "@/lib/blog-service"
-import type { BlogPost } from "@/lib/supabase"
+import { ArrowLeft } from "lucide-react"
 
 interface BlogPostPageProps {
   params: Promise<{ id: string }>
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { id } = await params
 
-  useEffect(() => {
-    const loadPost = async () => {
-      try {
-        const resolvedParams = await params
-        const postId = Number.parseInt(resolvedParams.id)
-
-        const foundPost = await blogService.getPostById(postId)
-        if (foundPost) {
-          setPost(foundPost)
-
-          // Increment views
-          await blogService.incrementViews(postId)
-
-          // Get related posts (same category, excluding current post)
-          const allPosts = await blogService.getPublishedPosts()
-          const related = allPosts.filter((p) => p.id !== postId && p.category === foundPost.category).slice(0, 3)
-          setRelatedPosts(related)
-        }
-      } catch (error) {
-        console.error("Error loading post:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadPost()
-  }, [params])
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p>Loading post...</p>
-        </div>
-      </div>
-    )
+  const posts = {
+    "1": {
+      title: "Breaking Free from Limitations: Your Journey to Transformation",
+      content: `
+        <p>Every person has the potential for extraordinary transformation, yet most remain trapped by invisible barriers that limit their growth.</p>
+        
+        <h2>Understanding Your Limitations</h2>
+        <p>The first step in any transformation journey is recognizing the limitations that hold you back:</p>
+        <ul>
+          <li><strong>Mental barriers:</strong> Limiting beliefs about your capabilities</li>
+          <li><strong>Emotional blocks:</strong> Fear of failure, rejection, or success</li>
+          <li><strong>Environmental constraints:</strong> Toxic relationships or unsupportive surroundings</li>
+        </ul>
+        
+        <h2>The Power of Purpose-Driven Change</h2>
+        <p>True transformation isn't just about changing what you do—it's about aligning your actions with your deeper purpose.</p>
+        
+        <p>Remember, transformation is not a destination—it's a journey of continuous growth and self-discovery.</p>
+      `,
+      author: "Oluseyi Alao",
+      date: "2024-01-15",
+      category: "Personal Growth",
+    },
+    "2": {
+      title: "From Struggle to Success: The Power of Mindset Transformation",
+      content: `
+        <p>The difference between those who thrive and those who merely survive isn't talent, luck, or circumstances—it's mindset.</p>
+        
+        <h2>The Two Types of Mindset</h2>
+        <p>Stanford psychologist Carol Dweck identified two fundamental mindsets:</p>
+        <ul>
+          <li><strong>Fixed Mindset:</strong> Believes abilities are static and unchangeable</li>
+          <li><strong>Growth Mindset:</strong> Believes abilities can be developed through effort and learning</li>
+        </ul>
+        
+        <h2>Transforming Your Relationship with Struggle</h2>
+        <p>Struggle isn't the enemy of success—it's the pathway to it. When you shift your perspective on challenges, you transform them from obstacles into opportunities for growth.</p>
+        
+        <p>Remember, mindset transformation is a daily practice. Every thought you choose shapes the person you're becoming.</p>
+      `,
+      author: "Oluseyi Alao",
+      date: "2024-01-12",
+      category: "Mindset",
+    },
+    "3": {
+      title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
+      content: `
+        <p>In a world filled with distractions and competing priorities, finding and living your purpose can feel challenging. Yet, purpose isn't something you find—it's something you uncover within yourself.</p>
+        
+        <h2>What is Purpose?</h2>
+        <p>Purpose is the intersection of your gifts, passions, and the world's needs. It's your unique contribution to making the world better.</p>
+        
+        <h2>Signs You're Living Off-Purpose</h2>
+        <ul>
+          <li>Feeling unfulfilled despite external success</li>
+          <li>Lacking motivation or energy for daily activities</li>
+          <li>Constantly comparing yourself to others</li>
+          <li>Feeling like you're just going through the motions</li>
+        </ul>
+        
+        <p>Remember, your purpose isn't just about you—it's about the unique way you're called to serve others.</p>
+      `,
+      author: "Oluseyi Alao",
+      date: "2024-01-10",
+      category: "Purpose",
+    },
   }
+
+  const post = posts[id as keyof typeof posts]
 
   if (!post) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center px-4">
-          <h1 className="text-xl sm:text-2xl font-bold mb-4">Post Not Found</h1>
-          <p className="text-slate-600 mb-4 text-sm sm:text-base">The post you're looking for doesn't exist.</p>
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Post Not Found</h1>
           <Button asChild>
             <Link href="/blog">Back to Blog</Link>
           </Button>
@@ -73,136 +93,29 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white w-full overflow-x-hidden">
-      {/* Back Button */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <Button asChild variant="ghost" className="mb-4">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-8">
+        <Button asChild variant="ghost" className="mb-6">
           <Link href="/blog">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Blog
           </Link>
         </Button>
+
+        <article className="max-w-4xl mx-auto">
+          <header className="mb-8">
+            <div className="text-green-600 font-medium mb-2">{post.category}</div>
+            <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+            <div className="flex items-center text-gray-600 gap-4">
+              <span>By {post.author}</span>
+              <span>•</span>
+              <span>{post.date}</span>
+            </div>
+          </header>
+
+          <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+        </article>
       </div>
-
-      {/* Article Header */}
-      <article className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12">
-        <header className="mb-6 sm:mb-8">
-          <Badge className="mb-3 sm:mb-4 bg-green-600 text-xs sm:text-sm">{post.category}</Badge>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
-            {post.title}
-          </h1>
-
-          {/* Article Meta */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-slate-600 mb-4 sm:mb-6">
-            <div className="flex items-center gap-2">
-              <User className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="text-xs sm:text-sm">{post.author}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="text-xs sm:text-sm">{post.date}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="text-xs sm:text-sm">{post.read_time}</span>
-            </div>
-          </div>
-
-          {/* Social Actions */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
-            <Button variant="outline" size="sm" className="text-xs sm:text-sm bg-transparent">
-              <Heart className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Like
-            </Button>
-            <Button variant="outline" size="sm" className="text-xs sm:text-sm bg-transparent">
-              <Share2 className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Share
-            </Button>
-            <Button variant="outline" size="sm" className="text-xs sm:text-sm bg-transparent">
-              <MessageCircle className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Comment
-            </Button>
-          </div>
-
-          {/* Featured Image */}
-          <div className="aspect-video relative rounded-lg overflow-hidden mb-6 sm:mb-8">
-            <Image
-              src={post.image || "/placeholder.svg"}
-              alt={post.title}
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-            />
-          </div>
-        </header>
-
-        {/* Article Content */}
-        <div className="max-w-4xl mx-auto">
-          <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-12">
-            <div dangerouslySetInnerHTML={{ __html: post.content }} />
-          </div>
-
-          {/* Tags */}
-          <div className="mb-6 sm:mb-8">
-            <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Tags</h3>
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-xs sm:text-sm">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          <Separator className="my-8 sm:my-12" />
-
-          {/* Author Bio */}
-          <div className="bg-slate-50 rounded-lg p-4 sm:p-6 mb-8 sm:mb-12">
-            <div className="flex flex-col sm:flex-row items-start gap-4">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-300 rounded-full flex items-center justify-center flex-shrink-0">
-                <User className="h-6 w-6 sm:h-8 sm:w-8 text-slate-600" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg sm:text-xl font-semibold mb-2">{post.author}</h3>
-                <p className="text-slate-600 mb-3 sm:mb-4 text-sm sm:text-base">
-                  {post.author} is a passionate writer and developer who loves sharing knowledge about technology and
-                  web development.
-                </p>
-                <Button variant="outline" size="sm">
-                  Follow Author
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Related Posts */}
-          {relatedPosts.length > 0 && (
-            <section>
-              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Related Articles</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                {relatedPosts.map((relatedPost) => (
-                  <Link key={relatedPost.id} href={`/blog/${relatedPost.id}`} className="group">
-                    <div className="aspect-video relative rounded-lg overflow-hidden mb-3">
-                      <Image
-                        src={relatedPost.image || "/placeholder.svg"}
-                        alt={relatedPost.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                    </div>
-                    <h3 className="text-sm sm:text-base font-semibold group-hover:text-green-600 transition-colors line-clamp-2">
-                      {relatedPost.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-500 mt-1">{relatedPost.date}</p>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
-        </div>
-      </article>
     </div>
   )
 }

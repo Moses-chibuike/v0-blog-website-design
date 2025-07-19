@@ -50,39 +50,17 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-            alt="Transformation"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/60"></div>
-        </div>
-
-        <div className="relative container text-center text-white z-10">
-          <div className="inline-block px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-full uppercase tracking-wide mb-8">
-            MAKE IT HAPPEN
-          </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-            Transforming Lives,
-            <br />
-            One <span className="text-green-400">Story</span> at a <span className="text-green-400">Time</span>.
-          </h1>
-          <p className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-gray-200">
-            AlaoMe Transformation is creating hope and changing lives, one story at a time.
+      <section className="bg-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-5xl font-bold mb-6">Transforming Lives, One Story at a Time</h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            AlaoMe Transformation is creating hope and changing lives through powerful stories and insights.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="bg-green-600 hover:bg-green-700 text-white text-lg px-8 py-4">
-              <Link href="/blog">Explore Stories</Link>
+          <div className="flex gap-4 justify-center">
+            <Button asChild className="bg-green-600 hover:bg-green-700">
+              <Link href="/blog">Read Stories</Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-gray-900 bg-transparent text-lg px-8 py-4"
-            >
+            <Button asChild variant="outline">
               <Link href="/about">Learn More</Link>
             </Button>
           </div>
@@ -91,7 +69,7 @@ export default function HomePage() {
 
       {/* Stats Section */}
       <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-2 bg-amber-100 text-amber-800 text-sm font-medium rounded-full uppercase tracking-wide mb-6">
               MAKE A DIFFERENCE
@@ -123,7 +101,7 @@ export default function HomePage() {
 
       {/* Mission Section */}
       <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-amber-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="inline-block px-4 py-2 bg-amber-100 text-amber-800 text-sm font-medium rounded-full uppercase tracking-wide mb-8">
@@ -172,7 +150,7 @@ export default function HomePage() {
 
       {/* Featured Posts Section */}
       <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="text-center mb-16">
             <div className="inline-block px-4 py-2 bg-amber-100 text-amber-800 text-sm font-medium rounded-full uppercase tracking-wide mb-6">
               FEATURED CONTENT
@@ -235,9 +213,55 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Featured Articles */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">Featured Articles</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                id: 1,
+                title: "Breaking Free from Limitations",
+                excerpt: "Discover how to overcome barriers and unlock your potential.",
+                category: "Personal Growth",
+              },
+              {
+                id: 2,
+                title: "The Power of Mindset Transformation",
+                excerpt: "Learn how shifting your mindset can change everything.",
+                category: "Mindset",
+              },
+              {
+                id: 3,
+                title: "Living with Purpose",
+                excerpt: "Align your life with your higher calling and create impact.",
+                category: "Purpose",
+              },
+            ].map((post) => (
+              <Card key={post.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="text-sm text-green-600 font-medium mb-2">{post.category}</div>
+                  <CardTitle className="text-xl">
+                    <Link href={`/blog/${post.id}`} className="hover:text-green-600">
+                      {post.title}
+                    </Link>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                  <Button asChild variant="link" className="p-0">
+                    <Link href={`/blog/${post.id}`}>Read More →</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Newsletter Section */}
       <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-gray-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl text-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
           <div className="inline-block px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-full uppercase tracking-wide mb-8">
             JOIN THE TRANSFORMATION
           </div>
