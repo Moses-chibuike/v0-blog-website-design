@@ -4,41 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight, Heart, Users, Zap, Star, Award, Target } from "lucide-react"
 
-export default function HomePage() {
-  const featuredPosts = [
-    {
-      id: 1,
-      title: "Breaking Free from Limitations: Your Journey to Transformation",
-      excerpt:
-        "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation.",
-      image:
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-15",
-      readTime: "7 min read",
-      category: "Personal Growth",
-    },
-    {
-      id: 2,
-      title: "From Struggle to Success: The Power of Mindset Transformation",
-      excerpt:
-        "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones.",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-12",
-      readTime: "8 min read",
-      category: "Professional Development",
-    },
-    {
-      id: 3,
-      title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
-      excerpt:
-        "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself.",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-10",
-      readTime: "6 min read",
-      category: "Spirituality & Purpose",
-    },
-  ]
+export default async function HomePage() {
+  // Make HomePage an async function
+  // Removed featuredPosts fetching as the section is being removed
+  // const featuredPosts = await blogService.getFeaturedPosts()
 
   const stats = [
     { label: "Lives Transformed", value: "1000+", icon: Heart },
@@ -167,64 +136,6 @@ export default function HomePage() {
                 </CardDescription>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Posts Section */}
-      <section className="section-padding bg-white">
-        <div className="container">
-          <div className="content-center mb-16">
-            <h2 className="text-display font-bold mb-6">Featured Articles</h2>
-            <p className="text-body-lg text-slate-600 leading-relaxed">
-              Discover our most impactful content covering personal growth, professional development, and
-              transformational stories that inspire change.
-            </p>
-          </div>
-          <div className="grid-responsive">
-            {featuredPosts.map((post) => (
-              <Card key={post.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                <div className="aspect-[4/3] relative overflow-hidden">
-                  <Image
-                    src={post.image || "/placeholder.svg"}
-                    alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-green-600 text-white text-caption rounded-full font-medium">
-                      {post.category}
-                    </span>
-                  </div>
-                </div>
-                <CardHeader className="card-padding">
-                  <div className="flex items-center text-caption text-slate-500 mb-3">
-                    <span>{post.date}</span>
-                    <span className="mx-2">•</span>
-                    <span>{post.readTime}</span>
-                  </div>
-                  <CardTitle className="text-subheading line-clamp-2 hover:text-green-600 transition-colors group-hover:text-green-600">
-                    <Link href={`/blog/${post.id}`}>{post.title}</Link>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="card-padding pt-0">
-                  <CardDescription className="text-body line-clamp-3 mb-6 leading-relaxed">
-                    {post.excerpt}
-                  </CardDescription>
-                  <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
-                    <Link href={`/blog/${post.id}`}>
-                      Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <div className="text-center mt-16">
-            <Button asChild size="lg" variant="outline" className="btn-lg bg-transparent">
-              <Link href="/blog">View All Articles</Link>
-            </Button>
           </div>
         </div>
       </section>
