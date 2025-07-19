@@ -2,7 +2,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Heart, Users, Zap, Star, Award, Target } from "lucide-react"
+import { ArrowRight, Heart, Users, Zap, Award, Target } from "lucide-react"
+import HeroSlider from "@/components/hero-slider"
 
 export default function HomePage() {
   const featuredPosts = [
@@ -50,52 +51,19 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-blue-500/10"></div>
-        <div className="relative container section-padding">
-          <div className="content-center">
-            <div className="inline-flex items-center px-4 py-2 bg-green-500/20 rounded-full text-green-300 text-caption mb-8">
-              <Star className="w-4 h-4 mr-2" />
-              Transforming Lives, Differently
-            </div>
-            <h1 className="text-hero font-bold mb-8 leading-tight">
-              Welcome to <span className="text-green-400">AlaoMeBlog</span>
-            </h1>
-            <p className="text-body-lg mb-12 text-slate-300 leading-relaxed content-narrow">
-              Discover profound insights on personal and professional growth, transformation stories, and purpose-driven
-              content that empowers you to break free from limitations and unlock your full potential.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 text-white btn-lg shadow-lg">
-                <Link href="/blog">
-                  Start Your Journey <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-white/30 text-white hover:bg-white hover:text-slate-900 bg-transparent btn-lg"
-              >
-                <Link href="/about">Our Story</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* Stats Section */}
-      <section className="section-padding-xs bg-white border-b">
-        <div className="container">
-          <div className="grid-responsive-4">
+      <section className="py-16 bg-white border-b">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mb-4">
                   <stat.icon className="w-6 h-6 text-green-600" />
                 </div>
-                <div className="text-heading font-bold text-slate-900 mb-2">{stat.value}</div>
-                <div className="text-body text-slate-600">{stat.label}</div>
+                <div className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">{stat.value}</div>
+                <div className="text-sm md:text-base text-slate-600">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -103,53 +71,53 @@ export default function HomePage() {
       </section>
 
       {/* Mission Section */}
-      <section className="section-padding bg-slate-50">
-        <div className="container">
-          <div className="content-center mb-16">
-            <h2 className="text-display font-bold mb-6">What Sets Us Apart</h2>
-            <p className="text-body-lg text-slate-600 leading-relaxed">
+      <section className="py-20 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">What Sets Us Apart</h2>
+            <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
               At AlaoMe Transformation, we go beyond conventional methods to facilitate deep, meaningful change. We
               believe that true transformation isn't just about improvement—it's about reimagining what's possible.
             </p>
           </div>
-          <div className="grid-responsive">
+          <div className="grid md:grid-cols-3 gap-8">
             <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="card-padding">
+              <CardHeader className="p-8">
                 <div className="mx-auto w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
                   <Heart className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle className="text-subheading mb-4">Personalized Mentorship</CardTitle>
+                <CardTitle className="text-xl mb-4">Personalized Mentorship</CardTitle>
               </CardHeader>
-              <CardContent className="card-padding-sm">
-                <CardDescription className="text-body leading-relaxed">
+              <CardContent className="p-6 pt-0">
+                <CardDescription className="text-base leading-relaxed">
                   Our unique approach combines personalized mentorship with innovative strategies, ensuring that each
                   journey is tailored to your unique needs and aspirations.
                 </CardDescription>
               </CardContent>
             </Card>
             <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="card-padding">
+              <CardHeader className="p-8">
                 <div className="mx-auto w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
                   <Zap className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle className="text-subheading mb-4">Holistic Growth</CardTitle>
+                <CardTitle className="text-xl mb-4">Holistic Growth</CardTitle>
               </CardHeader>
-              <CardContent className="card-padding-sm">
-                <CardDescription className="text-body leading-relaxed">
+              <CardContent className="p-6 pt-0">
+                <CardDescription className="text-base leading-relaxed">
                   We focus on growth that empowers you to break free from limitations and unlock your full potential
                   through wisdom, creativity, and purpose-driven strategies.
                 </CardDescription>
               </CardContent>
             </Card>
             <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="card-padding">
+              <CardHeader className="p-8">
                 <div className="mx-auto w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
                   <Users className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle className="text-subheading mb-4">Partners in Journey</CardTitle>
+                <CardTitle className="text-xl mb-4">Partners in Journey</CardTitle>
               </CardHeader>
-              <CardContent className="card-padding-sm">
-                <CardDescription className="text-body leading-relaxed">
+              <CardContent className="p-6 pt-0">
+                <CardDescription className="text-base leading-relaxed">
                   We are not just mentors, we are partners in your journey, dedicated to fostering lasting change that
                   leaves an enduring impact for His glory.
                 </CardDescription>
@@ -160,16 +128,16 @@ export default function HomePage() {
       </section>
 
       {/* Featured Posts Section */}
-      <section className="section-padding bg-white">
-        <div className="container">
-          <div className="content-center mb-16">
-            <h2 className="text-display font-bold mb-6">Featured Articles</h2>
-            <p className="text-body-lg text-slate-600 leading-relaxed">
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Featured Articles</h2>
+            <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
               Discover our most impactful content covering personal growth, professional development, and
               transformational stories that inspire change.
             </p>
           </div>
-          <div className="grid-responsive">
+          <div className="grid md:grid-cols-3 gap-8">
             {featuredPosts.map((post) => (
               <Card key={post.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
                 <div className="aspect-[4/3] relative overflow-hidden">
@@ -181,23 +149,23 @@ export default function HomePage() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-green-600 text-white text-caption rounded-full font-medium">
+                    <span className="px-3 py-1 bg-green-600 text-white text-xs rounded-full font-medium">
                       {post.category}
                     </span>
                   </div>
                 </div>
-                <CardHeader className="card-padding">
-                  <div className="flex items-center text-caption text-slate-500 mb-3">
+                <CardHeader className="p-6">
+                  <div className="flex items-center text-xs text-slate-500 mb-3">
                     <span>{post.date}</span>
                     <span className="mx-2">•</span>
                     <span>{post.readTime}</span>
                   </div>
-                  <CardTitle className="text-subheading line-clamp-2 hover:text-green-600 transition-colors group-hover:text-green-600">
+                  <CardTitle className="text-lg line-clamp-2 hover:text-green-600 transition-colors group-hover:text-green-600">
                     <Link href={`/blog/${post.id}`}>{post.title}</Link>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="card-padding pt-0">
-                  <CardDescription className="text-body line-clamp-3 mb-6 leading-relaxed">
+                <CardContent className="p-6 pt-0">
+                  <CardDescription className="text-sm line-clamp-3 mb-6 leading-relaxed">
                     {post.excerpt}
                   </CardDescription>
                   <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
@@ -210,7 +178,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="text-center mt-16">
-            <Button asChild size="lg" variant="outline" className="btn-lg bg-transparent">
+            <Button asChild size="lg" variant="outline" className="px-8 py-3 bg-transparent">
               <Link href="/blog">View All Articles</Link>
             </Button>
           </div>
@@ -218,11 +186,11 @@ export default function HomePage() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="section-padding bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-        <div className="container">
-          <div className="content-center">
-            <h2 className="text-display font-bold mb-6">Transform Your Life Today</h2>
-            <p className="text-body-lg text-slate-300 mb-12 leading-relaxed">
+      <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Transform Your Life Today</h2>
+            <p className="text-lg md:text-xl text-slate-300 mb-12 leading-relaxed">
               Join thousands of individuals on their transformation journey. Get weekly insights, success stories, and
               practical strategies delivered to your inbox.
             </p>
@@ -231,15 +199,13 @@ export default function HomePage() {
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="flex-1 px-6 py-4 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500 text-body"
+                  className="flex-1 px-6 py-4 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-green-500 text-base"
                 />
-                <Button className="bg-green-500 hover:bg-green-600 btn-lg whitespace-nowrap shadow-lg">
+                <Button className="bg-green-500 hover:bg-green-600 px-8 py-4 font-medium whitespace-nowrap shadow-lg">
                   Start Transforming
                 </Button>
               </div>
-              <p className="text-caption text-slate-400 mt-4">
-                Join our community of transformation. Unsubscribe anytime.
-              </p>
+              <p className="text-xs text-slate-400 mt-4">Join our community of transformation. Unsubscribe anytime.</p>
             </div>
           </div>
         </div>
