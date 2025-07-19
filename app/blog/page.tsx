@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,109 +8,12 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Calendar, Clock, User, Search, Star } from "lucide-react"
-
-// Blog posts data
-const fallbackPosts = [
-  {
-    id: 1,
-    title: "Breaking Free from Limitations: Your Journey to Transformation",
-    excerpt:
-      "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation. Learn the key principles that separate those who dream from those who achieve.",
-    image:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-15",
-    read_time: "7 min read",
-    author: "Oluseyi Alao",
-    category: "Personal Growth",
-    tags: ["Transformation", "Personal Growth", "Mindset", "Limitations"],
-    status: "published" as const,
-    featured: true,
-    views: 1450,
-  },
-  {
-    id: 2,
-    title: "From Struggle to Success: The Power of Mindset Transformation",
-    excerpt:
-      "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones. Discover the mental frameworks that successful people use to overcome adversity.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-12",
-    read_time: "8 min read",
-    author: "Oluseyi Alao",
-    category: "Mindset",
-    tags: ["Mindset", "Success", "Growth", "Resilience"],
-    status: "published" as const,
-    featured: true,
-    views: 1230,
-  },
-  {
-    id: 3,
-    title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
-    excerpt:
-      "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself. Learn to align your daily actions with your spiritual calling.",
-    image:
-      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-10",
-    read_time: "9 min read",
-    author: "Oluseyi Alao",
-    category: "Spirituality & Purpose",
-    tags: ["Purpose", "Spirituality", "Calling", "Impact"],
-    status: "published" as const,
-    featured: true,
-    views: 980,
-  },
-  {
-    id: 4,
-    title: "The Courage to Start Over: Embracing New Beginnings",
-    excerpt:
-      "Sometimes the greatest act of courage is starting over. Learn how to embrace new beginnings and turn life transitions into transformation opportunities.",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-08",
-    read_time: "6 min read",
-    author: "Oluseyi Alao",
-    category: "Transformation Stories",
-    tags: ["New Beginnings", "Courage", "Change", "Growth"],
-    status: "published" as const,
-    featured: false,
-    views: 756,
-  },
-  {
-    id: 5,
-    title: "Building Unshakeable Self-Confidence",
-    excerpt:
-      "Discover the difference between confidence and arrogance, and learn practical strategies to build genuine self-confidence that serves both you and others.",
-    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-05",
-    read_time: "7 min read",
-    author: "Oluseyi Alao",
-    category: "Personal Growth",
-    tags: ["Confidence", "Self-Worth", "Personal Development", "Character"],
-    status: "published" as const,
-    featured: false,
-    views: 623,
-  },
-  {
-    id: 6,
-    title: "Mastering Emotional Intelligence for Better Relationships",
-    excerpt:
-      "Learn how to develop emotional intelligence to build stronger, more meaningful relationships in both personal and professional settings.",
-    image:
-      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    date: "2024-01-03",
-    read_time: "8 min read",
-    author: "Oluseyi Alao",
-    category: "Professional Development",
-    tags: ["Emotional Intelligence", "Relationships", "Communication", "Leadership"],
-    status: "published" as const,
-    featured: false,
-    views: 892,
-  },
-]
+import { blogDataManager, type BlogPost } from "@/lib/blog-data"
 
 export default function BlogPage() {
-  const [blogPosts, setBlogPosts] = useState(fallbackPosts)
-  const [featuredPosts, setFeaturedPosts] = useState(fallbackPosts.filter((post) => post.featured))
-  const [isLoading, setIsLoading] = useState(false)
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -121,7 +24,86 @@ export default function BlogPage() {
     "Spirituality & Purpose",
     "Transformation Stories",
     "Mindset",
+    "Web Development",
+    "Technology",
+    "Sustainability",
   ]
+
+  useEffect(() => {
+    loadBlogPosts()
+  }, [])
+
+  const loadBlogPosts = async () => {
+    try {
+      setIsLoading(true)
+      // Get posts from the same data source as admin
+      const allPosts = blogDataManager.getPublishedPosts()
+      const featured = blogDataManager.getFeaturedPosts()
+
+      setBlogPosts(allPosts)
+      setFeaturedPosts(featured)
+    } catch (error) {
+      console.error("Error loading blog posts:", error)
+      // Fallback data if there's an error
+      const fallbackPosts = [
+        {
+          id: 1,
+          title: "Breaking Free from Limitations: Your Journey to Transformation",
+          excerpt:
+            "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation. Learn the key principles that separate those who dream from those who achieve.",
+          image:
+            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+          date: "2024-01-15",
+          readTime: "7 min read",
+          author: "Oluseyi Alao",
+          category: "Personal Growth",
+          tags: ["Transformation", "Personal Growth", "Mindset", "Limitations"],
+          status: "published" as const,
+          featured: true,
+          views: 1450,
+          content: "",
+        },
+        {
+          id: 2,
+          title: "From Struggle to Success: The Power of Mindset Transformation",
+          excerpt:
+            "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones. Discover the mental frameworks that successful people use to overcome adversity.",
+          image:
+            "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+          date: "2024-01-12",
+          readTime: "8 min read",
+          author: "Oluseyi Alao",
+          category: "Mindset",
+          tags: ["Mindset", "Success", "Growth", "Resilience"],
+          status: "published" as const,
+          featured: true,
+          views: 1230,
+          content: "",
+        },
+        {
+          id: 3,
+          title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
+          excerpt:
+            "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself. Learn to align your daily actions with your spiritual calling.",
+          image:
+            "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+          date: "2024-01-10",
+          readTime: "9 min read",
+          author: "Oluseyi Alao",
+          category: "Spirituality & Purpose",
+          tags: ["Purpose", "Spirituality", "Calling", "Impact"],
+          status: "published" as const,
+          featured: true,
+          views: 980,
+          content: "",
+        },
+      ]
+      setBlogPosts(fallbackPosts)
+      setFeaturedPosts(fallbackPosts.filter((post) => post.featured))
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const filteredPosts = blogPosts.filter((post) => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory
@@ -209,7 +191,7 @@ export default function BlogPage() {
                 >
                   <div className="aspect-[16/10] relative overflow-hidden">
                     <Image
-                      src={post.image || "/placeholder.svg"}
+                      src={post.image || "/placeholder.svg?height=400&width=600"}
                       alt={post.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -237,7 +219,7 @@ export default function BlogPage() {
                         </div>
                         <div className="flex items-center gap-1">
                           <Clock className="h-4 w-4" />
-                          <span>{post.read_time}</span>
+                          <span>{post.readTime}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <User className="h-4 w-4" />
@@ -272,7 +254,23 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {filteredPosts.length === 0 ? (
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Card key={i} className="animate-pulse">
+                  <div className="aspect-[4/3] bg-gray-200"></div>
+                  <CardHeader className="p-6">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-6 bg-gray-200 rounded"></div>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : filteredPosts.length === 0 ? (
             <div className="text-center py-20">
               <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Search className="h-12 w-12 text-gray-400" />
@@ -298,7 +296,7 @@ export default function BlogPage() {
                 >
                   <div className="aspect-[4/3] relative overflow-hidden">
                     <Image
-                      src={post.image || "/placeholder.svg"}
+                      src={post.image || "/placeholder.svg?height=300&width=400"}
                       alt={post.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -316,7 +314,7 @@ export default function BlogPage() {
                       </div>
                       <div className="flex items-center gap-1">
                         <Clock className="h-4 w-4" />
-                        <span>{post.read_time}</span>
+                        <span>{post.readTime}</span>
                       </div>
                     </div>
                     <CardTitle className="text-lg line-clamp-2 hover:text-green-600 transition-colors leading-tight">
@@ -349,7 +347,7 @@ export default function BlogPage() {
       {/* Newsletter CTA */}
       <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-gray-900 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl text-center">
-          <div className="inline-block px-4 py-2 bg-amber-100 text-amber-800 text-sm font-medium rounded-full uppercase tracking-wide mb-8 border-0">
+          <div className="inline-block px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-full uppercase tracking-wide mb-8">
             JOIN THE TRANSFORMATION
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Transform Your Life Today</h2>

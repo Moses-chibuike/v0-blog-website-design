@@ -1,44 +1,69 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight, Heart, Users, Target, Award, BookOpen } from "lucide-react"
+import { blogDataManager } from "@/lib/blog-data"
 
 export default function HomePage() {
-  const featuredPosts = [
-    {
-      id: 1,
-      title: "Breaking Free from Limitations: Your Journey to Transformation",
-      excerpt:
-        "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation.",
-      image:
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-15",
-      readTime: "7 min read",
-      category: "Personal Growth",
-    },
-    {
-      id: 2,
-      title: "From Struggle to Success: The Power of Mindset Transformation",
-      excerpt:
-        "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones.",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-12",
-      readTime: "8 min read",
-      category: "Professional Development",
-    },
-    {
-      id: 3,
-      title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
-      excerpt:
-        "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself.",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-10",
-      readTime: "6 min read",
-      category: "Spirituality & Purpose",
-    },
-  ]
+  const [featuredPosts, setFeaturedPosts] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    loadFeaturedPosts()
+  }, [])
+
+  const loadFeaturedPosts = async () => {
+    try {
+      setIsLoading(true)
+      // Get featured posts from the same data source as admin
+      const posts = blogDataManager.getFeaturedPosts()
+      setFeaturedPosts(posts.slice(0, 3)) // Show only first 3 on homepage
+    } catch (error) {
+      console.error("Error loading featured posts:", error)
+      // Fallback data if there's an error
+      setFeaturedPosts([
+        {
+          id: 1,
+          title: "Breaking Free from Limitations: Your Journey to Transformation",
+          excerpt:
+            "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation.",
+          image:
+            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          date: "2024-01-15",
+          readTime: "7 min read",
+          category: "Personal Growth",
+        },
+        {
+          id: 2,
+          title: "From Struggle to Success: The Power of Mindset Transformation",
+          excerpt:
+            "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones.",
+          image:
+            "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          date: "2024-01-12",
+          readTime: "8 min read",
+          category: "Professional Development",
+        },
+        {
+          id: 3,
+          title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
+          excerpt:
+            "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself.",
+          image:
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          date: "2024-01-10",
+          readTime: "6 min read",
+          category: "Spirituality & Purpose",
+        },
+      ])
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const stats = [
     { label: "Lives Transformed", value: "1000+", icon: Heart },
@@ -183,47 +208,74 @@ export default function HomePage() {
               transformational stories that inspire change.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredPosts.map((post) => (
-              <Card
-                key={post.id}
-                className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 overflow-hidden group"
-              >
-                <div className="aspect-[4/3] relative overflow-hidden">
-                  <Image
-                    src={post.image || "/placeholder.svg"}
-                    alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-green-600 text-white text-sm rounded-full font-medium">
-                      {post.category}
-                    </span>
+
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="animate-pulse">
+                  <div className="aspect-[4/3] bg-gray-200"></div>
+                  <CardHeader className="p-6">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-6 bg-gray-200 rounded"></div>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : featuredPosts.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500 mb-4">No featured articles available yet.</p>
+              <Button asChild variant="outline">
+                <Link href="/admin/new-post">Create Your First Post</Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredPosts.map((post) => (
+                <Card
+                  key={post.id}
+                  className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 overflow-hidden group"
+                >
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <Image
+                      src={post.image || "/placeholder.svg?height=300&width=400"}
+                      alt={post.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 bg-green-600 text-white text-sm rounded-full font-medium">
+                        {post.category}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <CardHeader className="p-6">
-                  <div className="flex items-center text-sm text-gray-500 mb-3">
-                    <span>{post.date}</span>
-                    <span className="mx-2">•</span>
-                    <span>{post.readTime}</span>
-                  </div>
-                  <CardTitle className="text-xl line-clamp-2 hover:text-green-600 transition-colors">
-                    <Link href={`/blog/${post.id}`}>{post.title}</Link>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <CardDescription className="line-clamp-3 mb-6 leading-relaxed">{post.excerpt}</CardDescription>
-                  <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
-                    <Link href={`/blog/${post.id}`}>
-                      Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  <CardHeader className="p-6">
+                    <div className="flex items-center text-sm text-gray-500 mb-3">
+                      <span>{post.date}</span>
+                      <span className="mx-2">•</span>
+                      <span>{post.readTime}</span>
+                    </div>
+                    <CardTitle className="text-xl line-clamp-2 hover:text-green-600 transition-colors">
+                      <Link href={`/blog/${post.id}`}>{post.title}</Link>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0">
+                    <CardDescription className="line-clamp-3 mb-6 leading-relaxed">{post.excerpt}</CardDescription>
+                    <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
+                      <Link href={`/blog/${post.id}`}>
+                        Read Full Article <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+
           <div className="text-center mt-16">
             <Button asChild className="bg-green-600 hover:bg-green-700 text-white text-lg px-8 py-4">
               <Link href="/blog">
