@@ -1,16 +1,66 @@
+import Link from "next/link"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Heart, Target, Zap, Award, Star, Users } from "lucide-react"
+import { Heart, Users, Target, Award, ArrowRight, CheckCircle, Star } from "lucide-react"
 
 export default function AboutPage() {
+  const values = [
+    {
+      icon: Heart,
+      title: "Compassionate Growth",
+      description:
+        "We believe transformation happens through understanding, empathy, and genuine care for each individual's unique journey.",
+    },
+    {
+      icon: Target,
+      title: "Purpose-Driven Impact",
+      description:
+        "Every strategy, every story, and every interaction is designed to create meaningful, lasting change that extends beyond the individual.",
+    },
+    {
+      icon: Users,
+      title: "Community Connection",
+      description:
+        "We foster a supportive community where individuals can share experiences, learn from each other, and grow together.",
+    },
+    {
+      icon: Award,
+      title: "Excellence in Service",
+      description:
+        "We are committed to providing the highest quality content, mentorship, and resources to support your transformation journey.",
+    },
+  ]
+
+  const achievements = [
+    { number: "1000+", label: "Lives Transformed" },
+    { number: "25K+", label: "Monthly Readers" },
+    { number: "500+", label: "Success Stories" },
+    { number: "15+", label: "Countries Reached" },
+  ]
+
+  const teamMembers = [
+    {
+      name: "AlaoMe",
+      role: "Founder & Lead Transformation Coach",
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      description:
+        "With over a decade of experience in personal development and spiritual growth, AlaoMe has dedicated their life to helping others break free from limitations and discover their true purpose.",
+    },
+  ]
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">About AlaoMe Transformation</h1>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section with Background Image */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="/images/about-bg.jpg" alt="About Background" fill className="object-cover" priority />
+          <div className="absolute inset-0 bg-slate-900/70"></div>
+        </div>
+        <div className="relative container mx-auto px-4 text-center text-white z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">About AlaoMe Transformation</h1>
+          <p className="text-xl md:text-2xl text-slate-300 leading-relaxed max-w-4xl mx-auto">
             We stand out by redefining the way personal and professional growth is approached. Our commitment to
             Transforming Lives, Differently means we go beyond conventional methods to facilitate deep, meaningful
             change.
@@ -18,199 +68,171 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission, Vision, Purpose Section */}
-      <section className="py-16">
+      {/* Mission Statement */}
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Foundation</h2>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              At AlaoMe Transformation, we believe that true transformation isn't just about improvement—it's about
-              reimagining what's possible and aligning every step with a higher purpose.
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center px-6 py-3 bg-green-100 rounded-full text-green-800 text-sm mb-8">
+              <Star className="w-4 h-4 mr-2" />
+              Our Mission
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">Transforming Lives, Differently</h2>
+            <p className="text-lg text-gray-600 leading-relaxed mb-12">
+              At AlaoMe Transformation, we believe that true change comes from within. Our mission is to empower
+              individuals to break free from the limitations that hold them back and unlock their full potential through
+              purpose-driven transformation. We don't just offer advice—we walk alongside you on your journey to
+              becoming the person you were meant to be.
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-            <Card className="text-center border-0 shadow-lg">
-              <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Target className="h-6 w-6 text-green-600" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Heart className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle>Our Mission</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-left">
-                  Our mission is to ignite profound personal and professional growth by guiding individuals through a
-                  transformative journey. We empower people to overcome challenges, reach their fullest potential, and
-                  create success stories that reflect a higher purpose.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 shadow-lg">
-              <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Star className="h-6 w-6 text-green-600" />
+                <h3 className="text-xl font-semibold mb-2">Empower</h3>
+                <p className="text-gray-600">We empower individuals to take control of their transformation journey</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle>Our Vision</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-left">
-                  We envision a world where transformation goes beyond improvement—it's a reimagining of what's
-                  possible. We inspire individuals to break free from limitations, embrace their unique paths, and lead
-                  with purpose, leaving a lasting impact for His glory.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center border-0 shadow-lg">
-              <CardHeader>
-                <div className="mx-auto w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Zap className="h-6 w-6 text-green-600" />
+                <h3 className="text-xl font-semibold mb-2">Transform</h3>
+                <p className="text-gray-600">We facilitate deep, meaningful change that lasts a lifetime</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle>Our Purpose</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-left">
-                  Our purpose is to be a catalyst for extraordinary change. We encourage people to shift their mindsets,
-                  unlock their true potential, and lead impactful lives through personalized mentorship and innovative
-                  strategies, turning their stories into testimonies of purpose and excellence.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* What Sets Us Apart */}
-      <section className="py-16 bg-slate-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Sets Us Apart</h2>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Our unique approach combines personalized mentorship with innovative strategies, ensuring that each
-              journey is tailored to the individual's unique needs and aspirations.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Holistic Focus on Growth</h3>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Heart className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Personalized Approach</h4>
-                    <p className="text-slate-600">
-                      Every journey is tailored to your unique needs, challenges, and aspirations, ensuring meaningful
-                      and lasting change.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Award className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Purpose-Driven Strategies</h4>
-                    <p className="text-slate-600">
-                      We guide you through challenges with wisdom, creativity, and strategies aligned with your higher
-                      purpose.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Users className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Partners in Your Journey</h4>
-                    <p className="text-slate-600">
-                      We are not just mentors—we are partners dedicated to fostering lasting change that leaves an
-                      enduring impact.
-                    </p>
-                  </div>
-                </div>
+                <h3 className="text-xl font-semibold mb-2">Impact</h3>
+                <p className="text-gray-600">We create ripple effects that extend beyond the individual</p>
               </div>
             </div>
-            <div className="aspect-square relative rounded-lg overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                alt="Transformation Journey"
-                fill
-                className="object-cover"
-              />
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Founder Section */}
-      <section className="py-16">
+      {/* Our Values */}
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Our Founder</h2>
-              <p className="text-lg text-slate-600">The visionary behind AlaoMe Transformation</p>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Core Values</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              These values guide everything we do and shape how we approach transformation work
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {values.map((value, index) => (
+              <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <CardHeader className="p-8">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                      <value.icon className="h-6 w-6 text-green-600" />
+                    </div>
+                    <CardTitle className="text-xl">{value.title}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <CardDescription className="text-gray-600 leading-relaxed">{value.description}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-8">
-                <div className="grid md:grid-cols-3 gap-8 items-center">
-                  <div className="md:col-span-1">
-                    <div className="aspect-square relative rounded-lg overflow-hidden mb-6">
+      {/* Achievements */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Impact</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Numbers that reflect the lives we've touched and the transformations we've facilitated
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {achievements.map((achievement, index) => (
+              <div key={index} className="text-center">
+                <div className="text-4xl md:text-5xl font-bold text-green-600 mb-2">{achievement.number}</div>
+                <div className="text-gray-600 font-medium">{achievement.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Meet Our Founder</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">The visionary behind AlaoMe Transformation</p>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            {teamMembers.map((member, index) => (
+              <Card key={index} className="border-0 shadow-lg overflow-hidden">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-1">
+                    <div className="aspect-square relative">
                       <Image
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                        alt="Oluseyi IfeanyiChukwu Alao"
+                        src={member.image || "/placeholder.svg"}
+                        alt={member.name}
                         fill
                         className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 33vw"
                       />
                     </div>
-                    <div className="text-center">
-                      <h3 className="text-xl font-bold mb-2">Oluseyi IfeanyiChukwu Alao</h3>
-                      <Badge variant="secondary" className="mb-4">
-                        Founder & CEO
-                      </Badge>
-                    </div>
                   </div>
-                  <div className="md:col-span-2">
-                    <h3 className="text-2xl font-bold mb-6">My Story</h3>
-                    <div className="prose prose-lg max-w-none space-y-4 text-slate-600">
-                      <p>
-                        Oluseyi IfeanyiChukwu Alao's journey began with a bold leap—a solo migration to New York City
-                        eight years ago. Raised by his grandparents after losing both parents at a young age, Oluseyi
-                        had already learned the weight of responsibility, but nothing could prepare him for the immense
-                        challenges of adjusting to life in a new country.
-                      </p>
-                      <p>
-                        Between juggling long hours at multiple jobs, finishing business school, and providing financial
-                        support for his son, grandmother, and extended family back home, his resilience was constantly
-                        tested. Oluseyi took his life lessons and began sharing them, creating transformative content
-                        centered around personal growth, self-love, relationships, and spirituality.
-                      </p>
-                      <p>
-                        In less than a year, his social media following grew from 900 to 5,000, and what started as
-                        sharing his story became a thriving mentorship and coaching practice. The turning point came
-                        with a profound personal loss—the mysterious death of his best friend, his beloved grandmother
-                        and one of his Aunts who raised him.
-                      </p>
-                      <p>
-                        Struggling with depression and numbing the pain with alcohol, Oluseyi realized he needed a
-                        transformation. He made a courageous decision: he quit his two dead-end jobs, went back to
-                        school full-time, and began focusing on personal growth. This shift didn't just change his
-                        life—it became the foundation of his future success.
-                      </p>
-                      <p className="font-semibold text-slate-900">
-                        Today, Oluseyi is the Founder and CEO of AlaoMe Transformation, a program that reaches
-                        individuals across multiple countries, helping them transform their lives and unlock their true
-                        potential.
-                      </p>
+                  <div className="lg:col-span-2 p-8 flex flex-col justify-center">
+                    <h3 className="text-2xl font-bold mb-2">{member.name}</h3>
+                    <p className="text-green-600 font-semibold mb-6">{member.role}</p>
+                    <p className="text-gray-600 leading-relaxed mb-8">{member.description}</p>
+                    <div className="flex flex-wrap gap-4">
+                      <div className="flex items-center text-sm text-gray-500">
+                        <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
+                        Certified Life Coach
+                      </div>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
+                        10+ Years Experience
+                      </div>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
+                        Published Author
+                      </div>
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-16 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Life?</h2>
+          <p className="text-xl text-slate-300 mb-12 max-w-3xl mx-auto">
+            Join thousands of individuals who have already started their transformation journey with us. Your
+            breakthrough is just one step away.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <Button
+              asChild
+              size="lg"
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg font-semibold"
+            >
+              <Link href="/blog">
+                Start Your Journey <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-2 border-white/30 text-white hover:bg-white hover:text-slate-900 bg-transparent px-8 py-4 text-lg font-semibold"
+            >
+              <Link href="/contact">Get in Touch</Link>
+            </Button>
           </div>
         </div>
       </section>

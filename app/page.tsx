@@ -49,10 +49,13 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-teal-900 text-white min-h-screen flex items-center justify-center">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="relative container px-4 text-center">
+      {/* Hero Section with Background Image */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="/images/hero-bg.jpg" alt="Hero Background" fill className="object-cover" priority />
+          <div className="absolute inset-0 bg-slate-900/70"></div>
+        </div>
+        <div className="relative container px-4 text-center text-white z-10">
           <div className="max-w-4xl mx-auto">
             <div className="inline-flex items-center px-6 py-3 bg-green-500/20 rounded-full text-green-300 text-sm mb-12 border border-green-500/30">
               <Star className="w-4 h-4 mr-2" />
