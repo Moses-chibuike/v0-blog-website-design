@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Calendar, Clock, User, Search, Star } from "lucide-react"
-import { blogDataManager, type BlogPost } from "@/lib/blog-data"
+import type { BlogPost } from "@/lib/blog-data"
 
 export default function BlogPage() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
@@ -36,74 +36,51 @@ export default function BlogPage() {
   const loadBlogPosts = async () => {
     try {
       setIsLoading(true)
-      // Get posts from the same data source as admin
-      const allPosts = blogDataManager.getPublishedPosts()
-      const featured = blogDataManager.getFeaturedPosts()
 
-      setBlogPosts(allPosts)
-      setFeaturedPosts(featured)
+      // Force reload from localStorage to get latest data
+      if (typeof window !== "undefined") {
+        const savedPosts = localStorage.getItem("blog-posts")
+        if (savedPosts) {
+          const allPosts = JSON.parse(savedPosts)
+          const publishedPosts = allPosts.filter((post: BlogPost) => post.status === "published")
+          const featured = publishedPosts.filter((post: BlogPost) => post.featured)
+
+          setBlogPosts(publishedPosts)
+          setFeaturedPosts(featured)
+        } else {
+          setBlogPosts([])
+          setFeaturedPosts([])
+        }
+      }
     } catch (error) {
       console.error("Error loading blog posts:", error)
-      // Fallback data if there's an error
-      const fallbackPosts = [
-        {
-          id: 1,
-          title: "Breaking Free from Limitations: Your Journey to Transformation",
-          excerpt:
-            "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation. Learn the key principles that separate those who dream from those who achieve.",
-          image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          date: "2024-01-15",
-          readTime: "7 min read",
-          author: "Oluseyi Alao",
-          category: "Personal Growth",
-          tags: ["Transformation", "Personal Growth", "Mindset", "Limitations"],
-          status: "published" as const,
-          featured: true,
-          views: 1450,
-          content: "",
-        },
-        {
-          id: 2,
-          title: "From Struggle to Success: The Power of Mindset Transformation",
-          excerpt:
-            "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones. Discover the mental frameworks that successful people use to overcome adversity.",
-          image:
-            "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          date: "2024-01-12",
-          readTime: "8 min read",
-          author: "Oluseyi Alao",
-          category: "Mindset",
-          tags: ["Mindset", "Success", "Growth", "Resilience"],
-          status: "published" as const,
-          featured: true,
-          views: 1230,
-          content: "",
-        },
-        {
-          id: 3,
-          title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
-          excerpt:
-            "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself. Learn to align your daily actions with your spiritual calling.",
-          image:
-            "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-          date: "2024-01-10",
-          readTime: "9 min read",
-          author: "Oluseyi Alao",
-          category: "Spirituality & Purpose",
-          tags: ["Purpose", "Spirituality", "Calling", "Impact"],
-          status: "published" as const,
-          featured: true,
-          views: 980,
-          content: "",
-        },
-      ]
-      setBlogPosts(fallbackPosts)
-      setFeaturedPosts(fallbackPosts.filter((post) => post.featured))
+      setBlogPosts([])
+      setFeaturedPosts([])
     } finally {
       setIsLoading(false)
     }
   }
+
+  // Add window focus event listener and storage event listener
+  useEffect(() => {
+    const handleFocus = () => {
+      loadBlogPosts()
+    }
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "blog-posts") {
+        loadBlogPosts()
+      }
+    }
+
+    window.addEventListener("focus", handleFocus)
+    window.addEventListener("storage", handleStorageChange)
+
+    return () => {
+      window.removeEventListener("focus", handleFocus)
+      window.removeEventListener("storage", handleStorageChange)
+    }
+  }, [])
 
   const filteredPosts = blogPosts.filter((post) => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory

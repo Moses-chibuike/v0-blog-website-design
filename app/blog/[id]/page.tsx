@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Calendar, Clock, User, Eye, Share2, Facebook, Twitter, Linkedin } from "lucide-react"
-import { blogDataManager, type BlogPost } from "@/lib/blog-data"
+import type { BlogPost } from "@/lib/blog-data"
 
 export default function BlogPostPage() {
   const params = useParams()
@@ -28,24 +28,34 @@ export default function BlogPostPage() {
       setIsLoading(true)
       setNotFound(false)
 
-      // Get post from the same data source as admin
-      const foundPost = blogDataManager.getPostById(id)
+      // Force reload from localStorage to get latest data
+      if (typeof window !== "undefined") {
+        const savedPosts = localStorage.getItem("blog-posts")
+        if (savedPosts) {
+          const allPosts = JSON.parse(savedPosts)
+          const foundPost = allPosts.find((p: BlogPost) => p.id === id)
 
-      if (!foundPost) {
-        setNotFound(true)
-        return
+          if (!foundPost || foundPost.status !== "published") {
+            setNotFound(true)
+            return
+          }
+
+          setPost(foundPost)
+
+          // Get related posts (same category, excluding current post)
+          const publishedPosts = allPosts.filter((p: BlogPost) => p.status === "published")
+          const related = publishedPosts
+            .filter((p: BlogPost) => p.id !== id && p.category === foundPost.category)
+            .slice(0, 3)
+          setRelatedPosts(related)
+
+          // Increment view count
+          const updatedPosts = allPosts.map((p: BlogPost) => (p.id === id ? { ...p, views: p.views + 1 } : p))
+          localStorage.setItem("blog-posts", JSON.stringify(updatedPosts))
+        } else {
+          setNotFound(true)
+        }
       }
-
-      setPost(foundPost)
-
-      // Get related posts (same category, excluding current post)
-      const allPosts = blogDataManager.getPublishedPosts()
-      const related = allPosts.filter((p) => p.id !== id && p.category === foundPost.category).slice(0, 3)
-
-      setRelatedPosts(related)
-
-      // Increment view count
-      blogDataManager.updatePost(id, { views: foundPost.views + 1 })
     } catch (error) {
       console.error("Error loading post:", error)
       setNotFound(true)

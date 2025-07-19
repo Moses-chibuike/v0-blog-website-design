@@ -6,7 +6,6 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight, Heart, Users, Target, Award, BookOpen } from "lucide-react"
-import { blogDataManager } from "@/lib/blog-data"
 
 export default function HomePage() {
   const [featuredPosts, setFeaturedPosts] = useState<any[]>([])
@@ -19,51 +18,36 @@ export default function HomePage() {
   const loadFeaturedPosts = async () => {
     try {
       setIsLoading(true)
-      // Get featured posts from the same data source as admin
-      const posts = blogDataManager.getFeaturedPosts()
-      setFeaturedPosts(posts.slice(0, 3)) // Show only first 3 on homepage
+
+      // Force reload from localStorage to get latest data
+      if (typeof window !== "undefined") {
+        const savedPosts = localStorage.getItem("blog-posts")
+        if (savedPosts) {
+          const allPosts = JSON.parse(savedPosts)
+          const publishedPosts = allPosts.filter((post: any) => post.status === "published")
+          const featured = publishedPosts.filter((post: any) => post.featured)
+          setFeaturedPosts(featured.slice(0, 3))
+        } else {
+          setFeaturedPosts([])
+        }
+      }
     } catch (error) {
       console.error("Error loading featured posts:", error)
-      // Fallback data if there's an error
-      setFeaturedPosts([
-        {
-          id: 1,
-          title: "Breaking Free from Limitations: Your Journey to Transformation",
-          excerpt:
-            "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation.",
-          image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-          date: "2024-01-15",
-          readTime: "7 min read",
-          category: "Personal Growth",
-        },
-        {
-          id: 2,
-          title: "From Struggle to Success: The Power of Mindset Transformation",
-          excerpt:
-            "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones.",
-          image:
-            "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-          date: "2024-01-12",
-          readTime: "8 min read",
-          category: "Professional Development",
-        },
-        {
-          id: 3,
-          title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
-          excerpt:
-            "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself.",
-          image:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-          date: "2024-01-10",
-          readTime: "6 min read",
-          category: "Spirituality & Purpose",
-        },
-      ])
+      setFeaturedPosts([])
     } finally {
       setIsLoading(false)
     }
   }
+
+  // Add window focus event listener to refresh data when user returns to tab
+  useEffect(() => {
+    const handleFocus = () => {
+      loadFeaturedPosts()
+    }
+
+    window.addEventListener("focus", handleFocus)
+    return () => window.removeEventListener("focus", handleFocus)
+  }, [])
 
   const stats = [
     { label: "Lives Transformed", value: "1000+", icon: Heart },

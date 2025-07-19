@@ -95,14 +95,27 @@ export default function AdminDashboard() {
     if (typeof window !== "undefined") {
       const savedPosts = localStorage.getItem("blog-posts")
       if (savedPosts) {
-        const localPosts = JSON.parse(savedPosts)
-        setPosts(localPosts)
-        setStats({
-          totalPosts: localPosts.length,
-          publishedPosts: localPosts.filter((p: BlogPost) => p.status === "published").length,
-          draftPosts: localPosts.filter((p: BlogPost) => p.status === "draft").length,
-          totalViews: localPosts.reduce((sum: number, post: BlogPost) => sum + post.views, 0),
-        })
+        try {
+          const localPosts = JSON.parse(savedPosts)
+          setPosts(localPosts)
+          setStats({
+            totalPosts: localPosts.length,
+            publishedPosts: localPosts.filter((p: BlogPost) => p.status === "published").length,
+            draftPosts: localPosts.filter((p: BlogPost) => p.status === "draft").length,
+            totalViews: localPosts.reduce((sum: number, post: BlogPost) => sum + (post.views || 0), 0),
+          })
+        } catch (error) {
+          console.error("Error parsing localStorage data:", error)
+          // Initialize with empty array if parsing fails
+          localStorage.setItem("blog-posts", JSON.stringify([]))
+          setPosts([])
+          setStats({ totalPosts: 0, publishedPosts: 0, draftPosts: 0, totalViews: 0 })
+        }
+      } else {
+        // Initialize localStorage with empty array
+        localStorage.setItem("blog-posts", JSON.stringify([]))
+        setPosts([])
+        setStats({ totalPosts: 0, publishedPosts: 0, draftPosts: 0, totalViews: 0 })
       }
     }
   }
@@ -110,18 +123,24 @@ export default function AdminDashboard() {
   const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to delete this post?")) {
       try {
-        if (connectionStatus.success) {
-          const { blogService } = await import("@/lib/blog-service")
-          await blogService.deletePost(id)
-        } else {
-          // Delete from localStorage
+        if (typeof window !== "undefined") {
           const savedPosts = localStorage.getItem("blog-posts")
           if (savedPosts) {
             const localPosts = JSON.parse(savedPosts)
             const updatedPosts = localPosts.filter((p: BlogPost) => p.id !== id)
             localStorage.setItem("blog-posts", JSON.stringify(updatedPosts))
+
+            // Trigger storage event for other tabs/windows
+            window.dispatchEvent(
+              new StorageEvent("storage", {
+                key: "blog-posts",
+                newValue: JSON.stringify(updatedPosts),
+                oldValue: savedPosts,
+              }),
+            )
           }
         }
+
         await loadData()
         alert("Post deleted successfully!")
       } catch (error) {
