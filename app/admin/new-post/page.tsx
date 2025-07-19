@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Save, Eye, Upload, X, ImageIcon } from "lucide-react"
 import Link from "next/link"
+import { blogService } from "@/lib/blog-service"
 
 export default function NewPostPage() {
   const router = useRouter()
@@ -108,9 +109,7 @@ export default function NewPostPage() {
         imageUrl = categoryImageList[Math.floor(Math.random() * categoryImageList.length)]
       }
 
-      // Create new post object
-      const newPost = {
-        id: Date.now(), // Use timestamp as ID for uniqueness
+      await blogService.createPost({
         title: formData.title,
         excerpt: formData.excerpt || formData.content.replace(/<[^>]*>/g, "").substring(0, 200) + "...",
         content: formData.content,
@@ -124,16 +123,7 @@ export default function NewPostPage() {
         status,
         read_time: calculateReadTime(formData.content),
         date: new Date().toISOString().split("T")[0],
-        views: 0,
-      }
-
-      // Save to localStorage
-      if (typeof window !== "undefined") {
-        const existingPosts = localStorage.getItem("blog-posts")
-        const posts = existingPosts ? JSON.parse(existingPosts) : []
-        posts.unshift(newPost) // Add to beginning of array
-        localStorage.setItem("blog-posts", JSON.stringify(posts))
-      }
+      })
 
       alert(`Post ${status === "published" ? "published" : "saved as draft"} successfully!`)
       router.push("/admin")

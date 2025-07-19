@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Heart } from "lucide-react"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -17,12 +17,13 @@ export default function Navigation() {
   ]
 
   return (
-    <nav className="bg-green-600 sticky top-0 z-50 shadow-sm">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl">
-        <div className="flex justify-between items-center h-16">
+    <nav className="bg-white/95 backdrop-blur-sm border-b sticky top-0 z-50 shadow-sm">
+      <div className="container">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-bold text-white">AlaoMe</span>
+          <Link href="/" className="flex items-center space-x-3">
+            <Heart className="h-8 w-8 text-green-600" />
+            <span className="text-2xl font-bold text-slate-900">AlaoMeBlog</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -31,21 +32,17 @@ export default function Navigation() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-white hover:text-green-200 transition-colors font-medium"
+                className="text-slate-600 hover:text-green-600 transition-colors font-medium text-base"
               >
                 {item.name}
               </Link>
             ))}
+            <Button className="bg-green-600 hover:bg-green-700 px-6 py-2 font-medium">Subscribe</Button>
           </div>
 
           {/* Mobile menu button */}
           <div className="lg:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-white hover:text-green-200 hover:bg-green-700"
-            >
+            <Button variant="ghost" size="sm" onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
@@ -53,18 +50,19 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden py-4 border-t border-green-700">
-            <div className="flex flex-col space-y-2">
+          <div className="lg:hidden py-6 border-t bg-white">
+            <div className="flex flex-col space-y-4">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-white hover:text-green-200 transition-colors font-medium py-2 px-4 rounded hover:bg-green-700"
+                  className="text-slate-600 hover:text-green-600 transition-colors font-medium text-lg py-2"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
+              <Button className="bg-green-600 hover:bg-green-700 w-fit mt-4 px-6 py-2">Subscribe</Button>
             </div>
           </div>
         )}
