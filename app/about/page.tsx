@@ -1,160 +1,118 @@
-import Link from "next/link"
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Lightbulb, Handshake, Globe } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Lightbulb, Users, Heart } from "lucide-react"
 
 export default function AboutPage() {
-  const teamMembers = [
-    {
-      name: "John Doe",
-      role: "Founder & CEO",
-      image: "/placeholder.svg?height=120&width=120",
-      bio: "John is a visionary leader passionate about empowering individuals to achieve their full potential.",
-    },
-    {
-      name: "Jane Smith",
-      role: "Lead Coach",
-      image: "/placeholder.svg?height=120&width=120",
-      bio: "Jane specializes in mindset transformation and helps clients break through limiting beliefs.",
-    },
-    {
-      name: "Peter Jones",
-      role: "Content Strategist",
-      image: "/placeholder.svg?height=120&width=120",
-      bio: "Peter crafts compelling content that inspires and guides our community on their journey.",
-    },
-  ]
-
   return (
-    <div className="min-h-screen">
-      {/* About Header Section with Background Image */}
-      <section className="relative py-20 md:py-32 flex items-center justify-center overflow-hidden">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1540569014015-b1167a797a28?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-            alt="Hands reaching out to help"
-            fill
-            className="object-cover"
-            priority
-          />
+          <Image src="/images/about-bg.jpg" alt="About Us Background" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-slate-900/70"></div>
         </div>
-        <div className="relative container px-4 text-center text-white z-10">
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">About Us</h1>
-            <p className="text-xl md:text-2xl text-slate-300 leading-relaxed">
-              Learn about our mission, values, and the dedicated team behind AlaoMeBlog.
+        <div className="relative container mx-auto px-4 text-center text-white z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Our Story & Mission</h1>
+          <p className="text-xl md:text-2xl text-slate-300 leading-relaxed max-w-4xl mx-auto">
+            At AlaoMeBlog, we are passionate about empowering individuals to achieve their fullest potential and live a
+            life of purpose.
+          </p>
+        </div>
+      </section>
+
+      {/* Introduction Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="relative h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden shadow-lg">
+            <Image
+              src="/placeholder.svg?height=500&width=700&text=Our+Team"
+              alt="Our Team"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">Who We Are</h2>
+            <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              AlaoMeBlog was founded on the belief that everyone has the capacity for extraordinary growth and
+              transformation. We are a team of dedicated writers, coaches, and personal development enthusiasts
+              committed to sharing valuable insights and practical strategies.
             </p>
+            <p className="text-lg text-gray-700 leading-relaxed mb-8">
+              Our content is meticulously crafted to inspire, educate, and equip you with the tools you need to navigate
+              life's challenges, achieve your goals, and cultivate a deeper sense of purpose and well-being.
+            </p>
+            <Button asChild className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg">
+              <Link href="/blog">Read Our Articles</Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section className="section-padding bg-white">
-        <div className="container">
-          <div className="content-center mb-16">
-            <h2 className="text-display font-bold mb-6">Our Mission</h2>
-            <p className="text-body-lg text-slate-600 leading-relaxed">
-              At AlaoMeBlog, our mission is to empower individuals to unlock their full potential and live
-              purpose-driven lives. We believe in fostering holistic growth through insightful content, personalized
-              guidance, and a supportive community.
-            </p>
-          </div>
-          <div className="grid-responsive">
-            <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="card-padding">
-                <div className="mx-auto w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                  <Lightbulb className="h-8 w-8 text-green-600" />
-                </div>
-                <CardTitle className="text-subheading mb-4">Empowerment</CardTitle>
+      {/* Our Values Section */}
+      <section className="py-16 md:py-24 bg-gray-100">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-gray-900">Our Core Values</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="p-6 shadow-md border-none">
+              <CardHeader className="flex flex-col items-center pb-4">
+                <Lightbulb className="h-12 w-12 text-green-600 mb-4" />
+                <CardTitle className="text-xl font-bold text-gray-800">Empowerment</CardTitle>
               </CardHeader>
-              <CardContent className="card-padding-sm">
-                <CardDescription className="text-body leading-relaxed">
-                  We provide the tools and knowledge for you to take control of your journey and achieve lasting change.
-                </CardDescription>
+              <CardContent>
+                <p className="text-gray-600">
+                  We empower individuals with knowledge and tools to take control of their personal and professional
+                  lives.
+                </p>
               </CardContent>
             </Card>
-            <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="card-padding">
-                <div className="mx-auto w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                  <Handshake className="h-8 w-8 text-green-600" />
-                </div>
-                <CardTitle className="text-subheading mb-4">Community</CardTitle>
+            <Card className="p-6 shadow-md border-none">
+              <CardHeader className="flex flex-col items-center pb-4">
+                <Users className="h-12 w-12 text-green-600 mb-4" />
+                <CardTitle className="text-xl font-bold text-gray-800">Community</CardTitle>
               </CardHeader>
-              <CardContent className="card-padding-sm">
-                <CardDescription className="text-body leading-relaxed">
-                  Join a vibrant community of like-minded individuals supporting each other's growth and transformation.
-                </CardDescription>
+              <CardContent>
+                <p className="text-gray-600">
+                  We foster a supportive community where individuals can share, learn, and grow together.
+                </p>
               </CardContent>
             </Card>
-            <Card className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="card-padding">
-                <div className="mx-auto w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                  <Globe className="h-8 w-8 text-green-600" />
-                </div>
-                <CardTitle className="text-subheading mb-4">Global Impact</CardTitle>
+            <Card className="p-6 shadow-md border-none">
+              <CardHeader className="flex flex-col items-center pb-4">
+                <Heart className="h-12 w-12 text-green-600 mb-4" />
+                <CardTitle className="text-xl font-bold text-gray-800">Authenticity</CardTitle>
               </CardHeader>
-              <CardContent className="card-padding-sm">
-                <CardDescription className="text-body leading-relaxed">
-                  Our vision extends globally, aiming to inspire transformation across diverse cultures and communities.
-                </CardDescription>
+              <CardContent>
+                <p className="text-gray-600">
+                  We believe in the power of authenticity and encourage living a life true to oneself.
+                </p>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="section-padding bg-slate-50">
-        <div className="container">
-          <div className="content-center mb-16">
-            <h2 className="text-display font-bold mb-6">Meet Our Team</h2>
-            <p className="text-body-lg text-slate-600 leading-relaxed">
-              Our dedicated team of experts is committed to guiding you on your journey to personal and professional
-              excellence.
-            </p>
-          </div>
-          <div className="grid-responsive">
-            {teamMembers.map((member, index) => (
-              <Card
-                key={index}
-                className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
-              >
-                <CardContent className="card-padding flex flex-col items-center">
-                  <Image
-                    src={member.image || "/placeholder.svg"}
-                    alt={member.name}
-                    width={120}
-                    height={120}
-                    className="rounded-full mb-6 object-cover"
-                  />
-                  <CardTitle className="text-subheading mb-2">{member.name}</CardTitle>
-                  <CardDescription className="text-body text-green-600 font-medium mb-4">{member.role}</CardDescription>
-                  <CardDescription className="text-body leading-relaxed">{member.bio}</CardDescription>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </div>
       </section>
 
       {/* Call to Action Section */}
-      <section className="section-padding bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-        <div className="container">
-          <div className="content-center">
-            <h2 className="text-display font-bold mb-6">Ready to Start Your Transformation?</h2>
-            <p className="text-body-lg text-slate-300 mb-12 leading-relaxed">
-              Connect with us today to learn more about how AlaoMeBlog can support your growth journey.
-            </p>
+      <section className="py-16 md:py-24 bg-gradient-to-br from-slate-900 to-slate-800 text-white text-center">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Join Our Transformation Journey</h2>
+          <p className="text-xl text-slate-300 mb-10 max-w-3xl mx-auto">
+            Ready to take the next step in your personal and professional development? Explore our blog or connect with
+            us today.
+          </p>
+          <div className="flex justify-center gap-4">
+            <Button asChild className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg">
+              <Link href="/contact">Contact Us</Link>
+            </Button>
             <Button
               asChild
-              size="lg"
-              className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg"
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-green-600 px-8 py-3 text-lg bg-transparent"
             >
-              <Link href="/contact">
-                Contact Us <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+              <Link href="/subscribe">Subscribe</Link>
             </Button>
           </div>
         </div>

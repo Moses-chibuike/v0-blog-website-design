@@ -1,122 +1,175 @@
-"use client"
+import type { BlogPost } from "./supabase"
 
-export interface BlogPost {
-  id: number
-  title: string
-  excerpt: string
-  content: string
-  image: string
-  date: string
-  readTime: string
-  author: string
-  category: string
-  tags: string[]
-  status: "published" | "draft"
-  featured: boolean
-  views: number
-}
-
-// Initial blog posts data
-const initialPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: "Getting Started with Modern Web Development",
-    excerpt:
-      "Learn the fundamentals of building modern web applications with the latest technologies and best practices. This comprehensive guide covers everything from setting up your development environment to deploying your first application.",
-    content: `<p>Modern web development has evolved significantly over the past few years. With the introduction of new frameworks, tools, and best practices, developers now have more powerful ways to build robust, scalable applications.</p>
-      
-      <h2>The Foundation: HTML, CSS, and JavaScript</h2>
-      <p>Before diving into modern frameworks, it's crucial to have a solid understanding of the web's foundational technologies. HTML provides structure, CSS handles presentation, and JavaScript adds interactivity.</p>
-      
-      <h2>Modern JavaScript Frameworks</h2>
-      <p>Today's web development landscape is dominated by powerful JavaScript frameworks like React, Vue.js, and Angular. These frameworks provide:</p>
-      <ul>
-        <li>Component-based architecture</li>
-        <li>State management solutions</li>
-        <li>Virtual DOM for better performance</li>
-        <li>Rich ecosystem of tools and libraries</li>
-      </ul>`,
-    image: "/placeholder.svg?height=300&width=600",
-    date: "2024-01-15",
-    readTime: "5 min read",
-    author: "John Doe",
-    category: "Web Development",
-    tags: ["JavaScript", "React", "Web Development", "Frontend"],
-    status: "published",
-    featured: true,
-    views: 1250,
-  },
-  {
-    id: 2,
-    title: "The Future of Digital Transformation",
-    excerpt:
-      "Exploring how businesses are adapting to the digital age and what it means for the future of work. We dive deep into emerging trends and technologies that are reshaping industries.",
-    content: `<p>Digital transformation is no longer a buzzword—it's a necessity for businesses looking to stay competitive in today's rapidly evolving marketplace.</p>
-      
-      <h2>What is Digital Transformation?</h2>
-      <p>Digital transformation involves integrating digital technology into all areas of a business, fundamentally changing how you operate and deliver value to customers.</p>`,
-    image: "/placeholder.svg?height=300&width=600",
-    date: "2024-01-12",
-    readTime: "8 min read",
-    author: "Jane Smith",
-    category: "Technology",
-    tags: ["Digital Transformation", "Business", "Technology"],
-    status: "published",
-    featured: true,
-    views: 890,
-  },
-  {
-    id: 3,
-    title: "Building Sustainable Tech Solutions",
-    excerpt:
-      "How technology can be leveraged to create positive environmental and social impact in our communities. Learn about green coding practices and sustainable development approaches.",
-    content: `<p>As developers, we have a responsibility to consider the environmental impact of the software we create.</p>
-      
-      <h2>Green Coding Practices</h2>
-      <p>Writing efficient code isn't just about performance—it's also about reducing energy consumption and carbon footprint.</p>`,
-    image: "/placeholder.svg?height=300&width=600",
-    date: "2024-01-10",
-    readTime: "6 min read",
-    author: "Mike Johnson",
-    category: "Sustainability",
-    tags: ["Sustainability", "Green Tech", "Environment"],
-    status: "draft",
-    featured: false,
-    views: 0,
-  },
-]
-
-// Blog data management
+// This is a mock data manager for client-side use.
+// In a real application, you would fetch this data from a backend service.
 class BlogDataManager {
   private posts: BlogPost[] = []
-  private nextId = 1
 
   constructor() {
-    this.loadPosts()
-  }
-
-  private loadPosts() {
-    if (typeof window !== "undefined") {
-      const savedPosts = localStorage.getItem("blog-posts")
-      if (savedPosts) {
-        this.posts = JSON.parse(savedPosts)
-        this.nextId = Math.max(...this.posts.map((p) => p.id), 0) + 1
-      } else {
-        this.posts = initialPosts
-        this.nextId = Math.max(...this.posts.map((p) => p.id), 0) + 1
-        this.savePosts()
-      }
-    }
-  }
-
-  private savePosts() {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("blog-posts", JSON.stringify(this.posts))
-    }
-  }
-
-  getAllPosts(): BlogPost[] {
-    return [...this.posts]
+    // Initialize with some mock data or fetch from local storage/session storage
+    this.posts = [
+      {
+        id: 1,
+        title: "Breaking Free from Limitations: Your Journey to Transformation",
+        excerpt: "Discover how to overcome the barriers that hold you back and unlock your true potential...",
+        content: "Full content for Breaking Free from Limitations...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Personal+Growth",
+        category: "Personal Growth",
+        read_time: "7 min read",
+        date: "2024-01-15",
+        featured: true,
+        status: "published",
+        views: 1200,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 2,
+        title: "From Struggle to Success: The Power of Mindset Transformation",
+        excerpt:
+          "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping...",
+        content: "Full content for From Struggle to Success...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Professional+Development",
+        category: "Professional Development",
+        read_time: "8 min read",
+        date: "2024-01-12",
+        featured: true,
+        status: "published",
+        views: 1500,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 3,
+        title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
+        excerpt: "Explore how to discover and live according to your deeper purpose, creating impact that...",
+        content: "Full content for Living with Purpose...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Spirituality+&amp;+Purpose",
+        category: "Spirituality & Purpose",
+        read_time: "6 min read",
+        date: "2024-01-10",
+        featured: true,
+        status: "published",
+        views: 1000,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 4,
+        title: "The Art of Effective Communication",
+        excerpt: "Master the skills to communicate clearly and persuasively in any situation.",
+        content: "Full content for The Art of Effective Communication...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Communication",
+        category: "Professional Development",
+        read_time: "10 min read",
+        date: "2024-01-08",
+        featured: false,
+        status: "published",
+        views: 800,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 5,
+        title: "Mindfulness for Modern Living",
+        excerpt: "Integrate mindfulness practices into your daily routine for reduced stress and increased focus.",
+        content: "Full content for Mindfulness for Modern Living...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Mindfulness",
+        category: "Personal Growth",
+        read_time: "7 min read",
+        date: "2024-01-05",
+        featured: false,
+        status: "published",
+        views: 950,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 6,
+        title: "Building Resilient Teams",
+        excerpt: "Strategies for fostering strong, adaptable teams in a rapidly changing world.",
+        content: "Full content for Building Resilient Teams...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Teamwork",
+        category: "Professional Development",
+        read_time: "12 min read",
+        date: "2024-01-01",
+        featured: false,
+        status: "published",
+        views: 1100,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 7,
+        title: "The Power of Gratitude",
+        excerpt: "Cultivate an attitude of gratitude to enhance your well-being and outlook on life.",
+        content: "Full content for The Power of Gratitude...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Gratitude",
+        category: "Spirituality & Purpose",
+        read_time: "5 min read",
+        date: "2023-12-28",
+        featured: false,
+        status: "published",
+        views: 700,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 8,
+        title: "Goal Setting for Success",
+        excerpt: "Learn effective techniques to set and achieve your personal and professional goals.",
+        content: "Full content for Goal Setting for Success...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Goals",
+        category: "Personal Growth",
+        read_time: "9 min read",
+        date: "2023-12-20",
+        featured: false,
+        status: "published",
+        views: 900,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 9,
+        title: "Navigating Career Transitions",
+        excerpt: "Expert advice for successfully changing careers or advancing in your current field.",
+        content: "Full content for Navigating Career Transitions...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Career",
+        category: "Professional Development",
+        read_time: "11 min read",
+        date: "2023-12-15",
+        featured: false,
+        status: "published",
+        views: 1050,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      {
+        id: 10,
+        title: "Finding Inner Peace in a Chaotic World",
+        excerpt: "Practical steps to cultivate tranquility and balance amidst life's demands.",
+        content: "Full content for Finding Inner Peace...",
+        author: "AlaoMeBlog Team",
+        image: "/placeholder.svg?height=300&width=400&text=Peace",
+        category: "Spirituality & Purpose",
+        read_time: "8 min read",
+        date: "2023-12-10",
+        featured: false,
+        status: "published",
+        views: 850,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+    ]
   }
 
   getPublishedPosts(): BlogPost[] {
@@ -130,47 +183,6 @@ class BlogDataManager {
   getPostById(id: number): BlogPost | undefined {
     return this.posts.find((post) => post.id === id)
   }
-
-  createPost(postData: Omit<BlogPost, "id" | "views" | "date">): BlogPost {
-    const newPost: BlogPost = {
-      ...postData,
-      id: this.nextId++,
-      views: 0,
-      date: new Date().toISOString().split("T")[0],
-    }
-
-    this.posts.unshift(newPost) // Add to beginning of array
-    this.savePosts()
-    return newPost
-  }
-
-  updatePost(id: number, postData: Partial<BlogPost>): BlogPost | null {
-    const index = this.posts.findIndex((post) => post.id === id)
-    if (index === -1) return null
-
-    this.posts[index] = { ...this.posts[index], ...postData }
-    this.savePosts()
-    return this.posts[index]
-  }
-
-  deletePost(id: number): boolean {
-    const index = this.posts.findIndex((post) => post.id === id)
-    if (index === -1) return false
-
-    this.posts.splice(index, 1)
-    this.savePosts()
-    return true
-  }
-
-  getStats() {
-    return {
-      totalPosts: this.posts.length,
-      publishedPosts: this.posts.filter((p) => p.status === "published").length,
-      draftPosts: this.posts.filter((p) => p.status === "draft").length,
-      totalViews: this.posts.reduce((sum, post) => sum + post.views, 0),
-    }
-  }
 }
 
-// Create singleton instance
 export const blogDataManager = new BlogDataManager()

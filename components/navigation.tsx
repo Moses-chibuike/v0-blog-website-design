@@ -1,14 +1,16 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Heart } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Menu } from "lucide-react"
 
-export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
+export function Navigation() {
+  const pathname = usePathname()
 
-  const navigation = [
+  const navItems = [
     { name: "Home", href: "/" },
     { name: "Blog", href: "/blog" },
     { name: "About", href: "/about" },
@@ -17,56 +19,70 @@ export default function Navigation() {
   ]
 
   return (
-    <nav className="bg-white/95 backdrop-blur-sm border-b sticky top-0 z-50 shadow-sm">
-      <div className="container">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3">
-            <Heart className="h-8 w-8 text-green-600" />
-            <span className="text-2xl font-bold text-slate-900">AlaoMeBlog</span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-slate-600 hover:text-green-600 transition-colors font-medium text-base"
-              >
-                {item.name}
-              </Link>
-            ))}
-            <Button className="bg-green-600 hover:bg-green-700 px-6 py-2 font-medium">Subscribe</Button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="lg:hidden">
-            <Button variant="ghost" size="sm" onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+    <header className="sticky top-0 z-50 w-full border-b bg-white/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+        <Link href="/" className="flex items-center gap-2 font-bold text-lg text-green-600">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-6 w-6"
+          >
+            <path d="M19.5 12.572L12 20l-7.5-7.428A5 5 0 1 1 12 5.002a5 5 0 1 1 7.5 7.57Z" />
+          </svg>
+          AlaoMeBlog
+        </Link>
+        <nav className="hidden md:flex items-center space-x-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-green-600",
+                pathname === item.href ? "text-green-600" : "text-gray-600",
+              )}
+            >
+              {item.name}
+            </Link>
+          ))}
+          <Button asChild className="bg-green-600 hover:bg-green-700 text-white">
+            <Link href="/subscribe">Subscribe</Link>
+          </Button>
+        </nav>
+        <Sheet>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="outline" size="icon">
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle navigation menu</span>
             </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="lg:hidden py-6 border-t bg-white">
-            <div className="flex flex-col space-y-4">
-              {navigation.map((item) => (
+          </SheetTrigger>
+          <SheetContent side="right">
+            <div className="flex flex-col gap-4 py-6">
+              {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-slate-600 hover:text-green-600 transition-colors font-medium text-lg py-2"
-                  onClick={() => setIsOpen(false)}
+                  className={cn(
+                    "text-lg font-medium text-gray-700 hover:text-green-600",
+                    pathname === item.href ? "text-green-600" : "",
+                  )}
                 >
                   {item.name}
                 </Link>
               ))}
-              <Button className="bg-green-600 hover:bg-green-700 w-fit mt-4 px-6 py-2">Subscribe</Button>
+              <Button asChild className="bg-green-600 hover:bg-green-700 text-white mt-4">
+                <Link href="/subscribe">Subscribe</Link>
+              </Button>
             </div>
-          </div>
-        )}
+          </SheetContent>
+        </Sheet>
       </div>
-    </nav>
+    </header>
   )
 }
