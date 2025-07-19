@@ -1,392 +1,170 @@
-"use client"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowLeft, Save, Eye, Upload, X, ImageIcon } from "lucide-react"
-import Link from "next/link"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { blogService } from "@/lib/blog-service"
+import { redirect } from "next/navigation"
+import { revalidatePath } from "next/cache"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
 export default function NewPostPage() {
-  const router = useRouter()
-  const [formData, setFormData] = useState({
-    title: "",
-    excerpt: "",
-    content: "",
-    category: "",
-    tags: [] as string[],
-    image: "",
-    author: "Admin",
-    featured: false,
-  })
-  const [newTag, setNewTag] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  async function createPost(formData: FormData) {
+    "use server"
 
-  const categories = [
-    "Personal Growth",
-    "Professional Development",
-    "Spirituality & Purpose",
-    "Transformation Stories",
-    "Mindset",
-    "Success Stories",
-    "Relationships",
-    "Leadership",
-  ]
-
-  // Curated Unsplash images for different categories
-  const categoryImages = {
-    "Personal Growth": [
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    "Professional Development": [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    "Spirituality & Purpose": [
-      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    "Transformation Stories": [
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    Mindset: [
-      "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    "Success Stories": [
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    Relationships: [
-      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-    Leadership: [
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-    ],
-  }
-
-  const calculateReadTime = (content: string): string => {
-    const wordsPerMinute = 200
-    const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length
-    const minutes = Math.ceil(words / wordsPerMinute)
-    return `${minutes} min read`
-  }
-
-  const handleSubmit = async (status: "draft" | "published") => {
-    if (!formData.title.trim()) {
-      alert("Please enter a title for your post")
-      return
-    }
-
-    if (!formData.content.trim()) {
-      alert("Please add some content to your post")
-      return
-    }
-
-    if (!formData.category) {
-      alert("Please select a category")
-      return
-    }
-
-    setIsSubmitting(true)
+    const title = formData.get("title") as string
+    const excerpt = formData.get("excerpt") as string
+    const content = formData.get("content") as string
+    const image = formData.get("image") as string
+    const category = formData.get("category") as string
+    const tags = (formData.get("tags") as string).split(",").map((tag) => tag.trim())
+    const status = formData.get("status") as "published" | "draft"
+    const featured = formData.get("featured") === "on"
 
     try {
-      // Use a default image based on category if no image is provided
-      let imageUrl = formData.image
-      if (!imageUrl && formData.category && categoryImages[formData.category as keyof typeof categoryImages]) {
-        const categoryImageList = categoryImages[formData.category as keyof typeof categoryImages]
-        imageUrl = categoryImageList[Math.floor(Math.random() * categoryImageList.length)]
-      }
-
       await blogService.createPost({
-        title: formData.title,
-        excerpt: formData.excerpt || formData.content.replace(/<[^>]*>/g, "").substring(0, 200) + "...",
-        content: formData.content,
-        category: formData.category,
-        tags: formData.tags,
-        image:
-          imageUrl ||
-          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-        author: formData.author,
-        featured: formData.featured,
+        title,
+        excerpt,
+        content,
+        image,
+        category,
+        tags,
         status,
-        read_time: calculateReadTime(formData.content),
-        date: new Date().toISOString().split("T")[0],
+        featured,
+        author: "AlaoMe", // Default author
+        read_time: "5 min read", // Default read time
       })
-
-      alert(`Post ${status === "published" ? "published" : "saved as draft"} successfully!`)
-      router.push("/admin")
+      revalidatePath("/admin")
+      revalidatePath("/blog")
+      revalidatePath("/")
+      redirect("/admin")
     } catch (error) {
-      alert("Error saving post. Please try again.")
-      console.error(error)
-    } finally {
-      setIsSubmitting(false)
+      console.error("Failed to create post:", error)
+      // In a real app, you'd handle this error more gracefully, e.g., show a toast
     }
-  }
-
-  const addTag = () => {
-    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
-      setFormData({
-        ...formData,
-        tags: [...formData.tags, newTag.trim()],
-      })
-      setNewTag("")
-    }
-  }
-
-  const removeTag = (tagToRemove: string) => {
-    setFormData({
-      ...formData,
-      tags: formData.tags.filter((tag) => tag !== tagToRemove),
-    })
-  }
-
-  const selectCategoryImage = (imageUrl: string) => {
-    setFormData({ ...formData, image: imageUrl })
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <Button asChild variant="outline">
-              <Link href="/admin">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Dashboard
-              </Link>
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold">Create New Post</h1>
-              <p className="text-slate-600">Write and publish your blog article</p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => handleSubmit("draft")} disabled={isSubmitting}>
-              <Save className="mr-2 h-4 w-4" />
-              {isSubmitting ? "Saving..." : "Save Draft"}
-            </Button>
-            <Button
-              className="bg-green-600 hover:bg-green-700"
-              onClick={() => handleSubmit("published")}
-              disabled={isSubmitting}
-            >
-              <Eye className="mr-2 h-4 w-4" />
-              {isSubmitting ? "Publishing..." : "Publish"}
-            </Button>
-          </div>
-        </div>
+    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <Button asChild variant="ghost" className="mb-6">
+          <Link href="/admin">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Dashboard
+          </Link>
+        </Button>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Title */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Post Title *</CardTitle>
-              </CardHeader>
-              <CardContent>
+        <Card className="p-6 shadow-lg">
+          <CardHeader className="mb-6">
+            <CardTitle className="text-3xl font-bold mb-2">Create New Blog Post</CardTitle>
+            <CardDescription className="text-slate-600">Fill in the details to create a new blog post.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form action={createPost} className="space-y-6">
+              <div>
+                <Label htmlFor="title" className="block text-sm font-medium text-slate-700 mb-2">
+                  Title
+                </Label>
                 <Input
-                  placeholder="Enter your post title..."
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="text-lg"
+                  id="title"
+                  name="title"
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 />
-              </CardContent>
-            </Card>
-
-            {/* Excerpt */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Excerpt</CardTitle>
-                <CardDescription>
-                  A brief summary of your post (used in previews). If left empty, it will be auto-generated from your
-                  content.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div>
+                <Label htmlFor="excerpt" className="block text-sm font-medium text-slate-700 mb-2">
+                  Excerpt
+                </Label>
                 <Textarea
-                  placeholder="Write a compelling excerpt..."
-                  value={formData.excerpt}
-                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                  id="excerpt"
+                  name="excerpt"
                   rows={3}
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 />
-              </CardContent>
-            </Card>
-
-            {/* Content */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Content *</CardTitle>
-                <CardDescription>Write your full article content</CardDescription>
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div>
+                <Label htmlFor="content" className="block text-sm font-medium text-slate-700 mb-2">
+                  Content (HTML)
+                </Label>
                 <Textarea
-                  placeholder="Start writing your article..."
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  rows={20}
-                  className="font-mono"
+                  id="content"
+                  name="content"
+                  rows={10}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 />
-                <p className="text-sm text-slate-500 mt-2">
-                  You can use HTML tags for formatting (h2, h3, p, ul, li, strong, em, etc.)
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Featured Image */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Featured Image</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {formData.image && (
-                  <div className="aspect-video relative rounded-lg overflow-hidden border">
-                    <img
-                      src={formData.image || "/placeholder.svg"}
-                      alt="Featured"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-
+              </div>
+              <div>
+                <Label htmlFor="image" className="block text-sm font-medium text-slate-700 mb-2">
+                  Image URL
+                </Label>
                 <Input
-                  placeholder="Enter image URL..."
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                  id="image"
+                  name="image"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 />
-
-                {/* Category-based image suggestions */}
-                {formData.category && categoryImages[formData.category as keyof typeof categoryImages] && (
-                  <div>
-                    <Label className="text-sm font-medium mb-2 block">Suggested images for {formData.category}:</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {categoryImages[formData.category as keyof typeof categoryImages].map((imageUrl, index) => (
-                        <button
-                          key={index}
-                          onClick={() => selectCategoryImage(imageUrl)}
-                          className="aspect-video relative rounded-lg overflow-hidden border-2 border-transparent hover:border-green-500 transition-colors"
-                        >
-                          <img
-                            src={imageUrl || "/placeholder.svg"}
-                            alt={`${formData.category} ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center">
-                            <ImageIcon className="h-6 w-6 text-white opacity-0 hover:opacity-100 transition-opacity" />
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
-                  <Upload className="mx-auto h-8 w-8 text-slate-400 mb-2" />
-                  <p className="text-sm text-slate-600 mb-2">Or upload your own image</p>
-                  <Button variant="outline" size="sm">
-                    Choose File
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Category */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Category *</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Select
-                  value={formData.category}
-                  onValueChange={(value) => setFormData({ ...formData, category: value })}
-                >
-                  <SelectTrigger>
+              </div>
+              <div>
+                <Label htmlFor="category" className="block text-sm font-medium text-slate-700 mb-2">
+                  Category
+                </Label>
+                <Select name="category" defaultValue="Personal Growth">
+                  <SelectTrigger className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="Personal Growth">Personal Growth</SelectItem>
+                    <SelectItem value="Professional Development">Professional Development</SelectItem>
+                    <SelectItem value="Spirituality & Purpose">Spirituality & Purpose</SelectItem>
+                    <SelectItem value="Web Development">Web Development</SelectItem>
+                    <SelectItem value="Technology">Technology</SelectItem>
+                    <SelectItem value="Sustainability">Sustainability</SelectItem>
                   </SelectContent>
                 </Select>
-              </CardContent>
-            </Card>
-
-            {/* Tags */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Tags</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Add a tag..."
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
-                  />
-                  <Button onClick={addTag} size="sm">
-                    Add
-                  </Button>
-                </div>
-                {formData.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {formData.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-                        {tag}
-                        <button onClick={() => removeTag(tag)} className="ml-1 hover:text-red-600">
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Post Settings */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Post Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label>Author</Label>
-                  <Input
-                    value={formData.author}
-                    onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="featured"
-                    checked={formData.featured}
-                    onCheckedChange={(checked) => setFormData({ ...formData, featured: !!checked })}
-                  />
-                  <Label htmlFor="featured">Mark as featured post</Label>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+              </div>
+              <div>
+                <Label htmlFor="tags" className="block text-sm font-medium text-slate-700 mb-2">
+                  Tags (comma-separated)
+                </Label>
+                <Input
+                  id="tags"
+                  name="tags"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                />
+              </div>
+              <div>
+                <Label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-2">
+                  Status
+                </Label>
+                <Select name="status" defaultValue="draft">
+                  <SelectTrigger className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="published">Published</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox id="featured" name="featured" className="h-5 w-5 text-green-600 focus:ring-green-500" />
+                <Label htmlFor="featured" className="text-sm font-medium text-slate-700">
+                  Featured Post
+                </Label>
+              </div>
+              <Button
+                type="submit"
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg text-lg font-semibold shadow-md"
+              >
+                Create Post
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

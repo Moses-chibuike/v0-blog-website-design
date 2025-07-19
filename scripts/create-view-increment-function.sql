@@ -1,5 +1,5 @@
 -- Create a function to safely increment post views
-CREATE OR REPLACE FUNCTION increment_post_views(post_id BIGINT)
+CREATE OR REPLACE FUNCTION increment_post_views(post_id INT)
 RETURNS VOID AS $$
 BEGIN
   UPDATE blog_posts 

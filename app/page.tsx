@@ -3,42 +3,11 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight, Heart, Users, Zap, Star, Award, Target } from "lucide-react"
+import { blogService } from "@/lib/blog-service" // Import blogService
 
-export default function HomePage() {
-  const featuredPosts = [
-    {
-      id: 1,
-      title: "Breaking Free from Limitations: Your Journey to Transformation",
-      excerpt:
-        "Discover how to overcome the barriers that hold you back and unlock your true potential through purpose-driven transformation.",
-      image:
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-15",
-      readTime: "7 min read",
-      category: "Personal Growth",
-    },
-    {
-      id: 2,
-      title: "From Struggle to Success: The Power of Mindset Transformation",
-      excerpt:
-        "Learn how shifting your mindset can turn your greatest challenges into your most powerful stepping stones.",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-12",
-      readTime: "8 min read",
-      category: "Professional Development",
-    },
-    {
-      id: 3,
-      title: "Living with Purpose: Aligning Your Life with Your Higher Calling",
-      excerpt:
-        "Explore how to discover and live according to your deeper purpose, creating impact that extends beyond yourself.",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      date: "2024-01-10",
-      readTime: "6 min read",
-      category: "Spirituality & Purpose",
-    },
-  ]
+export default async function HomePage() {
+  // Make HomePage an async function
+  const featuredPosts = await blogService.getFeaturedPosts() // Fetch featured posts from Supabase
 
   const stats = [
     { label: "Lives Transformed", value: "1000+", icon: Heart },
@@ -52,13 +21,7 @@ export default function HomePage() {
       {/* Hero Section with Charity Background Image */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-            alt="Community helping hands"
-            fill
-            className="object-cover"
-            priority
-          />
+          <Image src="/images/hero-bg.jpg" alt="Community helping hands" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-slate-900/70"></div>
         </div>
         <div className="relative container px-4 text-center text-white z-10">
@@ -202,7 +165,7 @@ export default function HomePage() {
                   <div className="flex items-center text-caption text-slate-500 mb-3">
                     <span>{post.date}</span>
                     <span className="mx-2">•</span>
-                    <span>{post.readTime}</span>
+                    <span>{post.read_time}</span> {/* Use post.read_time from fetched data */}
                   </div>
                   <CardTitle className="text-subheading line-clamp-2 hover:text-green-600 transition-colors group-hover:text-green-600">
                     <Link href={`/blog/${post.id}`}>{post.title}</Link>
