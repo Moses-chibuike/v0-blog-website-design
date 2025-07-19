@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Calendar, Clock, User, Search, Star } from "lucide-react"
 
-// Fallback blog posts data
+// Blog posts data
 const fallbackPosts = [
   {
     id: 1,
@@ -135,11 +135,13 @@ export default function BlogPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Header */}
       <section className="bg-white border-b">
-        <div className="container section-padding-sm">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl py-12 sm:py-16 md:py-20">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="section-badge mb-8">TRANSFORMATION BLOG</div>
-            <h1 className="text-display mb-6">Transformational Articles</h1>
-            <p className="text-body-lg text-gray-600 leading-relaxed">
+            <div className="inline-block px-4 py-2 bg-amber-100 text-amber-800 text-sm font-medium rounded-full uppercase tracking-wide mb-8">
+              TRANSFORMATION BLOG
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Transformational Articles</h1>
+            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
               Discover life-changing insights, success stories, and practical strategies for personal and professional
               growth. Join thousands on their journey to unlock their true potential and live with purpose.
             </p>
@@ -149,7 +151,7 @@ export default function BlogPage() {
 
       {/* Search and Filter Section */}
       <section className="bg-white border-b">
-        <div className="container py-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl py-8">
           <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
@@ -158,7 +160,7 @@ export default function BlogPage() {
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 py-3 border-gray-200 focus:border-alaome-green focus:ring-alaome-green"
+                className="pl-12 py-3 border-gray-200 focus:border-green-600 focus:ring-green-600"
               />
             </div>
 
@@ -172,8 +174,8 @@ export default function BlogPage() {
                   onClick={() => setSelectedCategory(category)}
                   className={`${
                     category === selectedCategory
-                      ? "bg-alaome-green hover:bg-green-600 text-white"
-                      : "border-gray-200 text-gray-600 hover:border-alaome-green hover:text-alaome-green bg-white"
+                      ? "bg-green-600 hover:bg-green-600 text-white"
+                      : "border-gray-200 text-gray-600 hover:border-green-600 hover:text-green-600 bg-white"
                   } px-4 py-2 font-medium transition-colors`}
                 >
                   {category}
@@ -186,20 +188,25 @@ export default function BlogPage() {
 
       {/* Featured Posts Section */}
       {featuredPosts.length > 0 && selectedCategory === "All" && !searchQuery && (
-        <section className="bg-white section-padding-sm">
-          <div className="container">
+        <section className="bg-white py-12 sm:py-16 md:py-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl">
             <div className="flex items-center justify-between mb-12">
               <div>
-                <div className="section-badge mb-4">FEATURED ARTICLES</div>
-                <h2 className="text-heading mb-2">Most Impactful Content</h2>
+                <div className="inline-block px-4 py-2 bg-amber-100 text-amber-800 text-sm font-medium rounded-full uppercase tracking-wide mb-4">
+                  FEATURED ARTICLES
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">Most Impactful Content</h2>
                 <p className="text-gray-600">Our most popular and transformational articles</p>
               </div>
-              <Badge className="bg-alaome-green text-white px-3 py-1">{featuredPosts.length} Featured</Badge>
+              <Badge className="bg-green-600 text-white px-3 py-1">{featuredPosts.length} Featured</Badge>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 mb-16">
               {featuredPosts.slice(0, 2).map((post, index) => (
-                <Card key={post.id} className="alaome-card overflow-hidden group">
+                <Card
+                  key={post.id}
+                  className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 overflow-hidden group"
+                >
                   <div className="aspect-[16/10] relative overflow-hidden">
                     <Image
                       src={post.image || "/placeholder.svg"}
@@ -211,7 +218,7 @@ export default function BlogPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     <div className="absolute top-6 left-6">
-                      <Badge className="bg-alaome-green text-white px-3 py-1 font-medium">
+                      <Badge className="bg-green-600 text-white px-3 py-1 font-medium">
                         <Star className="w-3 h-3 mr-1" />
                         Featured
                       </Badge>
@@ -247,12 +254,14 @@ export default function BlogPage() {
       )}
 
       {/* All Posts Section */}
-      <section className="section-padding bg-gray-50">
-        <div className="container">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl">
           <div className="flex items-center justify-between mb-12">
             <div>
-              <div className="section-badge mb-4">ALL ARTICLES</div>
-              <h2 className="text-heading mb-2">
+              <div className="inline-block px-4 py-2 bg-amber-100 text-amber-800 text-sm font-medium rounded-full uppercase tracking-wide mb-4">
+                ALL ARTICLES
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                 {selectedCategory === "All" ? "Complete Collection" : `${selectedCategory} Articles`}
               </h2>
               <p className="text-gray-600">
@@ -281,9 +290,12 @@ export default function BlogPage() {
               )}
             </div>
           ) : (
-            <div className="grid-responsive">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map((post) => (
-                <Card key={post.id} className="alaome-card overflow-hidden group">
+                <Card
+                  key={post.id}
+                  className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 overflow-hidden group"
+                >
                   <div className="aspect-[4/3] relative overflow-hidden">
                     <Image
                       src={post.image || "/placeholder.svg"}
@@ -293,7 +305,7 @@ export default function BlogPage() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     <div className="absolute top-4 left-4">
-                      <Badge className="bg-alaome-green text-white px-3 py-1 font-medium">{post.category}</Badge>
+                      <Badge className="bg-green-600 text-white px-3 py-1 font-medium">{post.category}</Badge>
                     </div>
                   </div>
                   <CardHeader className="p-6">
@@ -307,7 +319,7 @@ export default function BlogPage() {
                         <span>{post.read_time}</span>
                       </div>
                     </div>
-                    <CardTitle className="text-lg line-clamp-2 hover:text-alaome-green transition-colors leading-tight">
+                    <CardTitle className="text-lg line-clamp-2 hover:text-green-600 transition-colors leading-tight">
                       <Link href={`/blog/${post.id}`}>{post.title}</Link>
                     </CardTitle>
                   </CardHeader>
@@ -320,7 +332,7 @@ export default function BlogPage() {
                         <User className="h-4 w-4" />
                         <span>{post.author}</span>
                       </div>
-                      <Button asChild variant="link" className="p-0 h-auto text-alaome-green font-semibold">
+                      <Button asChild variant="link" className="p-0 h-auto text-green-600 font-semibold">
                         <Link href={`/blog/${post.id}`}>
                           Read More <ArrowRight className="ml-1 h-4 w-4" />
                         </Link>
@@ -335,11 +347,13 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="section-padding bg-gray-900 text-white">
-        <div className="container text-center">
-          <div className="section-badge mb-8 bg-alaome-green text-white border-0">JOIN THE TRANSFORMATION</div>
-          <h2 className="text-display mb-6">Transform Your Life Today</h2>
-          <p className="text-body-lg mb-12 max-w-3xl mx-auto text-gray-300">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-28 bg-gray-900 text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 max-w-7xl text-center">
+          <div className="inline-block px-4 py-2 bg-amber-100 text-amber-800 text-sm font-medium rounded-full uppercase tracking-wide mb-8 border-0">
+            JOIN THE TRANSFORMATION
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Transform Your Life Today</h2>
+          <p className="text-lg sm:text-xl mb-12 max-w-3xl mx-auto text-gray-300">
             Get weekly transformation insights, success stories, and practical strategies delivered to your inbox. Join
             thousands on their journey to extraordinary change.
           </p>
@@ -349,7 +363,9 @@ export default function BlogPage() {
               placeholder="Enter your email"
               className="flex-1 px-6 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
-            <Button className="btn-alaome-primary px-6 py-3 font-medium">Start Transforming</Button>
+            <Button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 font-medium">
+              Start Transforming
+            </Button>
           </div>
         </div>
       </section>
