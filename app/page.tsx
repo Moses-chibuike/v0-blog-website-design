@@ -93,8 +93,8 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-black/30 z-20"></div>
         </div>
         
-        {/* Glassmorphism text overlay - centered on mobile, right-aligned on desktop */}
-        <div className="absolute inset-0 flex items-center justify-center lg:justify-end z-30">
+        {/* Glassmorphism text overlay - positioned at top after menu bar */}
+        <div className="absolute inset-0 flex items-start justify-center lg:justify-end z-30 pt-24 lg:pt-32">
           <div className="px-6 lg:px-16 lg:pr-20 max-w-2xl w-full lg:w-auto">
             {/* Glass background card */}
             <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 lg:p-12 shadow-2xl border border-white/20 mx-4 lg:mx-0">
@@ -292,4 +292,4 @@ export default function HomePage() {
       </section>
     </div>
   )
-}
+      }
