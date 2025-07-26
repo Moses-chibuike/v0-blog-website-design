@@ -93,18 +93,18 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-black/30 z-20"></div>
         </div>
         
-        {/* Glassmorphism text overlay positioned on the right side */}
-        <div className="absolute inset-0 flex items-center justify-center z-30">
-          <div className="px-8 lg:px-16 lg:pr-20 max-w-2xl">
+        {/* Glassmorphism text overlay - centered on mobile, right-aligned on desktop */}
+        <div className="absolute inset-0 flex items-center justify-center lg:justify-end z-30">
+          <div className="px-6 lg:px-16 lg:pr-20 max-w-2xl w-full lg:w-auto">
             {/* Glass background card */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 lg:p-12 shadow-2xl border border-white/20">
+            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 lg:p-12 shadow-2xl border border-white/20 mx-4 lg:mx-0">
               {/* Main Heading */}
-              <div className="mb-8">
-                <h2 className="text-center text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
+              <div className="mb-6 lg:mb-8">
+                <h2 className="text-center text-2xl lg:text-4xl font-bold text-white leading-tight mb-4">
                   Transform Your Life Daily
                 </h2>
-                <p className="text-lg text-white/90 leading-relaxed">
-                  Discover powerful stories of change, growth, and purpose. At AlaoMe Transformation, we go beyond self-improvement—we ignite a reimagining of what’s possible. Be inspired to break free from limitations.
+                <p className="text-base lg:text-lg text-white/90 leading-relaxed text-center lg:text-left">
+                  Discover powerful stories of change, growth, and purpose. At AlaoMe Transformation, we go beyond self-improvement—we ignite a reimagining of what's possible. Be inspired to break free from limitations.
                 </p>
               </div>
             </div>
