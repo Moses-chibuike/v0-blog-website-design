@@ -100,11 +100,11 @@ export default function HomePage() {
             <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 lg:p-12 shadow-2xl border border-white/20">
               {/* Main Heading */}
               <div className="mb-8">
-                <h2 className="text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
+                <h2 className="text-center text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
                   Transform Your Life
                 </h2>
                 <p className="text-lg text-white/90 leading-relaxed">
-                  Discover powerful stories of change, growth, and purpose. At AlaoMe Transformation, we go beyond self-improvement—we ignite a reimagining of what’s possible. Be inspired to break free from limitations, embrace your path, and lead a life of meaning.
+                  Discover powerful stories of change, growth, and purpose. At AlaoMe Transformation, we go beyond self-improvement—we ignite a reimagining of what’s possible. Be inspired to break free from limitations.
                 </p>
               </div>
             </div>
