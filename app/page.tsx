@@ -101,7 +101,7 @@ export default function HomePage() {
               {/* Main Heading */}
               <div className="mb-8">
                 <h2 className="text-center text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
-                  Transform Your Life
+                  Transform Your Life Daily
                 </h2>
                 <p className="text-lg text-white/90 leading-relaxed">
                   Discover powerful stories of change, growth, and purpose. At AlaoMe Transformation, we go beyond self-improvement—we ignite a reimagining of what’s possible. Be inspired to break free from limitations.
