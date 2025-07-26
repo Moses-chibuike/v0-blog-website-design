@@ -81,7 +81,7 @@ export default function HomePage() {
           
           {/* Image overlay - full coverage */}
           <Image
-            src="/images/alao.png"
+            src="/images/alao.jpg"
             alt="Alao - Transformation Coach"
             fill
             className="object-cover object-center relative z-10"
@@ -94,17 +94,17 @@ export default function HomePage() {
         </div>
         
         {/* Glassmorphism text overlay positioned on the right side */}
-        <div className="absolute inset-0 flex items-center justify-end z-30">
+        <div className="absolute inset-0 flex items-center justify-center z-30">
           <div className="px-8 lg:px-16 lg:pr-20 max-w-2xl">
             {/* Glass background card */}
             <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 lg:p-12 shadow-2xl border border-white/20">
               {/* Main Heading */}
               <div className="mb-8">
-                <h2 className="text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
+                <h2 className="text-center text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
                   Transform Your Life
                 </h2>
-                <p className="text-lg text-white/90 leading-relaxed">
-                  Experience personal growth and transformation through our unique coaching approach.
+                <p className="text-center text-lg text-white/90 leading-relaxed">
+                  Discover powerful stories of change, growth, and purpose. At AlaoMe Transformation, we go beyond self-improvement—we ignite a reimagining of what’s possible. Be inspired to break free from limitations, embrace your path, and lead a life of meaning.
                 </p>
               </div>
             </div>
