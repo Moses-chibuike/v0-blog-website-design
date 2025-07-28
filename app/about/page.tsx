@@ -1,4 +1,4 @@
-import Image from "next/image"
+        import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Heart, Target, Zap, Award, Star, Users, ArrowRight, Sparkles } from "lucide-react"
@@ -48,17 +48,16 @@ export default function AboutPage() {
               <span className="text-sm sm:text-base text-blue-600 font-semibold tracking-wide">OUR FOUNDATION</span>
             </div>
             
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 sm:mb-8 leading-tight px-4">
-              <span className="bg-gradient-to-r from-slate-800 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 sm:mb-8 leading-tight px-2 sm:px-4">
+              <span className="bg-gradient-to-r from-slate-800 via-blue-600 to-purple-600 bg-clip-text text-transparent block">
                 Built for
               </span>
-              <br />
-              <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent block">
                 Excellence
               </span>
             </h2>
             
-            <p className="text-lg sm:text-xl text-slate-600 max-w-2xl lg:max-w-4xl mx-auto leading-relaxed px-4">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-xl sm:max-w-2xl lg:max-w-4xl mx-auto leading-relaxed px-2 sm:px-4">
               At AlaoMe Transformation, we don't just adapt to change—we create it. Every transformation 
               journey is engineered with precision, powered by innovation, and designed for exponential impact.
             </p>
@@ -197,12 +196,11 @@ export default function AboutPage() {
               <span className="text-sm sm:text-base text-purple-600 font-semibold tracking-wide">WHAT SETS US APART</span>
             </div>
             
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 sm:mb-8 leading-tight px-4">
-              <span className="bg-gradient-to-r from-slate-800 to-indigo-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 sm:mb-8 leading-tight px-2 sm:px-4">
+              <span className="bg-gradient-to-r from-slate-800 to-indigo-600 bg-clip-text text-transparent block">
                 The Future of
               </span>
-              <br />
-              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 bg-clip-text text-transparent block">
                 Transformation
               </span>
             </h2>
@@ -211,12 +209,11 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20 items-center max-w-7xl mx-auto">
             {/* Content Side */}
             <div className="space-y-6 sm:space-y-8 order-2 lg:order-1">
-              <h3 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 lg:mb-12 leading-tight">
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block">
                   Next-Gen Growth
                 </span>
-                <br />
-                <span className="text-slate-800">Solutions</span>
+                <span className="text-slate-800 block">Solutions</span>
               </h3>
 
               {/* Feature Items */}
@@ -231,7 +228,7 @@ export default function AboutPage() {
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-lg sm:text-xl font-bold text-slate-800 mb-2 sm:mb-3 group-hover:text-blue-700 transition-colors duration-300">
+                      <h4 className="text-base sm:text-lg lg:text-xl font-bold text-slate-800 mb-2 sm:mb-3 group-hover:text-blue-700 transition-colors duration-300 leading-tight">
                         AI-Powered Personalization
                       </h4>
                       <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
@@ -251,7 +248,7 @@ export default function AboutPage() {
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-lg sm:text-xl font-bold text-slate-800 mb-2 sm:mb-3 group-hover:text-purple-700 transition-colors duration-300">
+                      <h4 className="text-base sm:text-lg lg:text-xl font-bold text-slate-800 mb-2 sm:mb-3 group-hover:text-purple-700 transition-colors duration-300 leading-tight">
                         Quantum Leap Methodology
                       </h4>
                       <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
@@ -264,4 +261,64 @@ export default function AboutPage() {
                 <div className="group relative p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-xl border border-emerald-200/60 hover:border-emerald-400/80 transition-all duration-500 shadow-lg hover:shadow-xl hover:-translate-y-1">
                   <div className="flex items-start gap-4 sm:gap-6">
                     <div className="relative flex-shrink-0">
-                      <div className="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg sm:rounded-xl fl
+                      <div className="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <Users className="h-5 w-5 sm:h-7 sm:w-7 text-white" />
+                      </div>
+                      <div className="absolute inset-0 bg-emerald-400/30 rounded-lg sm:rounded-xl blur-md sm:blur-lg group-hover:blur-xl transition-all duration-300"></div>
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base sm:text-lg lg:text-xl font-bold text-slate-800 mb-2 sm:mb-3 group-hover:text-emerald-700 transition-colors duration-300 leading-tight">
+                        Ecosystem Partnership
+                      </h4>
+                      <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                        We become integrated partners in your success ecosystem, connecting you with networks, opportunities, and resources that amplify your transformation exponentially.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Visual Side */}
+            <div className="relative order-1 lg:order-2">
+              {/* Main Image Container */}
+              <div className="relative aspect-square max-w-md sm:max-w-lg mx-auto lg:max-w-none">
+                {/* Floating Ring */}
+                <div className="absolute inset-0 rounded-full border-2 sm:border-4 border-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-spin opacity-20" style={{animation: 'spin 20s linear infinite'}}></div>
+                
+                {/* Glow Effects */}
+                <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-pink-400/20 rounded-full blur-xl sm:blur-2xl animate-pulse"></div>
+                <div className="absolute -inset-4 sm:-inset-8 bg-gradient-to-r from-indigo-400/10 via-purple-400/10 to-rose-400/10 rounded-full blur-2xl sm:blur-3xl"></div>
+                
+                {/* Image */}
+                <div className="relative w-full h-full rounded-2xl sm:rounded-3xl overflow-hidden border-2 sm:border-4 border-white shadow-2xl">
+                  <Image
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                    alt="Transformation Journey"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-1000"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/30 via-transparent to-transparent"></div>
+                </div>
+                
+                {/* Floating Elements - Responsive sizes */}
+                <div className="absolute -top-4 sm:-top-8 -right-4 sm:-right-8 w-12 h-12 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-2xl animate-bounce">
+                  <Sparkles className="w-6 h-6 sm:w-10 sm:h-10 text-white" />
+                </div>
+                
+                <div className="absolute -bottom-3 sm:-bottom-6 -left-3 sm:-left-6 w-10 h-10 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-400 to-pink-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-2xl">
+                  <Zap className="w-5 h-5 sm:w-8 sm:h-8 text-white animate-pulse" />
+                </div>
+                
+                <div className="absolute top-1/2 -right-2 sm:-right-4 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-full flex items-center justify-center shadow-xl animate-ping">
+                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
